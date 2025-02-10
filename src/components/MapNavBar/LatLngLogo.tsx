@@ -31,7 +31,7 @@ const LatLngLogo = () => {
         <Compass size={36} className="text-slate-50 md:hidden" />
         <Compass size={48} className="hidden text-slate-50 md:block" />
       </div>
-      <div className="text-slate-50 flex items-center">
+      <div className="text-slate-50 flex items-center latlngtext">
         {lat}
         <br />
         {lng}

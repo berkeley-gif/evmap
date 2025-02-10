@@ -8,7 +8,8 @@
         "id": "CA0002",
         "name": "Alameda",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Alameda Municipal Power"
       },
       {
         "id": "CA0003",
@@ -112,113 +113,113 @@
   {
     "id": "CA1005",
     "name": "Amador County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0007",
         "name": "Amador City",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0192",
         "name": "Ione",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0196",
         "name": "Jackson",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0325",
         "name": "Plymouth",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0425",
         "name": "Sutter Creek",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0498",
         "name": "un_Amador County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1020",
     "name": "Butte County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0040",
         "name": "Biggs",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0070",
         "name": "Chico",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0163",
         "name": "Gridley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0299",
         "name": "Oroville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0308",
         "name": "Paradise",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0513",
         "name": "un_Butte County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1008",
     "name": "Calaveras County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0011",
         "name": "Angels",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0501",
         "name": "un_Calaveras County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1035",
     "name": "Colusa County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0086",
         "name": "Colusa",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0468",
         "name": "Williams",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0528",
         "name": "un_Colusa County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -300,7 +301,7 @@
       {
         "id": "CA0323",
         "name": "Pleasant Hill",
-        "available":true
+        "available": true
       },
       {
         "id": "CA0345",
@@ -349,22 +350,24 @@
   {
     "id": "CA1050",
     "name": "El Dorado County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0322",
         "name": "Placerville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0416",
         "name": "South Lake Tahoe",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Liberty Utilities"
       },
       {
         "id": "CA0543",
         "name": "un_El Dorado County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -451,140 +454,156 @@
       {
         "id": "CA0527",
         "name": "un_Fresno County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1049",
     "name": "Glenn County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0298",
         "name": "Orland",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0470",
         "name": "Willows",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0542",
         "name": "un_Glenn County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1010",
     "name": "Humboldt County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0015",
         "name": "Arcata",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0042",
         "name": "Blue Lake",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0133",
         "name": "Eureka",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0138",
         "name": "Ferndale",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0145",
         "name": "Fortuna",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0347",
         "name": "Rio Dell",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0435",
         "name": "Trinidad",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0503",
         "name": "un_Humboldt County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1022",
     "name": "Imperial County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0045",
         "name": "Brawley",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0054",
         "name": "Calexico",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0057",
         "name": "Calipatria",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0123",
         "name": "El Centro",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0181",
         "name": "Holtville",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0186",
         "name": "Imperial",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0464",
         "name": "Westmorland",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0515",
         "name": "un_Imperial County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       }
     ]
   },
   {
     "id": "CA1021",
     "name": "Inyo County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0041",
         "name": "Bishop",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0514",
         "name": "un_Inyo County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -627,14 +646,12 @@
       {
         "id": "CA0346",
         "name": "Ridgecrest",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0404",
         "name": "Shafter",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0426",
@@ -654,78 +671,82 @@
       {
         "id": "CA0505",
         "name": "un_Kern County",
-        "available": true
+        "available": false
       }
     ]
   },
   {
     "id": "CA1016",
     "name": "Kings County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0024",
         "name": "Avenal",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0090",
         "name": "Corcoran",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0168",
         "name": "Hanford",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0224",
         "name": "Lemoore",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0509",
         "name": "un_Kings County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1032",
     "name": "Lake County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0078",
         "name": "Clearlake",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0217",
         "name": "Lakeport",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0525",
         "name": "un_Lake County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1054",
     "name": "Lassen County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0424",
         "name": "Susanville",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Lassen Municipal Utility District"
       },
       {
         "id": "CA0546",
         "name": "un_Lassen County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Lassen Municipal Utility District"
       }
     ]
   },
@@ -798,7 +819,8 @@
         "id": "CA0051",
         "name": "Burbank",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Burbank Water & Power"
       },
       {
         "id": "CA0053",
@@ -973,8 +995,7 @@
       {
         "id": "CA0234",
         "name": "Long Beach",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0239",
@@ -1049,8 +1070,7 @@
       {
         "id": "CA0327",
         "name": "Pomona",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0336",
@@ -1187,89 +1207,89 @@
   {
     "id": "CA1030",
     "name": "Madera County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0073",
         "name": "Chowchilla",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0244",
         "name": "Madera",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0523",
         "name": "un_Madera County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1018",
     "name": "Marin County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0035",
         "name": "Belvedere",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0094",
         "name": "Corte Madera",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0135",
         "name": "Fairfax",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0220",
         "name": "Larkspur",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0259",
         "name": "Mill Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0288",
         "name": "Novato",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0358",
         "name": "Ross",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0361",
         "name": "San Anselmo",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0382",
         "name": "San Rafael",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0398",
         "name": "Sausalito",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0432",
         "name": "Tiburon",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0511",
         "name": "un_Marin County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -1308,74 +1328,74 @@
   {
     "id": "CA1042",
     "name": "Mendocino County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0143",
         "name": "Fort Bragg",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0326",
         "name": "Point Arena",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0442",
         "name": "Ukiah",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0469",
         "name": "Willits",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0535",
         "name": "un_Mendocino County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1014",
     "name": "Merced County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0021",
         "name": "Atwater",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0115",
         "name": "Dos Palos",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0166",
         "name": "Gustine",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0229",
         "name": "Livingston",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0240",
         "name": "Los Banos",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0258",
         "name": "Merced",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0507",
         "name": "un_Merced County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -1399,17 +1419,17 @@
   {
     "id": "CA1047",
     "name": "Mono County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0246",
         "name": "Mammoth Lakes",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0540",
         "name": "un_Mono County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -1525,268 +1545,280 @@
   {
     "id": "CA1043",
     "name": "Nevada County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0161",
         "name": "Grass Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0282",
         "name": "Nevada City",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0436",
         "name": "Truckee",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Truckee Donner Public Utilities District"
       },
       {
         "id": "CA0536",
         "name": "un_Nevada County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1003",
     "name": "Orange County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0005",
         "name": "Aliso Viejo",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0009",
         "name": "Anaheim",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "City of Anaheim Public Utilities Department"
       },
       {
         "id": "CA0046",
         "name": "Brea",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0050",
         "name": "Buena Park",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0095",
         "name": "Costa Mesa",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0102",
         "name": "Cypress",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0104",
         "name": "Dana Point",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0147",
         "name": "Fountain Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0151",
         "name": "Fullerton",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0153",
         "name": "Garden Grove",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0183",
         "name": "Huntington Beach",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0193",
         "name": "Irvine",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0202",
         "name": "La Habra",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0206",
         "name": "La Palma",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0211",
         "name": "Laguna Beach",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0212",
         "name": "Laguna Hills",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0213",
         "name": "Laguna Niguel",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0214",
         "name": "Laguna Woods",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0216",
         "name": "Lake Forest",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0236",
         "name": "Los Alamitos",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0262",
         "name": "Mission Viejo",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0285",
         "name": "Newport Beach",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0295",
         "name": "Orange",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0321",
         "name": "Placentia",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0337",
         "name": "Rancho Santa Margarita",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0365",
         "name": "San Clemente",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0375",
         "name": "San Juan Capistrano",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0386",
         "name": "Santa Ana",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0400",
         "name": "Seal Beach",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0420",
         "name": "Stanton",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0440",
         "name": "Tustin",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0450",
         "name": "Villa Park",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0463",
         "name": "Westminster",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0476",
         "name": "Yorba Linda",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0496",
         "name": "un_Orange County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1015",
     "name": "Placer County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0022",
         "name": "Auburn",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0083",
         "name": "Colfax",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0225",
         "name": "Lincoln",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0235",
         "name": "Loomis",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0352",
         "name": "Rocklin",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0357",
         "name": "Roseville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0508",
         "name": "un_Placer County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1051",
     "name": "Plumas County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0330",
         "name": "Portola",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider":"Liberty Utilities"
       },
       {
         "id": "CA0544",
         "name": "un_Plumas County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -1799,89 +1831,86 @@
         "id": "CA0028",
         "name": "Banning",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "City of Banning Electric Department"
       },
       {
         "id": "CA0030",
         "name": "Beaumont",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0043",
         "name": "Blythe",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0056",
         "name": "Calimesa",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0061",
         "name": "Canyon Lake",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0067",
         "name": "Cathedral City",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0081",
         "name": "Coachella",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0092",
         "name": "Corona",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0110",
         "name": "Desert Hot Springs",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0121",
         "name": "Eastvale",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0173",
         "name": "Hemet",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0188",
         "name": "Indian Wells",
-        "available": true,
-        "noUtilityData": true
+        "available": true
       },
       {
         "id": "CA0189",
         "name": "Indio",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0197",
         "name": "Jurupa Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0208",
         "name": "La Quinta",
-        "available": true
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Imperial Irrigation District"
       },
       {
         "id": "CA0215",
@@ -1896,228 +1925,250 @@
       {
         "id": "CA0273",
         "name": "Moreno Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0278",
         "name": "Murrieta",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0286",
         "name": "Norco",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0303",
         "name": "Palm Desert",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0304",
         "name": "Palm Springs",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0314",
         "name": "Perris",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0335",
         "name": "Rancho Mirage",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0351",
         "name": "Riverside",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "City of Riverside"
       },
       {
         "id": "CA0371",
         "name": "San Jacinto",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0429",
         "name": "Temecula",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0467",
         "name": "Wildomar",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0510",
         "name": "un_Riverside County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1031",
     "name": "Sacramento County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0075",
         "name": "Citrus Heights",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0127",
         "name": "Elk Grove",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0141",
         "name": "Folsom",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0152",
         "name": "Galt",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0195",
         "name": "Isleton",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0333",
         "name": "Rancho Cordova",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0359",
         "name": "Sacramento",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       },
       {
         "id": "CA0524",
         "name": "un_Sacramento County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Sacramento Municipal Utility District"
       }
     ]
   },
   {
     "id": "CA1044",
     "name": "San Benito County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0180",
         "name": "Hollister",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0374",
         "name": "San Juan Bautista",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0537",
         "name": "un_San Benito County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1000",
     "name": "San Bernardino County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0000",
         "name": "Adelanto",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0013",
         "name": "Apple Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0029",
         "name": "Barstow",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0039",
         "name": "Big Bear Lake",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Bear Valley Electric Service"
       },
       {
         "id": "CA0071",
         "name": "Chino",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0072",
         "name": "Chino Hills",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0085",
         "name": "Colton",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0142",
         "name": "Fontana",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0160",
         "name": "Grand Terrace",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0176",
         "name": "Hesperia",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0178",
         "name": "Highland",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0231",
         "name": "Loma Linda",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0266",
         "name": "Montclair",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0281",
         "name": "Needles",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "City of Needles"
       },
       {
         "id": "CA0294",
         "name": "Ontario",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0334",
         "name": "Rancho Cucamonga",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0340",
         "name": "Redlands",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0344",
         "name": "Rialto",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0362",
@@ -2127,134 +2178,136 @@
       {
         "id": "CA0441",
         "name": "Twentynine Palms",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0444",
         "name": "Upland",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0449",
         "name": "Victorville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0480",
         "name": "Yucaipa",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0481",
         "name": "Yucca Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0493",
         "name": "un_San Bernardino County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1027",
     "name": "San Diego County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0063",
         "name": "Carlsbad",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0074",
         "name": "Chula Vista",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0093",
         "name": "Coronado",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0107",
         "name": "Del Mar",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0122",
         "name": "El Cajon",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0129",
         "name": "Encinitas",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0131",
         "name": "Escondido",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0187",
         "name": "Imperial Beach",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0204",
         "name": "La Mesa",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0223",
         "name": "Lemon Grove",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0280",
         "name": "National City",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0292",
         "name": "Oceanside",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0332",
         "name": "Poway",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0366",
         "name": "San Diego",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0378",
         "name": "San Marcos",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0396",
         "name": "Santee",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0409",
         "name": "Solana Beach",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0452",
         "name": "Vista",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0520",
         "name": "un_San Diego County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -2479,47 +2532,49 @@
   {
     "id": "CA1023",
     "name": "Santa Barbara County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0049",
         "name": "Buellton",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0065",
         "name": "Carpinteria",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider":"Southern California Edison"
       },
       {
         "id": "CA0158",
         "name": "Goleta",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0165",
         "name": "Guadalupe",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0233",
         "name": "Lompoc",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0387",
         "name": "Santa Barbara",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0392",
         "name": "Santa Maria",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0411",
         "name": "Solvang",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0516",
@@ -2587,7 +2642,8 @@
         "id": "CA0306",
         "name": "Palo Alto",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "City of Palo Alto"
       },
       {
         "id": "CA0373",
@@ -2597,7 +2653,9 @@
       {
         "id": "CA0388",
         "name": "Santa Clara",
-        "available": true
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Silicon Valley Power"
       },
       {
         "id": "CA0397",
@@ -2619,133 +2677,159 @@
   {
     "id": "CA1026",
     "name": "Santa Cruz County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0062",
         "name": "Capitola",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0390",
         "name": "Santa Cruz",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0399",
         "name": "Scotts Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0457",
         "name": "Watsonville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0519",
         "name": "un_Santa Cruz County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1007",
     "name": "Shasta County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0010",
         "name": "Anderson",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0339",
         "name": "Redding",
-        "available": false
+        "available": true,
+        "provider": "Redding Electric Utility"
       },
       {
         "id": "CA0405",
         "name": "Shasta Lake",
-        "available": false
+        "available": true,
+        "provider": "City of Shasta Lake"
       },
       {
         "id": "CA0500",
         "name": "un_Shasta County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1046",
     "name": "Sierra County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0242",
         "name": "Loyalton",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider":"Liberty Utilities"
       },
       {
         "id": "CA0539",
         "name": "un_Sierra County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider":"Liberty Utilities"
       }
     ]
   },
   {
     "id": "CA1040",
     "name": "Siskiyou County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0114",
         "name": "Dorris",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0119",
         "name": "Dunsmuir",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0132",
         "name": "Etna",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0144",
         "name": "Fort Jones",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0265",
         "name": "Montague",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0276",
         "name": "Mount Shasta",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0438",
         "name": "Tulelake",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0458",
         "name": "Weed",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0478",
         "name": "Yreka",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0533",
         "name": "un_Siskiyou County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       }
     ]
   },
@@ -2799,57 +2883,57 @@
   {
     "id": "CA1033",
     "name": "Sonoma County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0079",
         "name": "Cloverdale",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0096",
         "name": "Cotati",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0172",
         "name": "Healdsburg",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0315",
         "name": "Petaluma",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0353",
         "name": "Rohnert Park",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0395",
         "name": "Santa Rosa",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0402",
         "name": "Sebastopol",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0412",
         "name": "Sonoma",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0471",
         "name": "Windsor",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0526",
         "name": "un_Sonoma County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -2861,17 +2945,20 @@
       {
         "id": "CA0068",
         "name": "Ceres",
-        "available": true
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0182",
         "name": "Hughson",
-        "available": true
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0263",
         "name": "Modesto",
-        "available": true
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0284",
@@ -2886,7 +2973,8 @@
       {
         "id": "CA0313",
         "name": "Patterson",
-        "available": true
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0350",
@@ -2896,12 +2984,14 @@
       {
         "id": "CA0439",
         "name": "Turlock",
-        "available": true
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0456",
         "name": "Waterford",
-        "available": true
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0522",
@@ -2913,49 +3003,49 @@
   {
     "id": "CA1045",
     "name": "Sutter County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0227",
         "name": "Live Oak",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0479",
         "name": "Yuba City",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0538",
         "name": "un_Sutter County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1036",
     "name": "Tehama County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0091",
         "name": "Corning",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0338",
         "name": "Red Bluff",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0428",
         "name": "Tehama",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0529",
         "name": "un_Tehama County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -2994,52 +3084,52 @@
   {
     "id": "CA1039",
     "name": "Tulare County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0112",
         "name": "Dinuba",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0134",
         "name": "Exeter",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0137",
         "name": "Farmersville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0226",
         "name": "Lindsay",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0329",
         "name": "Porterville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0437",
         "name": "Tulare",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0451",
         "name": "Visalia",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0473",
         "name": "Woodlake",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0532",
         "name": "un_Tulare County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -3063,116 +3153,119 @@
   {
     "id": "CA1024",
     "name": "Ventura County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0059",
         "name": "Camarillo",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0139",
         "name": "Fillmore",
-        "available": false
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0271",
         "name": "Moorpark",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0293",
         "name": "Ojai",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0300",
         "name": "Oxnard",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0328",
         "name": "Port Hueneme",
-        "available": false
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0394",
         "name": "Santa Paula",
-        "available": false
+        "available": true,
+        "noUtilityData": true
       },
       {
         "id": "CA0408",
         "name": "Simi Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0431",
         "name": "Thousand Oaks",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0447",
         "name": "Ventura",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0517",
         "name": "un_Ventura County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1038",
     "name": "Yolo County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0106",
         "name": "Davis",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0461",
         "name": "West Sacramento",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0472",
         "name": "Winters",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0474",
         "name": "Woodland",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0531",
         "name": "un_Yolo County",
-        "available": false
+        "available": true
       }
     ]
   },
   {
     "id": "CA1048",
     "name": "Yuba County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0252",
         "name": "Marysville",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0465",
         "name": "Wheatland",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0541",
         "name": "un_Yuba County",
-        "available": false
+        "available": true
       }
     ]
   }

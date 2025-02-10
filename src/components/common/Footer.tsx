@@ -1,7 +1,7 @@
 import NavBarProps from '@lib/NavBarProps'
 
 const Footer: React.FC<NavBarProps> = ({ setCurrentView }) => (
-  <footer className="w-full bg-light h-44">
+  <footer className="mt-4 w-full bg-light h-44">
     <section className="sm:mx-8 md:mx-12 lg:mx-16">
       <p className="py-3 ">
         This tool is a joint project of UC Berkeley&apos;s Energy and Resources Group and Center for Law,

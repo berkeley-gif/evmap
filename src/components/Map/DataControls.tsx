@@ -23,11 +23,14 @@ import Toggle from 'react-toggle'
 import { Range } from '../../pages/map/index'
 import { GeoJSONData, GeoJSONFeature } from './GeoJSONData'
 import LayerControl from './LayerControl'
+import MarkLabel from './MarkLabel'
 
 // import LayerSliderControl from './LayerSliderControl'
 
 interface DataControlsProps {
   dataControlsTitle: string
+  jurisdiction?: string | null
+  utility?: string | null
   map: any
   L: any
   cityBoundaryGeoJSON: FeatureCollection<Polygon | MultiPolygon> | null
@@ -47,6 +50,8 @@ const cached: CachedType = {
 
 export const DataControls: React.FC<DataControlsProps> = ({
   dataControlsTitle,
+  jurisdiction,
+  utility,
   map,
   L,
   cityBoundaryGeoJSON,
@@ -143,6 +148,7 @@ export const DataControls: React.FC<DataControlsProps> = ({
           ...data,
           features: data.features.filter((feature: GeoJSONFeature) => {
             const props = feature.properties
+            const pgeOrUtility = props.pge ?? props.utility ?? 0
             let withinPropertyCriteria
             if (dataControlsTitle === 'Priority Pixels') {
               const chg_walk = props.chg_walk ?? props.chg_walk_L2_10 // choose one key name
@@ -165,10 +171,6 @@ export const DataControls: React.FC<DataControlsProps> = ({
                 // props.zoning_residential_multi_family >= residentialRange[0] / 100 &&
                 // (props.zoning_residential_multi_family <= residentialRange[1] / 100 ||
                 //   residentialRange[1] === residentialMax) &&
-                // props.chg_walk >= walkableRange[0] &&
-                // (props.chg_walk <= walkableRange[1] || walkableRange[1] === walkableMax) &&
-                // props.chg_drive >= drivableRange[0] &&
-                // (props.chg_drive <= drivableRange[1] || drivableRange[1] === drivableMax) &&
                 chg_walk >= walkableRange[0] &&
                 (chg_walk <= walkableRange[1] || walkableRange[1] === walkableMax) &&
                 chg_drive >= drivableRange[0] &&
@@ -178,8 +180,10 @@ export const DataControls: React.FC<DataControlsProps> = ({
                 ((neviFilterActive.zero && props.nevi === 0) || (neviFilterActive.one && props.nevi === 1)) &&
                 ((irs30cFilterActive.zero && props.irs30c === 0) ||
                   (irs30cFilterActive.one && props.irs30c === 1)) &&
-                props.pge >= pgeRange[0] &&
-                (props.pge <= pgeRange[1] || pgeRange[1] === pgeMax)
+                // props.pge >= pgeRange[0] &&
+                // (props.pge <= pgeRange[1] || pgeRange[1] === pgeMax)
+                pgeOrUtility >= pgeRange[0] &&
+                (pgeOrUtility <= pgeRange[1] || pgeRange[1] === pgeMax)
             }
             if (!withinPropertyCriteria) {
               return false
@@ -341,27 +345,6 @@ export const DataControls: React.FC<DataControlsProps> = ({
         </button>
       </div>
       {showLayerData && isExpanded && (
-        // <>
-        //   {/* CI Score Slider */}
-        //   {toggleCiRange && (
-        //     <LayerSliderControl
-        //       mainText='sfd'
-        //       hoverText='sdf'
-        //       accordionText='<p>ioj</p>'
-        //       min={0}
-        //       max={100}
-        //       />
-        //     )}
-        //   {toggleLevRange && (
-        //     <LayerSliderControl
-        //       mainText='sfd2'
-        //       hoverText='sdf'
-        //       accordionText='<p>ioj</p>'
-        //       min={0}
-        //       max={200}
-        //       />
-        //     )}
-        //   </>
         <>
           {/* CI Score Slider */}
           {toggleCiRange && (
@@ -373,11 +356,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                 accordionText={`<p>Range: ${ciScoreRange[0]} to ${ciScoreRange[1]}</p> 
                 <p>CalEnviroScreen4.0 is California’s state environmental justice impact screening tool. CES4.0 combines 21 pollution and population-based criteria into a composite score at the census tract level, with percentile rankings based on comparison to statewide averages. More information available <a href="https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-40" class="inline-link">here</a>.</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={ciScoreMax}
                 // value={ciScoreRange}
                 // onAfterChange={setCiScoreRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={ciScoreRange[0]}
                 onChange={value => setCiScoreRange([value, ciScoreRange[1]])}
                 thumbClassName="slider-thumb"
@@ -414,11 +400,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                   multiFaRange[1] === multiFaMax ? '∞' : multiFaRange[1]
                 }</p><p>Multifamily and renter resident data are estimated based on American Community Survey data for multifamily/renter percentages by census tract and population per pixel. These residents are more likely to rely on public EV charging and mobility infrastructure than are single-family home residents.</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={multiFaMax}
                 // value={multiFaRange}
                 // onAfterChange={setMultiFaRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={multiFaRange[0]}
                 onChange={value => setMultiFaRange([value, multiFaRange[1]])}
                 thumbClassName="slider-thumb"
@@ -455,11 +444,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                   rentersRange[1] === rentersMax ? '∞' : rentersRange[1]
                 }</p><p>Multifamily and renter resident data are estimated based on American Community Survey data for multifamily/renter percentages by census tract and population per pixel. These residents are more likely to rely on public EV charging and mobility infrastructure than are single-family home residents.</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={rentersMax}
                 // value={rentersRange}
                 // onAfterChange={setRentersRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={rentersRange[0]}
                 onChange={value => setRentersRange([value, rentersRange[1]])}
                 thumbClassName="slider-thumb"
@@ -496,11 +488,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                   walkableRange[1] === walkableMax ? '∞' : walkableRange[1]
                 }</p><p>Level 2 and DC Fast access are estimated based on <a href="https://docs.mapbox.com/api/navigation/isochrone/" class="inline-link">MapBox isochrones API</a> (which estimates travel times between specific locations) and <a href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC" class="inline-link">US Department of Energy current charger data</a>. Walk time is used for Level 2 chargers (which typically take multiple hours to complete a charge) while drive time is used for DC Fast chargers (which typically take 30-60 minutes), reflecting their different use cases.</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={walkableMax}
                 // value={walkableRange}
                 // onAfterChange={setWalkableRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={walkableRange[1]}
                 onChange={value => setWalkableRange([walkableRange[0], value])}
                 thumbClassName="slider-thumb"
@@ -537,11 +532,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                   drivableRange[1] === drivableMax ? '∞' : drivableRange[1]
                 }</p><p>Level 2 and DC Fast access are estimated based on <a href="https://docs.mapbox.com/api/navigation/isochrone/" class="inline-link">MapBox isochrones API</a> (which estimates travel times between specific locations) and <a href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC" class="inline-link">US Department of Energy current charger data</a>. Walk time is used for Level 2 chargers (which typically take multiple hours to complete a charge) while drive time is used for DC Fast chargers (which typically take 30-60 minutes), reflecting their different use cases.</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={drivableMax}
                 // value={drivableRange}
                 // onAfterChange={setDrivableRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={drivableRange[1]}
                 onChange={value => setDrivableRange([drivableRange[0], value])}
                 thumbClassName="slider-thumb"
@@ -615,11 +613,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                 hoverText="Slide to adjust"
                 accordionText={`<p>Range: ${commercialRange[0]} to ${commercialRange[1]}</p><p>Placeholder text</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={commercialMax}
                 // value={commercialRange}
                 // onAfterChange={setCommercialRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={commercialRange[0]}
                 onChange={value => setCommercialRange([value, commercialRange[1]])}
                 thumbClassName="slider-thumb"
@@ -654,11 +655,14 @@ export const DataControls: React.FC<DataControlsProps> = ({
                 hoverText="Slide to adjust"
                 accordionText={`<p>Range: ${residentialRange[0]} to ${residentialRange[1]}</p><p>Placeholder text</p>`}
               />
+              <MarkLabel range={100} />
               <Slider
                 min={0}
                 max={residentialMax}
                 // value={residentialRange}
                 // onAfterChange={setResidentialRange}
+                marks={10}
+                markClassName="slider-mark"
                 value={residentialRange[0]}
                 onChange={value => setResidentialRange([value, residentialRange[1]])}
                 thumbClassName="slider-thumb"
@@ -690,16 +694,18 @@ export const DataControls: React.FC<DataControlsProps> = ({
               <br />
               <LayerControl
                 mainText="Registered LEVs"
-                hoverText="Slide to adjust the number of low-emitting vehicles (EVs and hydrogen fuel-cell) registered in the census tract."
+                hoverText="Slide to adjust the density of low-emitting vehicles (EVs and hydrogen fuel-cell) registered in the ZIP code."
                 accordionText={`<p>Range: ${levRange[0]} to ${
                   levRange[1] === levMax ? '∞' : levRange[1]
-                }</p><p>Higher LEV registrations in an area indicate a greater need for charging today but also suggest a higher early adopter rate–thus, likely greater access to at-home charging and lower need for equity prioritization.</p>`}
+                }</p><p>Higher LEV registrations in an area indicate a greater need for charging today but also suggest a higher early adopter rate–thus, potentially greater access to at-home charging and lower need for equity prioritization. Registrations are calculated per 1000 residents to account for population variations across ZIP codes.</p>`}
               />
-              {/* LEVs/10000: {levRange[0]} to {levRange[1] === levMax ? '∞' : levRange[1]} */}
+              <MarkLabel range={1000} />
               <Slider
                 min={0}
                 max={levMax}
                 // value={levRange}
+                marks={100}
+                markClassName="slider-mark"
                 value={levRange[1]}
                 onChange={value => setLevRange([levRange[0], value])}
                 // onAfterChange={setLevRange}
@@ -733,15 +739,20 @@ export const DataControls: React.FC<DataControlsProps> = ({
               <LayerControl
                 mainText="Electric grid load capacity (kW)"
                 hoverText="Slide to adjust the available capacity on the electrical distribution grid through the pixel. Higher numbers = more capacity to install EV chargers."
-                accordionText={`<p>Range: ${pgeRange[0]} to ${
-                  pgeRange[1] === pgeMax ? '∞' : pgeRange[1]
-                }</p><p>Load capacity is based on the capacity map provided by the electric utility that serves the jurisdiction, <a href="https://www.energy.gov/eere/us-atlas-electric-distribution-system-hosting-capacity-maps">where available</a>. Energy requirements vary widely, but 100 kW of capacity is typically needed to support 5-10 Level 2 chargers or 1 DC Fast charger.</p>`}
+                accordionText={`<p>Range: ${pgeRange[0]} to ${pgeRange[1] === pgeMax ? '∞' : pgeRange[1]}</p>
+                <p>Load capacity is based on the capacity map provided by the electric utility that serves the jurisdiction, <a href="https://www.energy.gov/eere/us-atlas-electric-distribution-system-hosting-capacity-maps">where available</a>. 
+                ${
+                  jurisdiction && utility ? `<b>${jurisdiction} is in ${utility} service territory.</b>` : ''
+                } Energy requirements vary widely, but 100 kW of capacity is typically needed to support 5-10 Level 2 chargers or 1 DC Fast charger.</p>`}
               />
+              <MarkLabel range={3000} />
               <Slider
                 min={0}
                 max={pgeMax}
                 // value={pgeRange}
                 // onAfterChange={setPgeRange}
+                marks={300}
+                markClassName="slider-mark"
                 value={pgeRange[0]}
                 onChange={value => setPgeRange([value, pgeRange[1]])}
                 thumbClassName="slider-thumb"

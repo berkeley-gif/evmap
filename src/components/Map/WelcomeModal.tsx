@@ -26,8 +26,11 @@ const InfoSection = ({
 }) => (
   <>
     <p className="text-base mb-2">
-      You are viewing the EV Equity Mapping Tool for <b>{formatText(city)} </b>
+      You are viewing the EV Equity Roadmap Tool for <b>{formatText(city)} </b>
       in <b>{formatText(county)}</b>, California.
+    </p>
+    <p className="text-base font-bold underline">
+      Please give the map a moment to load all data layers before you begin.
     </p>
     <p className="text-base mb-4">
       Adjust priority and feasibility layers and introduce co-location points via the sliders and toggles in
@@ -55,18 +58,21 @@ const InfoSection = ({
 
 const WelcomeModal = ({
   openModal,
-  setOpenModal,
+  dispatch,
   city,
   county,
   setCurrentView,
 }: {
   openModal: boolean
-  setOpenModal: (open: boolean) => void
+  dispatch: React.Dispatch<{
+    type: 'SET_OPEN_WELCOME_MODAL'
+    payload: boolean
+  }>
   city: string
   county: string
   setCurrentView: (view: string) => void
 }) => (
-  <Modal open={openModal} onClose={() => setOpenModal(false)}>
+  <Modal open={openModal} onClose={() => dispatch({ type: 'SET_OPEN_WELCOME_MODAL', payload: false })}>
     <Modal.Header>Welcome to the map page!</Modal.Header>
     <Modal.Content>
       {city && county ? (
@@ -79,7 +85,11 @@ const WelcomeModal = ({
       </p>
     </Modal.Content>
     <Modal.Actions>
-      <Button className="bg-primary text-white" onClick={() => setOpenModal(false)} positive>
+      <Button
+        className="bg-primary text-white"
+        onClick={() => dispatch({ type: 'SET_OPEN_WELCOME_MODAL', payload: false })}
+        positive
+      >
         Close
       </Button>
     </Modal.Actions>

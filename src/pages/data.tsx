@@ -24,9 +24,10 @@ const Data = () => (
       <li className="mb-4">
         <h2 className="font-bold">Multifamily Residents</h2>
         <p>
-          Number of multifamily building residents per pixel is identified by multiplying pixel population by
-          ACS 5-year estimates for multifamily resident percentage, from the variable B25032 - Tenure by Units
-          in Structure, available at&nbsp;
+          Number of multifamily building residents per pixel is identified by multiplying pixel population
+          (using estimates from <a href="https://pubmed.ncbi.nlm.nih.gov/35834564/">Depsky, et al. 2022</a>)
+          by ACS 5-year estimates for multifamily resident percentage, from the variable B25032 - Tenure by
+          Units in Structure, available at&nbsp;
           <a
             href="https://data.census.gov/table/ACSDT5Y2021.B25032?q=B25032%20-%20Tenure%20by%20Units%20in%20Structure."
             className="text-primary underline"
@@ -67,7 +68,7 @@ const Data = () => (
           >
             MapBox isochrones API
           </a>
-          , with charger data drawn from federal AFDC data at
+          , with charger data drawn from federal AFDC data at&nbsp;
           <a
             href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC"
             className="text-primary underline"
@@ -109,7 +110,7 @@ const Data = () => (
         <h2 className="font-bold">IRS 30C Eligibility</h2>
         <p>
           The 30C tax credit is available in census tracts designated by IRS and USDOE as either low-income or
-          non-urban. For more information see&nbsp;
+          non-urban (eligible through 2029/30). For more information see&nbsp;
           <a
             href="https://experience.arcgis.com/experience/3f67d5e82dc64d1589714d5499196d4f/page/Page/"
             className="text-primary underline"
@@ -134,7 +135,13 @@ const Data = () => (
           >
             https://www.cpuc.ca.gov/industries-and-topics/electrical-energy/infrastructure/distribution-planning
           </a>
-          .
+          .&nbsp;
+          <b>
+            <i>
+              Note: ICA maps represent a range of utility assessments and estimates of capacity at a point in
+              time. Feasibility pixels do not necessarily show exact capacity available at the present date.
+            </i>
+          </b>
         </p>
       </li>
     </ul>

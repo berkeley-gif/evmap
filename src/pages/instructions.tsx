@@ -1,48 +1,69 @@
+import { Icon } from 'semantic-ui-react'
+
 const Instructions = () => (
-  <div className="homepage-background">
-    <div className="homepage-card">
-      <h1 className="homepage-header">How to use</h1>
-      <p className="mb-4">The tool enables users to:</p>
-      <ol className="list-inside mb-4">
-        <li className="mb-2">
-          a). select which criteria are included in the &quot;priority&quot; and &quot;feasibility&quot;
-          layers (via the settings wheel) and
-        </li>
-        <li className="mb-2">
-          b). adjust the intensity of the criteria as appropriate to the local context (via sliders).
-        </li>
-      </ol>
-      <p className="mb-4">
-        These selections and adjustments will yield unique combinations of pixels using &quot;AND&quot; logic
-        - i.e., only pixels that meet all selected criteria will remain on the map. Areas with high
-        concentrations or overlap of both “priority” and “feasibility” pixels are likely candidate zones for
-        investment.
-      </p>
-      <p className="mb-4">For example:</p>
-      <ol className="list-inside mb-4">
-        <li className="mb-4">
-          <span className="font-bold">CalEnviroScreen4.0 percentile:</span>
-          <br /> Slide to define the range of CalEnviroScreen percentile scores included in the
-          &quot;priority&quot; pixel set. A higher range (e.g., 70-100) will limit the set to show only those
-          areas scoring highest across the CES4.0 environmental vulnerability indicators.
-        </li>
-        <li className="mb-4">
-          <span className="font-bold">L2 chargers within 10 min walk:</span>
-          <br /> Slide the range down to exclude pixels with multiple existing Level 2 chargers available
-          within a 10 minute walk of the pixel.
-        </li>
-        <li className="mb-4">
-          <span className="font-bold">PG&E load capacity:</span>
-          <br /> Increase the bottom slider to exclude areas with electrical distribution grid capacity (in
-          kW) lower than the indicated number.
-        </li>
-        <li className="mb-4">
-          <span className="font-bold">NEVI and IRS 30C eligible:</span>
-          <br /> Toggle on to show areas eligible for either funding source; toggle both on to show areas
-          eligible for both.
-        </li>
-      </ol>
-    </div>
+  <div className="m-5">
+    <h1 className="homepage-header">How to use</h1>
+    <p className="mb-4">The EV Equity Roadmap tool highlights three types of criteria for users:</p>
+    <ol className="list-disc list-inside mb-4">
+      <li className="mb-2">
+        <b>Priority</b> areas (shown in <b>blue</b> pixels) include environmental justice communities, areas
+        with low single-family homeownership, and areas with limited EV charging access.
+      </li>
+      <li className="mb-2">
+        <b>Feasibility</b> areas (shown in <b>gold</b> pixels) have adequate electric grid capacity and are
+        eligible for federal EV charging funding.
+      </li>
+      <li className="mb-2">
+        <b>Co-location points</b> (shown via icons) are community hubs and resources.
+      </li>
+    </ol>
+    <p className="mb-1">To use the tool:</p>
+    <ol className="list-decimal list-inside mb-4">
+      <li className="mb-2">
+        Select your <strong>county</strong> and <strong>jurisdiction</strong>.
+      </li>
+      <li className="mb-2">
+        Adjust the <strong>Priority</strong> and <strong>Feasibility</strong> data layers to match your local
+        criteria.
+        <div className="flex items-center gap-4 mt-4">
+          <img src="/images/data1.png" alt="Before control setting" className="h-32 object-contain" />
+          <Icon size="large" name="long arrow alternate right" />
+          <img src="/images/map1.png" alt="Before map display" className="h-64 object-contain" />
+        </div>
+        <div className="flex items-center gap-4 mt-4">
+          <img src="/images/data2.png" alt="After control setting" className="h-33 object-contain" />
+          <Icon size="large" name="long arrow alternate right" />
+          <img src="/images/map2.png" alt="After map display" className="h-64 object-contain" />
+        </div>
+        <ul className="list-disc list-inside mt-2 ml-4">
+          <li className="mb-1">
+            Adjustments will yield unique combinations of pixels using &ldquo;<strong>AND</strong>&rdquo;
+            logic — only pixels that meet all selected criteria will remain on the map.
+          </li>
+          <li className="mb-1">
+            Most sliders adjust up from 0; however, sliders for current EV charging access and EV adoption
+            adjust down to 0. This is because areas scoring lowest for these criteria are highest-priority
+            from an equity perspective.
+          </li>
+          <li>
+            Hover over layer names and click the <Icon disabled name="info circle" /> buttons for more
+            information.
+          </li>
+        </ul>
+      </li>
+      <li className="mb-2">
+        Select <strong>Co-location Points</strong> to display with your Priority and Feasibility criteria.
+      </li>
+      <li className="mb-2">
+        Scroll or use the <span className="font-bold text-lg">+/-</span> buttons to zoom in on high-priority,
+        high-feasibility zones.
+      </li>
+      <li className="mb-2">
+        Right-click on a selected location to show the coordinates for that site. Areas with high
+        concentrations or overlap of Priority and Feasibility pixels and Co-Location Points are likely
+        candidate zones for investment.
+      </li>
+    </ol>
   </div>
 )
 

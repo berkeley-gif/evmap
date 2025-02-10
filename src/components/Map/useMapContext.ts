@@ -8,7 +8,6 @@ const useMapContext = () => {
   const setMap = mapInstance?.setMap
   const cityConfig = mapInstance?.cityConfig
   const setCityConfig = mapInstance?.setCityConfig
-  // console.log("useMapContext")
   return { map, setMap, cityConfig, setCityConfig }
 }
 

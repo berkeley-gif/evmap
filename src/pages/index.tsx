@@ -1,8 +1,10 @@
 // import { Leaf } from 'lucide-react'
+import counties from '@public/jurisdictions.json'
 import Head from 'next/head'
 
 import Footer from '@components/common/Footer'
 import HomeNavBar from '@components/common/HomeNavBar'
+import MapSelector from '@components/common/MapSelector'
 
 // import { AppConfig } from '@lib/AppConfig'
 import About from './about'
@@ -42,43 +44,45 @@ const Home = ({
           <meta property="og:title" content="EV Equity Roadmap" key="title" />
           <meta name="description" content="" />
           <link rel="icon" href="/favicon.ico" />
-          {/* <style>{`
-            .bullet-list {
-              margin-left: 20px;
-            }
-            .bullet-list li::before {
-              content: '•';
-              color: black;
-              display: inline-block; 
-              width: 1em;
-              margin-left: -1em;
-            }
-            p, ul {
-              text-align: justify;
-            }
-          `}</style> */}
         </Head>
-        {/* <header className="mt-10 items-top gap-4 md:flex" /> */}
-        <section>
-          <div>
-            <HomeNavBar setCurrentView={setCurrentView} />
-            <div className="homepage-background">
-              <section className="homepage-card sm:mx-8 md:mx-12 lg:mx-16">{renderView()}</section>
+        <section className="homepage-background">
+          <HomeNavBar setCurrentView={setCurrentView} />
+          <section className="flex">
+            <div className="w-1/2 mx-2">
+              <section className="homepage-panel homepage-card">
+                <h1 className="homepage-header">Select a jurisdiction</h1>
+                <MapSelector isVertical />
+                <p className="my-2">Map data are currently available for all of California except:</p>
+                <ul className="ml-6 list-disc">
+                  {counties
+                    .filter(({ available }) => !available)
+                    .map(({ id, name }) => (
+                      <li key={id}>{name}</li>
+                    ))}
+                </ul>
+                <p className="my-2">
+                  Grid capacity data are currently only available for areas served by Los Angeles Department
+                  of Water & Power, Pacific Gas & Electric, San Diego Gas & Electric, and Southern California
+                  Edison.
+                </p>
+              </section>
             </div>
-          </div>
+            <div className="w-1/2 mx-2">
+              <section className="homepage-panel homepage-card">{renderView()}</section>
+            </div>
+          </section>
+          <section className="homepage-card mx-2">
+            <h1 className="homepage-header">Coming soon</h1>
+            <p className="mb-2">
+              We are regularly updating the tool to add more jurisdictions, refine data, and improve
+              performance. In Winter 2024-25, we are incorporating federal environmental justice criteria,
+              select demographic data, and remaining California jurisdictions in PG&E, SCE, LADWP, and SDG&E
+              service territories. In 2025, we aim to expand to areas inside and beyond California, subject to
+              electric grid capacity data availability.
+            </p>
+          </section>
         </section>
         <Footer setCurrentView={setCurrentView} />
-        {/* <footer className="mt-16 flex justify-between p-3 rounded bg-light text-sm">
-          <div>
-            Created by Ankita Shanbhag <br />
-            <Link href="https://linkedin.com/in/ankitashanbhag" className="text-primary">
-              Contact Me
-            </Link>
-          </div>
-          <div className="text-primary">
-            <Leaf size={AppConfig.ui.mapIconSize} className="mt-2" />
-          </div>
-        </footer> */}
       </div>
     </div>
   )

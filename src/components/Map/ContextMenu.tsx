@@ -1,19 +1,23 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Button, Popup } from 'semantic-ui-react'
 
 interface ContextMenuProps {
   contextMenuVisible: boolean
-  setContextMenuVisible: (value: boolean) => void
+  dispatch: React.Dispatch<{
+    type: 'SET_CONTEXT_MENU_VISIBLE'
+    payload: boolean
+  }>
   clickedLatLng: { lat: number; lng: number } | null
   menuPosition: { x: number; y: number }
-  // getImage: () => void
+  takeScreenshot: () => void
 }
 
 const ContextMenu = ({
   contextMenuVisible,
-  setContextMenuVisible,
+  dispatch,
   clickedLatLng,
   menuPosition,
+  takeScreenshot,
 }: ContextMenuProps) => {
   const [viewportWidth, setViewportWidth] = useState(0)
   useEffect(() => {
@@ -32,11 +36,11 @@ const ContextMenu = ({
 
   const popupWidth = 260
   const adjustedX = menuPosition.x - viewportWidth / 2 - popupWidth / 2 + 4
-  const adjustedY = menuPosition.y - 190
+  const adjustedY = menuPosition.y - 218
   return (
     <Popup
       open={contextMenuVisible}
-      onClose={() => setContextMenuVisible(false)}
+      onClose={() => dispatch({ type: 'SET_CONTEXT_MENU_VISIBLE', payload: false })}
       position="top center"
       style={{
         position: 'absolute',
@@ -44,12 +48,12 @@ const ContextMenu = ({
         top: `${adjustedY}px`,
         zIndex: 1000,
         width: `${popupWidth}px`,
-        height: '175px',
+        height: '210px',
       }}
       trigger={<div />}
     >
       <Popup.Header>
-        <p>User-selected priority location</p>
+        <p style={{ fontFamily: 'serif' }}>User-selected priority location</p>
       </Popup.Header>
       <Popup.Content>
         <p>
@@ -58,8 +62,24 @@ const ContextMenu = ({
         <p>
           <b>Longitude:</b> {clickedLatLng?.lng.toFixed(4)}
         </p>
-        <p>Contact the appropriate city department to request an EV connection at this point</p>
+        <p>
+          Contact your local transportation, planning, or power agencies to discuss EV infrastructure
+          investment at this point
+        </p>
         {/* <div>{contextMenuVisible && <Button onClick={getImage}>Take Map Snapshot</Button>} */}
+        <div className="flex justify-center">
+          {contextMenuVisible && (
+            <Button
+              primary
+              onClick={() => {
+                dispatch({ type: 'SET_CONTEXT_MENU_VISIBLE', payload: false })
+                takeScreenshot()
+              }}
+            >
+              Take Map Snapshot
+            </Button>
+          )}
+        </div>
       </Popup.Content>
     </Popup>
   )

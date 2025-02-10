@@ -1,9 +1,16 @@
+import counties from '@public/jurisdictions.json'
 import { useRouter } from 'next/router'
 import { useContext, useState } from 'react'
 import { Dropdown, DropdownProps } from 'semantic-ui-react'
 
-import counties from '../../../public/jurisdictions.json'
 import { MapContext } from '../Map/MapContextProvider'
+
+type State = {
+  id: string
+  name: string
+  available: boolean
+  counties: County[]
+}
 
 type County = {
   id: string
@@ -17,13 +24,15 @@ type City = {
   name: string
   available: boolean
   noUtilityData?: boolean
+  provider?: string
 }
 
 type MapSelectorProps = {
   startLoading?: () => void
+  isVertical?: boolean
 }
 
-const MapSelector = ({ startLoading }: MapSelectorProps) => {
+const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
   const context = useContext(MapContext)
   if (!context) throw new Error('MapSelector must be used within a MapContextProvider')
   const { setCityConfig } = context
@@ -56,9 +65,8 @@ const MapSelector = ({ startLoading }: MapSelectorProps) => {
     if (currentCounty) {
       setSelectedCounty(currentCounty)
       setCities(currentCounty.cities)
-
       if (currentCounty.name === 'San Francisco County') {
-        const sanFranciscoCity = currentCounty.cities.find(city => city.name === 'San Francisco')
+        const sanFranciscoCity = (currentCounty.cities as City[]).find(city => city.name === 'San Francisco')
         if (sanFranciscoCity) {
           setSelectedCity(sanFranciscoCity)
         }
@@ -91,8 +99,22 @@ const MapSelector = ({ startLoading }: MapSelectorProps) => {
   const showButton = selectedCounty && (selectedCounty.name === 'San Francisco County' || selectedCity)
 
   return (
-    <div className="flex">
-      <div className="w-1/3 pr-2">
+    <div
+      className={`flex ${isVertical ? 'flex-col items-center' : ''} ${
+        isVertical ? 'space-y-4' : 'space-x-4'
+      }`}
+    >
+      {/* <div className={`${isVertical ? 'mb-4' : 'w-1/3 pr-2'}`}>
+        <Dropdown
+          placeholder="Select State"
+          fluid
+          selection
+          options={stateOptions}
+          onChange={handleStateChange}
+          className="text-primary"
+        />
+      </div> */}
+      <div className={`${isVertical ? 'w-full' : 'w-1/3 pr-2'}`}>
         <Dropdown
           placeholder="Select County"
           fluid
@@ -107,7 +129,7 @@ const MapSelector = ({ startLoading }: MapSelectorProps) => {
           className="text-primary"
         />
       </div>
-      <div className="w-1/3 pr-2">
+      <div className={`${isVertical ? 'w-full' : 'w-1/3 pr-2'}`}>
         {selectedCounty && selectedCounty?.name !== 'San Francisco County' && (
           <Dropdown
             placeholder="Select City"
@@ -130,7 +152,7 @@ const MapSelector = ({ startLoading }: MapSelectorProps) => {
           />
         )}
       </div>
-      <div className="w-1/3 flex items-center justify-center">
+      <div className={`${isVertical ? 'w-full' : 'w-1/3'} flex items-center justify-center`}>
         {showButton && (
           <button type="button" className="custom-button bg-primary text-white" onClick={handleButtonClick}>
             {isMapPage ? 'Load Map' : 'Go to Map'}

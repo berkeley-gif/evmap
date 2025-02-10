@@ -12,7 +12,8 @@ export interface GeoJSONFeatureProperties {
   // added
   chg_drive_DCF_10: number
   nevi: number
-  pge: number
+  pge?: number
+  utility?: number
   commercial: number
   zoning_tot: number
   zoning_residential_multi_family: number
@@ -41,8 +42,6 @@ export interface GeoJSONFeature {
 export interface GeoJSONData {
   type: 'FeatureCollection'
   features: GeoJSONFeature[]
-  // priorityFeatures: GeoJSONFeature[],
-  // feasibilityFeatures: GeoJSONFeature[],
 }
 
 export const LeafletCluster = dynamic(async () => (await import('./LeafletCluster')).LeafletCluster(), {
@@ -64,3 +63,5 @@ export const LeafletMapContainer = dynamic(
   },
 )
 export const DynamicGeoJSON = dynamic(() => import('react-leaflet').then(mod => mod.GeoJSON), { ssr: false })
+
+export const MapMarker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false })

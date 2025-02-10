@@ -6,21 +6,12 @@ const MobileWarningModal = () => {
   const [open, setOpen] = useState(false)
 
   useEffect(() => {
-    const handleResize = () => {
-      if (window.innerWidth < 768) {
-        setIsMobile(true)
-        setOpen(true)
-      } else {
-        setIsMobile(false)
-        setOpen(false)
-      }
+    const checkViewport = () => {
+      const mobileView = window.innerWidth < 768
+      setIsMobile(mobileView)
+      setOpen(mobileView)
     }
-
-    handleResize()
-    window.addEventListener('resize', handleResize)
-    return () => {
-      window.removeEventListener('resize', handleResize)
-    }
+    checkViewport()
   }, [])
 
   if (!isMobile) {
@@ -28,7 +19,13 @@ const MobileWarningModal = () => {
   }
 
   return (
-    <Modal open={open} onClose={() => setOpen(false)} size="small" closeIcon>
+    <Modal
+      open={open}
+      onClose={() => setOpen(false)}
+      size="small"
+      closeIcon
+      style={{ width: '90%', maxWidth: '400px', margin: '0 auto' }}
+    >
       <Modal.Header>App Not Optimized for Mobile</Modal.Header>
       <Modal.Content>
         <p>

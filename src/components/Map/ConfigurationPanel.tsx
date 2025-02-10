@@ -13,8 +13,10 @@ import { DataConfig } from '@pages/map/index'
 interface ConfigurationPanelProps {
   priorityDataConfig: DataConfig
   feasibleDataConfig: DataConfig
-  setPriorityDataConfig: React.Dispatch<React.SetStateAction<DataConfig>>
-  setFeasibleDataConfig: React.Dispatch<React.SetStateAction<DataConfig>>
+  dispatch: React.Dispatch<{
+    type: 'SET_PRIORITY_DATA_CONFIG' | 'SET_FEASIBLE_DATA_CONFIG'
+    payload: DataConfig
+  }>
   closePanel: () => void
 }
 
@@ -36,8 +38,9 @@ const titlesMap = {
 const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
   priorityDataConfig,
   feasibleDataConfig,
-  setPriorityDataConfig,
-  setFeasibleDataConfig,
+  dispatch,
+  // setPriorityDataConfig,
+  // setFeasibleDataConfig,
   closePanel,
 }) => {
   const panelRef = useRef<HTMLDivElement>(null)
@@ -56,11 +59,17 @@ const ConfigurationPanel: React.FC<ConfigurationPanelProps> = ({
   }, [closePanel])
 
   const handlePriorityChange = (key: keyof DataConfig) => {
-    setPriorityDataConfig(prev => ({ ...prev, [key]: !prev[key] }))
+    dispatch({
+      type: 'SET_PRIORITY_DATA_CONFIG',
+      payload: { ...priorityDataConfig, [key]: !priorityDataConfig[key] },
+    })
   }
 
   const handleFeasibleChange = (key: keyof DataConfig) => {
-    setFeasibleDataConfig(prev => ({ ...prev, [key]: !prev[key] }))
+    dispatch({
+      type: 'SET_FEASIBLE_DATA_CONFIG',
+      payload: { ...feasibleDataConfig, [key]: !feasibleDataConfig[key] },
+    })
   }
 
   return (

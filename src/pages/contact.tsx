@@ -3,7 +3,7 @@ import Link from 'next/link'
 const Contact = () => (
   <div>
     <h1 className="homepage-header">Contact</h1>
-    <p>For more information, questions, or feedback regarding the tool, please contact:</p>
+    <p className="mb-2">For more information, questions, or feedback regarding the tool, please contact:</p>
     <p>
       <Link className="font-bold" href="https://www.law.berkeley.edu/research/clee/about/people/ted-lamm/">
         Ted Lamm
@@ -16,8 +16,8 @@ const Contact = () => (
       </Link>
       , Professor of Energy, Energy & Resources Group
     </p>
-    <p>
-      For more information on other elements of this project, visit
+    <p className="mt-2">
+      For more information on other elements of this project, visit&nbsp;
       <Link className="inline-link" href="https://www.law.berkeley.edu/research/clee/ev-equity/">
         CLEE’s EV Equity Initiative website.
       </Link>
