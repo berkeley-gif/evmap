@@ -86,27 +86,35 @@
   {
     "id": "CA1055",
     "name": "Alpine County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0482",
         "name": "Alpine Village",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Liberty Utilities"
       },
       {
         "id": "CA0483",
         "name": "Mesa Vista",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Liberty Utilities"
       },
       {
         "id": "CA0484",
         "name": "Markleeville",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Liberty Utilities"
       },
       {
         "id": "CA0547",
         "name": "un_Alpine County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Liberty Utilities"
       }
     ]
   },
@@ -333,17 +341,21 @@
   {
     "id": "CA1037",
     "name": "Del Norte County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0098",
         "name": "Crescent City",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0530",
         "name": "un_Del Norte County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pacificorp"
       }
     ]
   },
@@ -598,12 +610,14 @@
       {
         "id": "CA0041",
         "name": "Bishop",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0514",
         "name": "un_Inyo County",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },
@@ -626,12 +640,13 @@
         "id": "CA0055",
         "name": "California",
         "available": true,
-        "noUtilityData": true
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0109",
         "name": "Delano",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0249",
@@ -646,7 +661,8 @@
       {
         "id": "CA0346",
         "name": "Ridgecrest",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0404",
@@ -661,7 +677,8 @@
       {
         "id": "CA0427",
         "name": "Tehachapi",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0455",
@@ -693,7 +710,8 @@
       {
         "id": "CA0168",
         "name": "Hanford",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0224",
@@ -758,62 +776,75 @@
       {
         "id": "CA0001",
         "name": "Agoura Hills",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0004",
         "name": "Alhambra",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0014",
         "name": "Arcadia",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0017",
         "name": "Artesia",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0023",
         "name": "Avalon",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0025",
         "name": "Azusa",
-        "available": false
+        "available": true,
+        "provider": "Azusa Light & Power"
       },
       {
         "id": "CA0027",
         "name": "Baldwin Park",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0031",
         "name": "Bell",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0032",
         "name": "Bell Gardens",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0033",
         "name": "Bellflower",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0038",
         "name": "Beverly Hills",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0044",
         "name": "Bradbury",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0051",
@@ -825,382 +856,460 @@
       {
         "id": "CA0053",
         "name": "Calabasas",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0066",
         "name": "Carson",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0069",
         "name": "Cerritos",
-        "available": false
+        "available": true,
+        "provider": "City of Cerritos"
       },
       {
         "id": "CA0076",
         "name": "Claremont",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0087",
         "name": "Commerce",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0088",
         "name": "Compton",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0097",
         "name": "Covina",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0099",
         "name": "Cudahy",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0100",
         "name": "Culver City",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0111",
         "name": "Diamond Bar",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0116",
         "name": "Downey",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0117",
         "name": "Duarte",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0125",
         "name": "El Monte",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0126",
         "name": "El Segundo",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0154",
         "name": "Gardena",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0156",
         "name": "Glendale",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Glendale Water & Power"
       },
       {
         "id": "CA0157",
         "name": "Glendora",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0169",
         "name": "Hawaiian Gardens",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0170",
         "name": "Hawthorne",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0175",
         "name": "Hermosa Beach",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0177",
         "name": "Hidden Hills",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0184",
         "name": "Huntington Park",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0190",
         "name": "Industry",
-        "available": false
+        "available": true,
+        "provider": "City of Industry"
       },
       {
         "id": "CA0191",
         "name": "Inglewood",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0194",
         "name": "Irwindale",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0201",
         "name": "La Cañada Flintridge",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0203",
         "name": "La Habra Heights",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0205",
         "name": "La Mirada",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0207",
         "name": "La Puente",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0209",
         "name": "La Verne",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0218",
         "name": "Lakewood",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0219",
         "name": "Lancaster",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0222",
         "name": "Lawndale",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0232",
         "name": "Lomita",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0234",
         "name": "Long Beach",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0239",
         "name": "Los Angeles",
-        "available": false
+        "available": true,
+        "provider": "Los Angeles Department of Water & Power"
       },
       {
         "id": "CA0243",
         "name": "Lynwood",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0245",
         "name": "Malibu",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0247",
         "name": "Manhattan Beach",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0253",
         "name": "Maywood",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0264",
         "name": "Monrovia",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0268",
         "name": "Montebello",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0270",
         "name": "Monterey Park",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0287",
         "name": "Norwalk",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0305",
         "name": "Palmdale",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0307",
         "name": "Palos Verdes Estates",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0309",
         "name": "Paramount",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0311",
         "name": "Pasadena",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Pasadena Water & Power"
       },
       {
         "id": "CA0316",
         "name": "Pico Rivera",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0327",
         "name": "Pomona",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0336",
         "name": "Rancho Palos Verdes",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0341",
         "name": "Redondo Beach",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0354",
         "name": "Rolling Hills",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0355",
         "name": "Rolling Hills Estates",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0356",
         "name": "Rosemead",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0367",
         "name": "San Dimas",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0368",
         "name": "San Fernando",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0370",
         "name": "San Gabriel",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0379",
         "name": "San Marino",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0389",
         "name": "Santa Clarita",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0391",
         "name": "Santa Fe Springs",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0393",
         "name": "Santa Monica",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0406",
         "name": "Sierra Madre",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0407",
         "name": "Signal Hill",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0414",
         "name": "South El Monte",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0415",
         "name": "South Gate",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0417",
         "name": "South Pasadena",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0430",
         "name": "Temple City",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0433",
         "name": "Torrance",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0448",
         "name": "Vernon",
-        "available": false
+        "available": true,
+        "provider": "City of Vernon Municipal Light Department"
       },
       {
         "id": "CA0453",
         "name": "Walnut",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0459",
         "name": "West Covina",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0460",
         "name": "West Hollywood",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0462",
         "name": "Westlake Village",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0466",
         "name": "Whittier",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0494",
         "name": "un_Los Angeles County",
-        "available": false
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },
@@ -1296,32 +1405,32 @@
   {
     "id": "CA1056",
     "name": "Mariposa County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0485",
         "name": "Mariposa",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0486",
         "name": "Midpines",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0487",
         "name": "Lake Don Pedro",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0488",
         "name": "Yosemite Valley",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0548",
         "name": "un_Mariposa County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -1402,17 +1511,19 @@
   {
     "id": "CA1004",
     "name": "Modoc County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0006",
         "name": "Alturas",
-        "available": false
+        "available": true,
+        "provider": "Pacificorp"
       },
       {
         "id": "CA0497",
         "name": "un_Modoc County",
-        "available": false
+        "available": true,
+        "provider": "Pacificorp"
       }
     ]
   },
@@ -1424,12 +1535,14 @@
       {
         "id": "CA0246",
         "name": "Mammoth Lakes",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0540",
         "name": "un_Mono County",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },
@@ -1579,7 +1692,8 @@
       {
         "id": "CA0005",
         "name": "Aliso Viejo",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0009",
@@ -1591,173 +1705,200 @@
       {
         "id": "CA0046",
         "name": "Brea",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0050",
         "name": "Buena Park",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0095",
         "name": "Costa Mesa",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0102",
         "name": "Cypress",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0104",
         "name": "Dana Point",
         "available": true,
-        "noUtilityData": true,
         "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0147",
         "name": "Fountain Valley",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0151",
         "name": "Fullerton",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0153",
         "name": "Garden Grove",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0183",
         "name": "Huntington Beach",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0193",
         "name": "Irvine",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0202",
         "name": "La Habra",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0206",
         "name": "La Palma",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0211",
         "name": "Laguna Beach",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0212",
         "name": "Laguna Hills",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0213",
         "name": "Laguna Niguel",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0214",
         "name": "Laguna Woods",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0216",
         "name": "Lake Forest",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0236",
         "name": "Los Alamitos",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0262",
         "name": "Mission Viejo",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0285",
         "name": "Newport Beach",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0295",
         "name": "Orange",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0321",
         "name": "Placentia",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0337",
         "name": "Rancho Santa Margarita",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0365",
         "name": "San Clemente",
         "available": true,
-        "noUtilityData": true,
         "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0375",
         "name": "San Juan Capistrano",
         "available": true,
-        "noUtilityData": true,
         "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0386",
         "name": "Santa Ana",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0400",
         "name": "Seal Beach",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0420",
         "name": "Stanton",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0440",
         "name": "Tustin",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0450",
         "name": "Villa Park",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0463",
         "name": "Westminster",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0476",
         "name": "Yorba Linda",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0496",
         "name": "un_Orange County",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },
@@ -1837,27 +1978,32 @@
       {
         "id": "CA0030",
         "name": "Beaumont",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0043",
         "name": "Blythe",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0056",
         "name": "Calimesa",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0061",
         "name": "Canyon Lake",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0067",
         "name": "Cathedral City",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0081",
@@ -1869,7 +2015,8 @@
       {
         "id": "CA0092",
         "name": "Corona",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0110",
@@ -1881,17 +2028,20 @@
       {
         "id": "CA0121",
         "name": "Eastvale",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0173",
         "name": "Hemet",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0188",
         "name": "Indian Wells",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0189",
@@ -1903,7 +2053,8 @@
       {
         "id": "CA0197",
         "name": "Jurupa Valley",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0208",
@@ -1915,47 +2066,56 @@
       {
         "id": "CA0215",
         "name": "Lake Elsinore",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0256",
         "name": "Menifee",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0273",
         "name": "Moreno Valley",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0278",
         "name": "Murrieta",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0286",
         "name": "Norco",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0303",
         "name": "Palm Desert",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0304",
         "name": "Palm Springs",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0314",
         "name": "Perris",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0335",
         "name": "Rancho Mirage",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0351",
@@ -1967,22 +2127,26 @@
       {
         "id": "CA0371",
         "name": "San Jacinto",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0429",
         "name": "Temecula",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0467",
         "name": "Wildomar",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0510",
         "name": "un_Riverside County",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },
@@ -2079,17 +2243,20 @@
       {
         "id": "CA0000",
         "name": "Adelanto",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0013",
         "name": "Apple Valley",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0029",
         "name": "Barstow",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0039",
@@ -2111,37 +2278,44 @@
       {
         "id": "CA0085",
         "name": "Colton",
-        "available": true
+        "available": true,
+        "provider": "Colton Electric Utility Department"
       },
       {
         "id": "CA0142",
         "name": "Fontana",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0160",
         "name": "Grand Terrace",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0176",
         "name": "Hesperia",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0178",
         "name": "Highland",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0231",
         "name": "Loma Linda",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0266",
         "name": "Montclair",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0281",
@@ -2153,52 +2327,62 @@
       {
         "id": "CA0294",
         "name": "Ontario",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0334",
         "name": "Rancho Cucamonga",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0340",
         "name": "Redlands",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0344",
         "name": "Rialto",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0362",
         "name": "San Bernardino",
-        "available": false
+        "available": false,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0441",
         "name": "Twentynine Palms",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0444",
         "name": "Upland",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0449",
         "name": "Victorville",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0480",
         "name": "Yucaipa",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0481",
         "name": "Yucca Valley",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0493",
@@ -2215,37 +2399,45 @@
       {
         "id": "CA0063",
         "name": "Carlsbad",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
+
       },
       {
         "id": "CA0074",
         "name": "Chula Vista",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0093",
         "name": "Coronado",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0107",
         "name": "Del Mar",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0122",
         "name": "El Cajon",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0129",
         "name": "Encinitas",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0131",
         "name": "Escondido",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0187",
@@ -2257,57 +2449,68 @@
       {
         "id": "CA0204",
         "name": "La Mesa",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0223",
         "name": "Lemon Grove",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0280",
         "name": "National City",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0292",
         "name": "Oceanside",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0332",
         "name": "Poway",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0366",
         "name": "San Diego",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0378",
         "name": "San Marcos",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0396",
         "name": "Santee",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0409",
         "name": "Solana Beach",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0452",
         "name": "Vista",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       },
       {
         "id": "CA0520",
         "name": "un_San Diego County",
-        "available": true
+        "available": true,
+        "provider": "San Diego Gas & Electric"
       }
     ]
   },
@@ -2549,7 +2752,8 @@
       {
         "id": "CA0158",
         "name": "Goleta",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0165",
@@ -2559,12 +2763,14 @@
       {
         "id": "CA0233",
         "name": "Lompoc",
-        "available": true
+        "available": true,
+        "provider": "City of Lompoc Electric Division"
       },
       {
         "id": "CA0387",
         "name": "Santa Barbara",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0392",
@@ -3052,32 +3258,42 @@
   {
     "id": "CA1057",
     "name": "Trinity County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0489",
-        "name": "Weaverville",
-        "available": false
+        "name": "Hayfork",
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Trinity Public Utilities District"
       },
       {
         "id": "CA0490",
-        "name": "Hayfork",
-        "available": false
+        "name": "Junction City",
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Trinity Public Utilities District"
       },
       {
         "id": "CA0491",
         "name": "Lewiston",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Trinity Public Utilities District"
       },
       {
         "id": "CA0492",
-        "name": "Junction City",
-        "available": false
+        "name": "Weaverville",
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Trinity Public Utilities District"
       },
       {
         "id": "CA0549",
         "name": "un_Trinity County",
-        "available": false
+        "available": true,
+        "noUtilityData": true,
+        "provider": "Trinity Public Utilities District"
       }
     ]
   },
@@ -3094,59 +3310,67 @@
       {
         "id": "CA0134",
         "name": "Exeter",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0137",
         "name": "Farmersville",
-        "available": true
+        "available": true,
+        "provider": "Eastside Power Authority"
       },
       {
         "id": "CA0226",
         "name": "Lindsay",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0329",
         "name": "Porterville",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0437",
         "name": "Tulare",
-        "available": true
+        "available": true,
+        "provider": "Eastside Power Authority"
       },
       {
         "id": "CA0451",
         "name": "Visalia",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0473",
         "name": "Woodlake",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0532",
         "name": "un_Tulare County",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },
   {
     "id": "CA1053",
     "name": "Tuolumne County",
-    "available": false,
+    "available": true,
     "cities": [
       {
         "id": "CA0413",
         "name": "Sonora",
-        "available": false
+        "available": true
       },
       {
         "id": "CA0545",
         "name": "un_Tuolumne County",
-        "available": false
+        "available": true
       }
     ]
   },
@@ -3158,60 +3382,71 @@
       {
         "id": "CA0059",
         "name": "Camarillo",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0139",
         "name": "Fillmore",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0271",
         "name": "Moorpark",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0293",
         "name": "Ojai",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0300",
         "name": "Oxnard",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0328",
         "name": "Port Hueneme",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0394",
         "name": "Santa Paula",
         "available": true,
-        "noUtilityData": true
+        "noUtilityData": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0408",
         "name": "Simi Valley",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0431",
         "name": "Thousand Oaks",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0447",
         "name": "Ventura",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       },
       {
         "id": "CA0517",
         "name": "un_Ventura County",
-        "available": true
+        "available": true,
+        "provider": "Southern California Edison"
       }
     ]
   },

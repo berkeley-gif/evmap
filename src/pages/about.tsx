@@ -3,7 +3,7 @@ import Link from 'next/link'
 
 const About = () => (
   <section>
-    <h1 className="homepage-header">About EV-map</h1>
+    <h1 className="homepage-header">About EV Equity Roadmap</h1>
     <p>
       This tool is intended for free use by local governments and stakeholders to identify high-priority,
       high-feasibility sites for investment in electric vehicle charging and associated mobility

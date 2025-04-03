@@ -1,5 +1,4 @@
 // import { Leaf } from 'lucide-react'
-import counties from '@public/jurisdictions.json'
 import Head from 'next/head'
 
 import Footer from '@components/common/Footer'
@@ -52,18 +51,13 @@ const Home = ({
               <section className="homepage-panel homepage-card">
                 <h1 className="homepage-header">Select a jurisdiction</h1>
                 <MapSelector isVertical />
-                <p className="my-2">Map data are currently available for all of California except:</p>
-                <ul className="ml-6 list-disc">
-                  {counties
-                    .filter(({ available }) => !available)
-                    .map(({ id, name }) => (
-                      <li key={id}>{name}</li>
-                    ))}
-                </ul>
                 <p className="my-2">
-                  Grid capacity data are currently only available for areas served by Los Angeles Department
-                  of Water & Power, Pacific Gas & Electric, San Diego Gas & Electric, and Southern California
-                  Edison.
+                  EV Equity Roadmap’s &ldquo;feasibility&rdquo; analysis incorporates electric grid capacity
+                  data, which are currently only available for areas served by California utilities that make
+                  these data publicly available: Los Angeles Department of Water & Power, Pacific Gas &
+                  Electric, San Diego Gas & Electric, and Southern California Edison. To view a list of
+                  jurisdictions served by municipal utilities and electric cooperatives with partial or no
+                  utility data, navigate to the Data tab.
                 </p>
               </section>
             </div>

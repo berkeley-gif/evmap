@@ -1,6 +1,6 @@
 const Data = () => (
   <div>
-    <h1 className="homepage-header">Data Sources and links</h1>
+    <h1 className="homepage-header">Data Sources and Descriptions</h1>
     <br />
     <ul className="list-disc pl-5">
       <li className="mb-4">

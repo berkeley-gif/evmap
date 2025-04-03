@@ -113,9 +113,9 @@
   left: 0;
 }
 
-.map-controls label {
-  margin-bottom: 20px; /* Adds space between each label */
-}
+/* .map-controls label {
+  margin-bottom: 20px; 
+} */
 
 .map-controls label input[type="checkbox"] {
   margin-right: 5px;
@@ -191,14 +191,16 @@
 }
 
 .config-section {
-  width: 50%;
+  display: flex;
 }
 
 .config-item {
   margin-bottom: 10px;
 }
 
-
+.wide-menu {
+  width: 38rem !important;
+}
 
 .apply-changes-btn {
   display: block;

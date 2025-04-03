@@ -3,6 +3,7 @@ import dynamic from 'next/dynamic'
 export interface GeoJSONFeatureProperties {
   pop: number
   CIscoreP: number
+  disadvantaged: number // CJEST composite score
   'Multi-Family Housing Residents': number
   Renters: number
   chg_walk: number
@@ -21,6 +22,36 @@ export interface GeoJSONFeatureProperties {
   zoning_mixed: number
   irs30c: number
   lev_10000: number
+  OzoneP: number
+  DieselPM_P: number
+  PM2_5_P: number
+  TrafficP: number
+  AsthmaP: number
+  LowBirWP: number
+  CardiovasP: number
+  EducatP: number
+  Ling_IsolP: number
+  PovertyP: number
+  UnemplP: number
+  HousBurdP: number
+  P_D2_OZONE: number
+  P_D2_PM25: number
+  P_D2_DSLPM: number
+  P_D2_RSEI_AIR: number
+  P_D2_PTRAF: number
+  P_D2_NO2: number
+  diesel_ex: number
+  pm25: number
+  traffic: number
+  low_life_ex: number
+  heart_dis: number
+  house_burd: number
+  ling_iso: number
+  education: number
+  LMI: number
+  '100_fpl': number
+  '200_fpl': number
+  unemployment: number
 }
 
 export interface GeoJSONFeature {

@@ -67,7 +67,6 @@ interface UseLayerGroupEffectParams {
   showLayer: boolean
   layerGroupName: string
   iconUrl: string
-  // L: typeof Leaf | null
   L: any
 }
 
@@ -89,27 +88,35 @@ interface MapState {
   openWelcomeModal: boolean
   isConfigPanelOpen: boolean
   coordinatesTB: boolean
-  priorityDataConfig: DataConfig
-  feasibleDataConfig: DataConfig
+  priorityDataConfig: PriorityDataConfig
+  feasibleDataConfig: FeasibilityDataConfig
   contextMenuVisible: boolean
   menuPosition: { x: number; y: number }
-  // clickedLatLng: L.LatLng | null
   clickedLatLng: LatLngType | null
 }
 
-export type DataConfig = {
-  togglePopRange: boolean
+export type PriorityDataConfig = {
+  toggleCJESTRange: boolean
+  toggleEJScreenRange: boolean
   toggleCiRange: boolean
+  scoreType: 'composite' | 'individual'
+  subIndicators: {
+    [dataset: string]: Record<string, boolean>
+  }
+  togglePopRange: boolean
   toggleLevRange: boolean
   toggleMultiFaRange: boolean
   toggleRentersRange: boolean
   toggleWalkableRange: boolean
   toggleDrivableRange: boolean
-  toggleCommercialRange: boolean
-  toggleResidentialRange: boolean
+  // toggleCommercialRange: boolean
+  // toggleResidentialRange: boolean
+}
+
+export type FeasibilityDataConfig = {
   toggleNeviFilterActive: boolean
   toggleirs30cFilterActive: boolean
-  togglePgeFilterActive: boolean
+  togglePgeRange: boolean
 }
 
 interface MapComponentProps extends NavBarProps {
@@ -140,8 +147,8 @@ export type Action =
   | { type: 'SET_OPEN_WELCOME_MODAL'; payload: boolean }
   | { type: 'SET_IS_CONFIG_PANEL_OPEN'; payload: boolean }
   | { type: 'SET_COORDINATES_TB'; payload: boolean }
-  | { type: 'SET_PRIORITY_DATA_CONFIG'; payload: DataConfig }
-  | { type: 'SET_FEASIBLE_DATA_CONFIG'; payload: DataConfig }
+  | { type: 'SET_PRIORITY_DATA_CONFIG'; payload: PriorityDataConfig }
+  | { type: 'SET_FEASIBLE_DATA_CONFIG'; payload: FeasibilityDataConfig }
   | { type: 'SET_CONTEXT_MENU_VISIBLE'; payload: boolean }
   | { type: 'SET_MENU_POSITION'; payload: { x: number; y: number } }
   // | { type: 'SET_CLICKED_LAT_LNG'; payload: L.LatLng | null }
@@ -215,32 +222,62 @@ const initialState: MapState = {
   isConfigPanelOpen: false,
   coordinatesTB: false,
   priorityDataConfig: {
-    togglePopRange: true,
+    toggleCJESTRange: false,
+    toggleEJScreenRange: false,
     toggleCiRange: true,
+    scoreType: 'composite',
+    subIndicators: {
+      CES: {
+        toggleCesOzoneRange: false,
+        toggleCesPm25Range: false,
+        toggleCesDieselPmRange: false,
+        toggleCesTrafficRange: false,
+        toggleCesAsthmaRange: false,
+        toggleCesLowBirthWeightRange: false,
+        toggleCesCardiovascularDiseaseRange: false,
+        toggleCesEducationRange: false,
+        toggleCesLinguisticIsolationRange: false,
+        toggleCesPovertyRange: false,
+        toggleCesUnemploymentRange: false,
+        toggleCesHousingBurdenRange: false,
+      },
+      EJScreen: {
+        toggleEjScreenOzoneRange: false,
+        toggleEjScreenPm25Range: false,
+        toggleEjScreenDieselPmRange: false,
+        toggleEjScreenRseiAirRange: false,
+        toggleEjScreenPtrafRange: false,
+        toggleEjScreenNo2Range: false,
+      },
+      CJEST: {
+        toggleCjestDieselExRange: false,
+        toggleCjestPm25Range: false,
+        toggleCjestTrafficRange: false,
+        toggleCjestLowLifeExRange: false,
+        toggleCjestAsthmaRange: false,
+        toggleCjestHeartDisRange: false,
+        toggleCjestHouseBurdRange: false,
+        toggleCjestLingIsoRange: false,
+        toggleCjestEducationRange: false,
+        toggleCjestLmiRange: false,
+        toggleCjestFpl100Range: false,
+        toggleCjestFpl200Range: false,
+        toggleCjestUnemploymentRange: false,
+      },
+    },
+    togglePopRange: false,
     toggleLevRange: true,
     toggleMultiFaRange: true,
     toggleRentersRange: true,
     toggleWalkableRange: true,
     toggleDrivableRange: true,
-    toggleCommercialRange: false,
-    toggleResidentialRange: false,
-    toggleNeviFilterActive: false,
-    toggleirs30cFilterActive: false,
-    togglePgeFilterActive: false,
+    // toggleCommercialRange: true,
+    // toggleResidentialRange: true,
   },
   feasibleDataConfig: {
-    togglePopRange: false,
-    toggleCiRange: false,
-    toggleLevRange: false,
-    toggleMultiFaRange: false,
-    toggleRentersRange: false,
-    toggleWalkableRange: false,
-    toggleDrivableRange: false,
-    toggleCommercialRange: false,
-    toggleResidentialRange: false,
     toggleNeviFilterActive: true,
     toggleirs30cFilterActive: true,
-    togglePgeFilterActive: true,
+    togglePgeRange: true,
   },
   contextMenuVisible: false,
   menuPosition: { x: 0, y: 0 },
@@ -380,6 +417,48 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
     capCity = cityConfig.city.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
   }
   const utility = getUtilityProvider(jurisdictionLookup, capCity)
+  const getToggleValue = (key: string, toggleKey: keyof typeof priorityDataConfig): boolean => {
+    const value = priorityDataConfig[toggleKey]
+    if (typeof value !== 'boolean') {
+      return false
+    }
+    if (key === toggleKey) return true
+    if (key !== toggleKey && value) return false
+    return value
+  }
+  const handlePriorityChange = (key: string, newScoreType?: 'composite' | 'individual', subKey?: string) => {
+    dispatch({
+      type: 'SET_PRIORITY_DATA_CONFIG',
+      payload: {
+        ...priorityDataConfig,
+        // If selecting a top-level dataset
+        toggleCJESTRange: getToggleValue(key, 'toggleCJESTRange'),
+        toggleEJScreenRange: getToggleValue(key, 'toggleEJScreenRange'),
+        toggleCiRange: getToggleValue(key, 'toggleCiRange'),
+        // If updating scoreType
+        ...(newScoreType && { scoreType: newScoreType }),
+        // If toggling a sub-indicator
+        subIndicators: subKey
+          ? {
+              ...priorityDataConfig.subIndicators,
+              [key]: {
+                ...priorityDataConfig.subIndicators[key],
+                [subKey]: !priorityDataConfig.subIndicators[key]?.[subKey],
+              },
+            }
+          : Object.keys(priorityDataConfig.subIndicators).reduce((acc, category) => {
+              acc[category] = Object.keys(priorityDataConfig.subIndicators[category]).reduce(
+                (subAcc, sub) => {
+                  subAcc[sub] = false
+                  return subAcc
+                },
+                {} as Record<string, boolean>,
+              )
+              return acc
+            }, {} as Record<string, Record<string, boolean>>),
+      },
+    })
+  }
 
   useEffectSetTransitStopsLayerData()
   useEffectSetParksAndRecreationLayerData()
@@ -397,6 +476,36 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
   useEffectLibrary()
   useEffectSchool()
   useEffectWelcomeModal(dispatch)
+  // useEffect(() => {
+  //   if (!map) return
+  //   const handleClick = (event: any) => {
+  //     if (event.target.feature) {
+  //       console.log(`Feature clicked:`, event.target.feature.properties)
+  //     }
+  //     else {
+  //       console.log("??", event.target)
+  //     }
+  //   }
+
+  //   const addHoverEffect = () => {
+  //     map.eachLayer((layer) => {
+  //       if (layer?.feature) {
+  //         layer.off('click', handleClick)
+  //         layer.on('click', handleClick)
+  //       }
+  //     })
+  //   }
+
+  //   addHoverEffect()
+
+  //   return () => {
+  //     map.eachLayer((layer) => {
+  //       if (layer?.feature) {
+  //         layer.off('click', handleClick);
+  //       }
+  //     })
+  //   }
+  // }, [map, cityConfig])
   // useEffect(() => {
   //   if (!L) return
   // }, [L])
@@ -419,8 +528,9 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
         {isConfigPanelOpen && (
           <ConfigurationPanel
             priorityDataConfig={priorityDataConfig}
-            feasibleDataConfig={feasibleDataConfig}
+            // feasibleDataConfig={feasibleDataConfig}
             dispatch={dispatch}
+            handlePriorityChange={handlePriorityChange}
             closePanel={() => dispatch({ type: 'SET_IS_CONFIG_PANEL_OPEN', payload: false })}
           />
         )}
@@ -435,6 +545,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
             dispatch({ type: 'SET_PRIORITY_DATA', payload: data })
           }
           config={priorityDataConfig}
+          handlePriorityChange={handlePriorityChange}
         />
         <DataControls
           dataControlsTitle="Feasibility Pixels"
@@ -449,6 +560,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
             dispatch({ type: 'SET_FEASIBLE_DATA', payload: data })
           }
           config={feasibleDataConfig}
+          handlePriorityChange={handlePriorityChange}
         />
         <label>
           <b>Co-location Points</b>
@@ -551,6 +663,14 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
             </p>
           </div>
         )}
+        {/* <PolygonClickMenu
+          contextMenuVisible={contextMenuVisible}
+          dispatch={dispatch}
+          // setContextMenuVisible={setContextMenuVisible}
+          clickedLatLng={clickedLatLng}
+          menuPosition={menuPosition}
+          takeScreenshot={takeScreenshot}
+        /> */}
         <ContextMenu
           contextMenuVisible={contextMenuVisible}
           dispatch={dispatch}
@@ -629,6 +749,36 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       {mapHtml}
     </>
   )
+  // function setPolygonHover(): void {
+  //   useEffect(() => {
+  //     if (!map) return
+  //     console.log("jdjj")
+  //     const handleClick = (event: any) => {
+  //       if (event.target.feature) {
+  //         console.log(`Feature clicked:`, event.target.feature.properties)
+  //       }
+  //       else {
+  //         console.log("??", event.target)
+  //       }
+  //     }
+  //     const addHoverEffect = () => {
+  //       map.eachLayer((layer) => {
+  //         if (layer.feature) {
+  //           layer.off('click', handleClick)
+  //           layer.on('click', handleClick)
+  //         }
+  //       })
+  //     }
+  //     addHoverEffect()
+  //     return () => {
+  //       map.eachLayer((layer) => {
+  //         if (layer.feature) {
+  //           layer.off('click', handleClick);
+  //         }
+  //       })
+  //     }
+  //   }, [map, cityConfig])
+  // }
 
   function useEffectFetchCityBoundary(): null {
     const [cityBoundaryGeoJSON, setCityBoundaryGeoJSON] = useState(null)

@@ -132,7 +132,7 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
       <div className={`${isVertical ? 'w-full' : 'w-1/3 pr-2'}`}>
         {selectedCounty && selectedCounty?.name !== 'San Francisco County' && (
           <Dropdown
-            placeholder="Select City"
+            placeholder="Select Municipality"
             fluid
             selection
             options={cities.map(city => ({
