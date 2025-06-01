@@ -22,6 +22,9 @@ export interface GeoJSONFeatureProperties {
   zoning_mixed: number
   irs30c: number
   lev_10000: number
+  non_white_pctl: number
+  commute_pctl: number
+  disability_pctl: number
   OzoneP: number
   DieselPM_P: number
   PM2_5_P: number

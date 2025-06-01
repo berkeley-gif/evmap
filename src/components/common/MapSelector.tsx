@@ -1,9 +1,8 @@
+import useMapContext from '@map/useMapContext'
 import counties from '@public/jurisdictions.json'
 import { useRouter } from 'next/router'
-import { useContext, useState } from 'react'
+import { useState } from 'react'
 import { Dropdown, DropdownProps } from 'semantic-ui-react'
-
-import { MapContext } from '../Map/MapContextProvider'
 
 type State = {
   id: string
@@ -33,9 +32,7 @@ type MapSelectorProps = {
 }
 
 const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
-  const context = useContext(MapContext)
-  if (!context) throw new Error('MapSelector must be used within a MapContextProvider')
-  const { setCityConfig } = context
+  const { setCityConfig } = useMapContext()
   const [selectedCounty, setSelectedCounty] = useState<County | null>(null)
   const [cities, setCities] = useState<City[]>([])
   const [selectedCity, setSelectedCity] = useState<City | null>(null)
@@ -46,18 +43,18 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
     const cityConfig = {
       city,
       county,
-      boundaryUrl: `https://ev-map.s3.amazonaws.com/CA/${county}/${city}/${city}_city_boundary.geojson`,
-      priorityDataUrl: `https://ev-map.s3.amazonaws.com/CA/${county}/${city}/${city}_priority.json`,
-      feasibleDataUrl: `https://ev-map.s3.amazonaws.com/CA/${county}/${city}/${city}_feasibility.json`,
-      transitStopsUrl: `https://ev-map.s3.amazonaws.com/CA/Co-location_points/CA_transit.geojson`,
-      // parksAndRecreationUrl: `https://ev-map.s3.amazonaws.com/CA/${county}/${city}/${city}_parks.geojson`,
-      parksAndRecreationUrl: `https://ev-map.s3.amazonaws.com/CA/Co-location_points/CA_parks/${county}_parks.geojson`,
-      healthcareFacilitiesUrl: `https://ev-map.s3.amazonaws.com/CA/Co-location_points/CA_healthcare.geojson`,
-      lihtcUrl: `https://ev-map.s3.amazonaws.com/CA/Co-location_points/CA_lihtc.geojson`,
-      schoolsUrl: `https://ev-map.s3.amazonaws.com/CA/Co-location_points/CA_schools.geojson`,
-      libraryUrl: `https://ev-map.s3.amazonaws.com/CA/Co-location_points/CA_libraries.geojson`,
+      boundaryUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_city_boundary.geojson`,
+      priorityDataUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_priority.json`,
+      feasibleDataUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_feasibility.json`,
+      transitStopsUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_transit.geojson`,
+      // parksAndRecreationUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_parks.geojson`,
+      parksAndRecreationUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_parks/${county}_parks.geojson`,
+      healthcareFacilitiesUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_healthcare.geojson`,
+      lihtcUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_lihtc.geojson`,
+      schoolsUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_schools.geojson`,
+      libraryUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_libraries.geojson`,
     }
-    setCityConfig(cityConfig)
+    if (setCityConfig) setCityConfig(cityConfig)
   }
 
   const handleCountyChange = (_event: React.SyntheticEvent, data: DropdownProps) => {

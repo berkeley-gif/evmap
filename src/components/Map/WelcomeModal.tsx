@@ -42,7 +42,7 @@ const InfoSection = ({
       <button
         type="button"
         // onClick={() => setCurrentView('instructions')}
-        onClick={() => openInNewWindow('/instructions')}
+        onClick={() => openInNewWindow('/instructions', 'How to Use')}
         className="inline-link hover:underline ml-1"
       >
         {/* How to Use */}

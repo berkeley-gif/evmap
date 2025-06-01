@@ -1652,6 +1652,11 @@
   dependencies:
     "@types/geojson" "*"
 
+"@types/lodash@^4.17.17":
+  version "4.17.17"
+  resolved "https://registry.npmjs.org/@types/lodash/-/lodash-4.17.17.tgz"
+  integrity sha512-RRVJ+J3J+WmyOTqnz3PiBLA501eKwXl2noseKOrNo/6+XEHjTAxO4xHvxQB6QuNm+s4WRbn6rSiap8+EA+ykFQ==
+
 "@types/node@18.13.0":
   version "18.13.0"
   resolved "https://registry.npmjs.org/@types/node/-/node-18.13.0.tgz"

@@ -5,7 +5,7 @@
       "accordionText": "The federal Low-Income Housing Tax Credit is available for residential property owners who set aside a minimum percentage of rental units for tenants at different levels of below-average area income. It is used as an indicator of buildings whose lower-income tenants are most likely to need access to public charging.",
       "value": "showLihtc",
       "setValue": "setShowLihtc",
-      "image": "https://ev-map.s3.amazonaws.com/icons/home.png",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/home.png",
       "imgAlt": "home icon"
     },
     {
@@ -14,7 +14,7 @@
       "accordionText": "Commuter rail stations are potential high-value locations for publicly accessible charging, at station parking lots or surrounding street parking where commuters leave their vehicles before transferring to the train for the second part of a commute. Local bus and trolley networks are not shown.",
       "value": "showTransitStops",
       "setValue": "setShowTransitStops",
-      "image": "https://ev-map.s3.amazonaws.com/icons/vehicles.png",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/vehicles.png",
       "imgAlt": "vehicles icon"
     },
     {
@@ -23,7 +23,7 @@
       "accordionText": "Public libraries can serve as charging hubs due to their public ownership, community uses, typical length of visit, access by employees and the public, and (often) availability of parking.",
       "value": "showLibrary",
       "setValue": "setShowLibrary",
-      "image": "https://ev-map.s3.amazonaws.com/icons/library.png",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/library.png",
       "imgAlt": "library icon"
     },
     {
@@ -32,7 +32,7 @@
       "accordionText": "Public schools can serve as charging hubs due to their public ownership, community uses, typical length of visit, access by employees and the public, and (often) availability of parking.",
       "value": "showSchool",
       "setValue": "setShowSchool",
-      "image": "https://ev-map.s3.amazonaws.com/icons/school-bag.png",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/school-bag.png",
       "imgAlt": "school-bag icon"
     },
     {
@@ -41,7 +41,7 @@
       "accordionText": "City and county parks can serve as charging hubs due to their public ownership, community uses, typical length of visit, and (often) availability of parking. Regional, state, and national parks are not shown.",
       "value": "showParksAndRecreation",
       "setValue": "setShowParksAndRecreation",
-      "image": "https://ev-map.s3.amazonaws.com/icons/bench.png",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/bench.png",
       "imgAlt": "bench icon"
     },
     {
@@ -50,7 +50,7 @@
       "accordionText": "Healthcare facilities can serve as charging hubs due to their community uses, typical length of visit, access by employees and the public, and (often) availability of parking.",
       "value": "showHealthcareFacilities",
       "setValue": "setShowHealthcareFacilities",
-      "image": "https://ev-map.s3.amazonaws.com/icons/first-aid-kit.png",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/first-aid-kit.png",
       "imgAlt": "first aid icon"
     }
   ]

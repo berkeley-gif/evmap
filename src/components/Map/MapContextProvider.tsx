@@ -19,6 +19,8 @@ const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
   // return (
   //   <MapContext.Provider value={{ map, setMap, cityConfig, setCityConfig }}>{children}</MapContext.Provider>
   // )
+  // const contextValue = useMemo(() => ({ map, setMap, cityConfig, setCityConfig }), [map, cityConfig])
+
   const contextValue = useMemo(() => ({ map, setMap, cityConfig, setCityConfig }), [map, cityConfig])
 
   return <MapContext.Provider value={contextValue}>{children}</MapContext.Provider>

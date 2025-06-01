@@ -26,7 +26,6 @@
 import * as turf from '@turf/turf'
 import ConfigurationPanel from '@map/ConfigurationPanel'
 import ContextMenu from '@map/ContextMenu'
-import { DataControls } from '@map/DataControls'
 import {
   CenterToMarkerButton,
   CustomMarker,
@@ -36,6 +35,7 @@ import {
   LocateButton,
   MapMarker,
 } from '@map/GeoJSONData'
+import PolygonClickMenu from '@map/PolygonClickMenu'
 import WelcomeModal from '@map/WelcomeModal'
 // import { Action, initialState, reducer, useLayerGroupEffect } from '@map/leafletUtils'
 // import MapMarker from '@map/ui/MapMarker'
@@ -46,6 +46,7 @@ import useMarkerData from '@map/useMarkerData'
 // import MarkerCategories, { Category } from '@lib/MarkerCategories'
 import counties from '@public/jurisdictions.json'
 import { Feature, FeatureCollection, GeoJsonProperties, MultiPolygon, Polygon } from 'geojson'
+import { isEqual } from 'lodash'
 import React, { Dispatch, useEffect, useMemo, useReducer, useRef, useState } from 'react'
 import { useResizeDetector } from 'react-resize-detector'
 import 'react-toggle/style.css'
@@ -58,7 +59,8 @@ import MapProps from '@lib/MapProps'
 import NavBarProps from '@lib/NavBarProps'
 import { Places } from '@lib/Places'
 
-export type Range = [number, number]
+import { ControlPanel } from '../../components/Map/ControlPanel'
+
 type LatLngType = { lat: number; lng: number } | null
 
 interface UseLayerGroupEffectParams {
@@ -90,7 +92,10 @@ interface MapState {
   coordinatesTB: boolean
   priorityDataConfig: PriorityDataConfig
   feasibleDataConfig: FeasibilityDataConfig
+  priorityPolygonData: any | null
+  feasiblePolygonData: any | null
   contextMenuVisible: boolean
+  polygonClickMenuVisible: boolean
   menuPosition: { x: number; y: number }
   clickedLatLng: LatLngType | null
 }
@@ -102,6 +107,9 @@ export type PriorityDataConfig = {
   scoreType: 'composite' | 'individual'
   subIndicators: {
     [dataset: string]: Record<string, boolean>
+  }
+  census: {
+    [dataset: string]: boolean
   }
   togglePopRange: boolean
   toggleLevRange: boolean
@@ -119,10 +127,10 @@ export type FeasibilityDataConfig = {
   togglePgeRange: boolean
 }
 
-interface MapComponentProps extends NavBarProps {
-  map: any
-  cityConfig: any
-}
+// interface MapComponentProps extends NavBarProps {
+//   map: any
+//   cityConfig: any
+// }
 export type Action =
   | {
       type: 'SET_PRIORITY_DATA'
@@ -149,7 +157,10 @@ export type Action =
   | { type: 'SET_COORDINATES_TB'; payload: boolean }
   | { type: 'SET_PRIORITY_DATA_CONFIG'; payload: PriorityDataConfig }
   | { type: 'SET_FEASIBLE_DATA_CONFIG'; payload: FeasibilityDataConfig }
+  | { type: 'SET_PRIORITY_POLYGON_DATA'; payload: any | null }
+  | { type: 'SET_FEASIBLE_POLYGON_DATA'; payload: any | null }
   | { type: 'SET_CONTEXT_MENU_VISIBLE'; payload: boolean }
+  | { type: 'SET_POLYGON_CLICK_MENU_VISIBLE'; payload: boolean }
   | { type: 'SET_MENU_POSITION'; payload: { x: number; y: number } }
   // | { type: 'SET_CLICKED_LAT_LNG'; payload: L.LatLng | null }
   | { type: 'SET_CLICKED_LAT_LNG'; payload: LatLngType | null }
@@ -194,8 +205,14 @@ function reducer(state: MapState, action: Action): MapState {
       return { ...state, priorityDataConfig: action.payload }
     case 'SET_FEASIBLE_DATA_CONFIG':
       return { ...state, feasibleDataConfig: action.payload }
+    case 'SET_PRIORITY_POLYGON_DATA':
+      return { ...state, priorityPolygonData: action.payload }
+    case 'SET_FEASIBLE_POLYGON_DATA':
+      return { ...state, feasiblePolygonData: action.payload }
     case 'SET_CONTEXT_MENU_VISIBLE':
       return { ...state, contextMenuVisible: action.payload }
+    case 'SET_POLYGON_CLICK_MENU_VISIBLE':
+      return { ...state, polygonClickMenuVisible: action.payload }
     case 'SET_MENU_POSITION':
       return { ...state, menuPosition: action.payload }
     case 'SET_CLICKED_LAT_LNG':
@@ -265,6 +282,11 @@ const initialState: MapState = {
         toggleCjestUnemploymentRange: false,
       },
     },
+    census: {
+      toggleNonWhiteRange: false,
+      toggleCommuteRange: false,
+      toggleDisabilityRange: false,
+    },
     togglePopRange: false,
     toggleLevRange: true,
     toggleMultiFaRange: true,
@@ -279,7 +301,10 @@ const initialState: MapState = {
     toggleirs30cFilterActive: true,
     togglePgeRange: true,
   },
+  priorityPolygonData: null,
+  feasiblePolygonData: null,
   contextMenuVisible: false,
+  polygonClickMenuVisible: false,
   menuPosition: { x: 0, y: 0 },
   clickedLatLng: null,
   priorityData: null,
@@ -307,7 +332,10 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
     coordinatesTB,
     priorityDataConfig,
     feasibleDataConfig,
+    priorityPolygonData,
+    feasiblePolygonData,
     contextMenuVisible,
+    polygonClickMenuVisible,
     menuPosition,
     clickedLatLng,
   } = state
@@ -328,7 +356,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
     refreshRate: 200,
   })
   const pinIcon = L?.divIcon({
-    // const pinIcon = divIcon({
     className: 'custom-leaflet-icon',
     html: `<div style="font-size: 24px; color: #3388ff;">
              <i class="map pin icon"></i>
@@ -371,7 +398,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       link.href = image
       const filename = `Lat${clickedLatLng?.lat.toFixed(4)}_Lng${clickedLatLng?.lng.toFixed(4)}.png`
       link.download = filename
-      // link.download = 'evmap-screenshot.png'
       link.click()
     } catch (err) {
       console.error(err)
@@ -407,66 +433,58 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
     simplifiedCityBoundary: Feature<Polygon | MultiPolygon, GeoJsonProperties> | null
   }
 
-  const cached: CachedType = {
-    cityBoundaryGeoJSON,
+  const cachedRef = useRef<CachedType>({
+    cityBoundaryGeoJSON: null,
     simplifiedCityBoundary: null,
-  }
-  const ref = useRef<HTMLDivElement>(null)
-  let capCity = ''
+  })
+  // const ref = useRef<HTMLDivElement>(null)
+  let formattedCity = ''
   if (cityConfig?.city) {
-    capCity = cityConfig.city.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
+    formattedCity = cityConfig.city.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
   }
-  const utility = getUtilityProvider(jurisdictionLookup, capCity)
+  const utility = getUtilityProvider(jurisdictionLookup, formattedCity)
   const getToggleValue = (key: string, toggleKey: keyof typeof priorityDataConfig): boolean => {
     const value = priorityDataConfig[toggleKey]
-    if (typeof value !== 'boolean') {
-      return false
-    }
+    if (key === 'census') return Boolean(value)
+    if (typeof value !== 'boolean') return false
     if (key === toggleKey) return true
     if (key !== toggleKey && value) return false
     return value
   }
   const handlePriorityChange = (key: string, newScoreType?: 'composite' | 'individual', subKey?: string) => {
+    const isCensus = key === 'census'
+    const updatedConfig = {
+      ...priorityDataConfig,
+      toggleCJESTRange: getToggleValue(key, 'toggleCJESTRange'),
+      toggleEJScreenRange: getToggleValue(key, 'toggleEJScreenRange'),
+      toggleCiRange: getToggleValue(key, 'toggleCiRange'),
+      ...(newScoreType && { scoreType: newScoreType }),
+    }
+    if (isCensus && subKey) {
+      updatedConfig.census = {
+        ...priorityDataConfig.census,
+        [subKey]: !priorityDataConfig.census?.[subKey],
+      }
+    } else if (subKey) {
+      updatedConfig.subIndicators = {
+        ...priorityDataConfig.subIndicators,
+        [key]: {
+          ...priorityDataConfig.subIndicators[key],
+          [subKey]: !priorityDataConfig.subIndicators[key]?.[subKey],
+        },
+      }
+    }
     dispatch({
       type: 'SET_PRIORITY_DATA_CONFIG',
-      payload: {
-        ...priorityDataConfig,
-        // If selecting a top-level dataset
-        toggleCJESTRange: getToggleValue(key, 'toggleCJESTRange'),
-        toggleEJScreenRange: getToggleValue(key, 'toggleEJScreenRange'),
-        toggleCiRange: getToggleValue(key, 'toggleCiRange'),
-        // If updating scoreType
-        ...(newScoreType && { scoreType: newScoreType }),
-        // If toggling a sub-indicator
-        subIndicators: subKey
-          ? {
-              ...priorityDataConfig.subIndicators,
-              [key]: {
-                ...priorityDataConfig.subIndicators[key],
-                [subKey]: !priorityDataConfig.subIndicators[key]?.[subKey],
-              },
-            }
-          : Object.keys(priorityDataConfig.subIndicators).reduce((acc, category) => {
-              acc[category] = Object.keys(priorityDataConfig.subIndicators[category]).reduce(
-                (subAcc, sub) => {
-                  subAcc[sub] = false
-                  return subAcc
-                },
-                {} as Record<string, boolean>,
-              )
-              return acc
-            }, {} as Record<string, Record<string, boolean>>),
-      },
+      payload: updatedConfig,
     })
   }
-
   useEffectSetTransitStopsLayerData()
   useEffectSetParksAndRecreationLayerData()
   useEffectSetHealthcareFacilitiesLayerData()
   useEffectSetLihtcLayerData()
   useEffectSetLibraryLayerData()
   useEffectSetSchoolLayerData()
-
   useEffectCenterMap()
 
   useEffectTransitStops()
@@ -476,36 +494,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
   useEffectLibrary()
   useEffectSchool()
   useEffectWelcomeModal(dispatch)
-  // useEffect(() => {
-  //   if (!map) return
-  //   const handleClick = (event: any) => {
-  //     if (event.target.feature) {
-  //       console.log(`Feature clicked:`, event.target.feature.properties)
-  //     }
-  //     else {
-  //       console.log("??", event.target)
-  //     }
-  //   }
 
-  //   const addHoverEffect = () => {
-  //     map.eachLayer((layer) => {
-  //       if (layer?.feature) {
-  //         layer.off('click', handleClick)
-  //         layer.on('click', handleClick)
-  //       }
-  //     })
-  //   }
-
-  //   addHoverEffect()
-
-  //   return () => {
-  //     map.eachLayer((layer) => {
-  //       if (layer?.feature) {
-  //         layer.off('click', handleClick);
-  //       }
-  //     })
-  //   }
-  // }, [map, cityConfig])
   // useEffect(() => {
   //   if (!L) return
   // }, [L])
@@ -529,38 +518,24 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
           <ConfigurationPanel
             priorityDataConfig={priorityDataConfig}
             // feasibleDataConfig={feasibleDataConfig}
-            dispatch={dispatch}
             handlePriorityChange={handlePriorityChange}
             closePanel={() => dispatch({ type: 'SET_IS_CONFIG_PANEL_OPEN', payload: false })}
           />
         )}
-        <DataControls
-          dataControlsTitle="Priority Pixels"
+        <ControlPanel
           map={map}
           L={L}
-          cityBoundaryGeoJSON={cityBoundaryGeoJSON}
-          color="#3388ff"
-          geojsonUrl={cityConfig.priorityDataUrl}
-          onDataUpdate={(data: FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties> | null) =>
-            dispatch({ type: 'SET_PRIORITY_DATA', payload: data })
-          }
-          config={priorityDataConfig}
-          handlePriorityChange={handlePriorityChange}
-        />
-        <DataControls
-          dataControlsTitle="Feasibility Pixels"
-          jurisdiction={capCity}
+          simplifiedCityBoundary={cachedRef.current.simplifiedCityBoundary}
+          // simplifiedCityBoundary={cached.simplifiedCityBoundary}
+          priorityUrl={cityConfig.priorityDataUrl}
+          feasibleUrl={cityConfig.feasibleDataUrl}
+          priorityDataConfig={priorityDataConfig}
+          feasibleDataConfig={feasibleDataConfig}
           utility={utility}
-          map={map}
-          L={L}
-          cityBoundaryGeoJSON={cityBoundaryGeoJSON}
-          color="#ffa500"
-          geojsonUrl={cityConfig.feasibleDataUrl}
-          onDataUpdate={(data: FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties> | null) =>
-            dispatch({ type: 'SET_FEASIBLE_DATA', payload: data })
-          }
-          config={feasibleDataConfig}
-          handlePriorityChange={handlePriorityChange}
+          jurisdiction={formattedCity}
+          dispatch={dispatch}
+          priorityPolygonData={priorityPolygonData}
+          feasiblePolygonData={feasiblePolygonData}
         />
         <label>
           <b>Co-location Points</b>
@@ -573,7 +548,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
               accordionText="The federal Low-Income Housing Tax Credit is available for residential property owners who set aside a minimum percentage of rental units for tenants at different levels of below-average area income. It is used as an indicator of buildings whose lower-income tenants are most likely to need access to public charging."
               value={showLihtc}
               setValue={(data: boolean) => dispatch({ type: 'SET_SHOW_LIHTC', payload: data })}
-              image="https://ev-map.s3.amazonaws.com/icons/home.png"
+              image="https://ev-map-2.s3.amazonaws.com/icons/home.png"
               imgAlt="home icon"
             />
             <ColocationPoint
@@ -582,7 +557,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
               accordionText="Commuter rail stations are potential high-value locations for publicly accessible charging, at station parking lots or surrounding street parking where commuters leave their vehicles before transfering to the train for the second part of a commute. Local bus and trolley networks are not shown."
               value={showTransitStops}
               setValue={(data: boolean) => dispatch({ type: 'SET_SHOW_TRANSIT_STOPS', payload: data })}
-              image="https://ev-map.s3.amazonaws.com/icons/vehicles.png"
+              image="https://ev-map-2.s3.amazonaws.com/icons/vehicles.png"
               imgAlt="vehicles icon"
             />
             <ColocationPoint
@@ -591,7 +566,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
               accordionText="Public libraries can serve as charging hubs due to their public ownership, community uses, typical length of visit, access by employees and the public, and (often) availability of parking."
               value={showLibrary}
               setValue={(data: boolean) => dispatch({ type: 'SET_SHOW_LIBRARY', payload: data })}
-              image="https://ev-map.s3.amazonaws.com/icons/library.png"
+              image="https://ev-map-2.s3.amazonaws.com/icons/library.png"
               imgAlt="library icon"
             />
             <ColocationPoint
@@ -600,7 +575,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
               accordionText="Public schools can serve as charging hubs due to their public ownership, community uses, typical length of visit, access by employees and the public, and (often) availability of parking."
               value={showSchool}
               setValue={(data: boolean) => dispatch({ type: 'SET_SHOW_SCHOOL', payload: data })}
-              image="https://ev-map.s3.amazonaws.com/icons/school-bag.png"
+              image="https://ev-map-2.s3.amazonaws.com/icons/school-bag.png"
               imgAlt="school-bag icon"
             />
             <ColocationPoint
@@ -609,7 +584,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
               accordionText="City and county parks can serve as charging hubs due to their public ownership, community uses, typical length of visit, and (often) availability of parking. Regional, state, and national parks are not shown."
               value={showParksAndRecreation}
               setValue={(data: boolean) => dispatch({ type: 'SET_SHOW_PARKS_AND_RECREATION', payload: data })}
-              image="https://ev-map.s3.amazonaws.com/icons/bench.png"
+              image="https://ev-map-2.s3.amazonaws.com/icons/bench.png"
               imgAlt="bench icon"
             />
             <ColocationPoint
@@ -620,7 +595,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
               setValue={(data: boolean) =>
                 dispatch({ type: 'SET_SHOW_HEALTHCARE_FACILITIES', payload: data })
               }
-              image="https://ev-map.s3.amazonaws.com/icons/first-aid-kit.png"
+              image="https://ev-map-2.s3.amazonaws.com/icons/first-aid-kit.png"
               imgAlt="first aid icon"
             />
           </div>
@@ -663,17 +638,18 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
             </p>
           </div>
         )}
-        {/* <PolygonClickMenu
-          contextMenuVisible={contextMenuVisible}
+        <PolygonClickMenu
+          polygonClickMenuVisible={polygonClickMenuVisible}
           dispatch={dispatch}
-          // setContextMenuVisible={setContextMenuVisible}
-          clickedLatLng={clickedLatLng}
+          //  clickedLatLng={clickedLatLng}
           menuPosition={menuPosition}
-          takeScreenshot={takeScreenshot}
-        /> */}
+          priorityPolygonData={priorityPolygonData}
+          feasiblePolygonData={feasiblePolygonData}
+        />
         <ContextMenu
           contextMenuVisible={contextMenuVisible}
           dispatch={dispatch}
+          city={cityConfig.city}
           // setContextMenuVisible={setContextMenuVisible}
           clickedLatLng={clickedLatLng}
           menuPosition={menuPosition}
@@ -749,48 +725,10 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       {mapHtml}
     </>
   )
-  // function setPolygonHover(): void {
-  //   useEffect(() => {
-  //     if (!map) return
-  //     console.log("jdjj")
-  //     const handleClick = (event: any) => {
-  //       if (event.target.feature) {
-  //         console.log(`Feature clicked:`, event.target.feature.properties)
-  //       }
-  //       else {
-  //         console.log("??", event.target)
-  //       }
-  //     }
-  //     const addHoverEffect = () => {
-  //       map.eachLayer((layer) => {
-  //         if (layer.feature) {
-  //           layer.off('click', handleClick)
-  //           layer.on('click', handleClick)
-  //         }
-  //       })
-  //     }
-  //     addHoverEffect()
-  //     return () => {
-  //       map.eachLayer((layer) => {
-  //         if (layer.feature) {
-  //           layer.off('click', handleClick);
-  //         }
-  //       })
-  //     }
-  //   }, [map, cityConfig])
-  // }
 
   function useEffectFetchCityBoundary(): null {
     const [cityBoundaryGeoJSON, setCityBoundaryGeoJSON] = useState(null)
-    // console.log("useEffectFetchCityBoundary called~~", cityConfig)
     const debounceDelay = 500
-    // useEffect(() => {
-    //   const fetchBoundaryData = async () => {
-    //     const boundaryData = await fetchCityBoundary()
-    //     setCityBoundaryGeoJSON(boundaryData)
-    //   }
-    //   fetchBoundaryData()
-    // }, [cityConfig])
     useEffect(() => {
       const fetchBoundaryData = async () => {
         const boundaryData = await fetchCityBoundary()
@@ -800,7 +738,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
         fetchBoundaryData()
       }, debounceDelay)
       return () => clearTimeout(handler)
-    }, [cityConfig])
+    }, [cityConfig?.boundaryUrl])
     return cityBoundaryGeoJSON
   }
 
@@ -831,37 +769,39 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
     setLayerData: (data: GeoJSONData | null) => void
     tolerance: number
   }): Promise<void> {
-    // console.log("fetchAndFilterLayerData called~~")
     try {
       const response = await fetch(url)
       let dataJson = await response.json()
 
-      if (cached.simplifiedCityBoundary === null || cached.cityBoundaryGeoJSON !== cityBoundaryGeoJSON) {
+      if (
+        cachedRef.current.simplifiedCityBoundary === null ||
+        !isEqual(cachedRef.current.cityBoundaryGeoJSON, cityBoundaryGeoJSON)
+      ) {
         if (cityBoundaryGeoJSON && cityBoundaryGeoJSON.features.length > 0) {
-          cached.simplifiedCityBoundary = turf.simplify(cityBoundaryGeoJSON.features[0], {
+          cachedRef.current.simplifiedCityBoundary = turf.simplify(cityBoundaryGeoJSON.features[0], {
             tolerance,
             highQuality: false,
           })
-          cached.cityBoundaryGeoJSON = cityBoundaryGeoJSON
+          cachedRef.current.cityBoundaryGeoJSON = cityBoundaryGeoJSON
         } else {
-          cached.simplifiedCityBoundary = null
+          cachedRef.current.simplifiedCityBoundary = null
         }
       }
-      if (cached.simplifiedCityBoundary && cached.simplifiedCityBoundary.geometry) {
-        // dataJson = {
-        //   ...dataJson,
-        //   features: dataJson.features.filter((feature: { geometry: turf.Coord }) =>
-        //     turf.booleanPointInPolygon(feature.geometry, cached.simplifiedCityBoundary!.geometry),
-        //   ),
-        // }
+      if (cachedRef.current.simplifiedCityBoundary && cachedRef.current.simplifiedCityBoundary.geometry) {
         dataJson = {
           ...dataJson,
           features: dataJson.features.filter((feature: { geometry: GeoJSON.Geometry }) => {
             if (feature.geometry.type === 'Point') {
-              return turf.booleanPointInPolygon(feature.geometry, cached.simplifiedCityBoundary!.geometry)
+              return turf.booleanPointInPolygon(
+                feature.geometry,
+                cachedRef.current.simplifiedCityBoundary!.geometry,
+              )
             }
             if (feature.geometry.type === 'Polygon') {
-              return turf.booleanContains(cached.simplifiedCityBoundary!.geometry, feature.geometry)
+              return turf.booleanContains(
+                cachedRef.current.simplifiedCityBoundary!.geometry,
+                feature.geometry,
+              )
               //  turf.booleanOverlap(cityBoundary, feature.geometry)
             }
             return false
@@ -891,8 +831,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
         fetchAndFilterLayerData({
           url: cityConfig.parksAndRecreationUrl,
           cityBoundaryGeoJSON,
-          // _setShowLayer: setShowParksAndRecreation,
-          // setLayerData: setParksAndRecreationData,
           _setShowLayer: (show: boolean) =>
             dispatch({ type: 'SET_SHOW_PARKS_AND_RECREATION', payload: show }),
           setLayerData: (data: GeoJSONData | null) =>
@@ -910,8 +848,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
         fetchAndFilterLayerData({
           url: cityConfig.healthcareFacilitiesUrl,
           cityBoundaryGeoJSON,
-          // _setShowLayer: setShowHealthcareFacilities,
-          // setLayerData: setHealthcareFacilitiesData,
           _setShowLayer: (show: boolean) =>
             dispatch({ type: 'SET_SHOW_HEALTHCARE_FACILITIES', payload: show }),
           setLayerData: (data: GeoJSONData | null) =>
@@ -932,8 +868,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
           _setShowLayer: (show: boolean) => dispatch({ type: 'SET_SHOW_TRANSIT_STOPS', payload: show }),
           setLayerData: (data: GeoJSONData | null) =>
             dispatch({ type: 'SET_TRANSIT_STOPS_DATA', payload: data }),
-          // _setShowLayer: setShowTransitStops,
-          // setLayerData: setTransitStopsData,
           tolerance: 0.0001,
         })
       }
@@ -947,8 +881,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
         fetchAndFilterLayerData({
           url: cityConfig.lihtcUrl,
           cityBoundaryGeoJSON,
-          // _setShowLayer: setShowLihtc,
-          // setLayerData: setLihtcData,
           _setShowLayer: (show: boolean) => dispatch({ type: 'SET_SHOW_LIHTC', payload: show }),
           setLayerData: (data: GeoJSONData | null) => dispatch({ type: 'SET_LIHTC_DATA', payload: data }),
           tolerance: 0,
@@ -966,8 +898,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
           cityBoundaryGeoJSON,
           _setShowLayer: (show: boolean) => dispatch({ type: 'SET_SHOW_LIBRARY', payload: show }),
           setLayerData: (data: GeoJSONData | null) => dispatch({ type: 'SET_LIBRARY_DATA', payload: data }),
-          // _setShowLayer: setShowLibrary,
-          // setLayerData: setLibraryData,
           tolerance: 0.05,
         })
       }
@@ -981,8 +911,6 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
         fetchAndFilterLayerData({
           url: cityConfig.schoolsUrl,
           cityBoundaryGeoJSON,
-          // _setShowLayer: setShowSchool,
-          // setLayerData: setSchoolData,
           _setShowLayer: (show: boolean) => dispatch({ type: 'SET_SHOW_SCHOOL', payload: show }),
           setLayerData: (data: GeoJSONData | null) => dispatch({ type: 'SET_SCHOOL_DATA', payload: data }),
           tolerance: 0.00001,
@@ -997,7 +925,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       data: transitStopsData,
       showLayer: showTransitStops,
       layerGroupName: 'transitStopsLayerGroup',
-      iconUrl: 'https://ev-map.s3.amazonaws.com/icons/vehicles.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/vehicles.png',
       L,
     })
   }
@@ -1008,7 +936,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       data: parksAndRecreationData,
       showLayer: showParksAndRecreation,
       layerGroupName: 'parksAndRecreationLayerGroup',
-      iconUrl: 'https://ev-map.s3.amazonaws.com/icons/bench.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/bench.png',
       L,
     })
   }
@@ -1019,7 +947,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       data: healthcareFacilitiesData,
       showLayer: showHealthcareFacilities,
       layerGroupName: 'healthcareFacilitiesLayerGroup',
-      iconUrl: 'https://ev-map.s3.amazonaws.com/icons/first-aid-kit.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/first-aid-kit.png',
       L,
     })
   }
@@ -1030,7 +958,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       data: lihtcData,
       showLayer: showLihtc,
       layerGroupName: 'lihtcLayerGroup',
-      iconUrl: 'https://ev-map.s3.amazonaws.com/icons/home.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/home.png',
       L,
     })
   }
@@ -1041,7 +969,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       data: LibraryData,
       showLayer: showLibrary,
       layerGroupName: 'libraryLayerGroup',
-      iconUrl: 'https://ev-map.s3.amazonaws.com/icons/library.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/library.png',
       L,
     })
   }
@@ -1052,7 +980,7 @@ const Map: React.FC<NavBarProps> = ({ setCurrentView }) => {
       data: schoolsData,
       showLayer: showSchool,
       layerGroupName: 'schoolLayerGroup',
-      iconUrl: 'https://ev-map.s3.amazonaws.com/icons/school-bag.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/school-bag.png',
       L,
     })
   }

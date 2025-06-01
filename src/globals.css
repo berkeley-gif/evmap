@@ -292,6 +292,10 @@
   vertical-align: super;
   /* top: '-2px'; */
 }
+.subscript {
+  vertical-align: sub;
+  /* top: '2px'; */
+}
 
 .snapshot-popup {
   position: absolute;
@@ -327,4 +331,22 @@
   width: 82%;
   left: 33px;
   font-size: x-small;
+}
+
+.left-column {
+  width: 40%;
+  vertical-align: top;  
+}
+
+.right-column {
+  width: 60%;
+  vertical-align: top;
+}
+
+.ui.table th {
+  text-align: center !important;
+}
+
+.right-column p + p {
+  margin-top: 1em;
 }

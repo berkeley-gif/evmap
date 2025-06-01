@@ -38,8 +38,7 @@ const Default: React.FC<NavBarProps> = ({ setCurrentView }) => (
     <p className="mb-4">
       For detailed user instructions, see
       <button
-        // onClick={() => setCurrentView('instructions')}
-        onClick={() => openInNewWindow('/instructions')}
+        onClick={() => openInNewWindow('/instructions', 'How to Use')}
         className="mx-1 bg-transparent border-none text-primary underline cursor-pointer"
         type="button"
       >

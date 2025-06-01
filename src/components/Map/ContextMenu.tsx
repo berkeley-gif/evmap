@@ -7,6 +7,7 @@ interface ContextMenuProps {
     type: 'SET_CONTEXT_MENU_VISIBLE'
     payload: boolean
   }>
+  city: string
   clickedLatLng: { lat: number; lng: number } | null
   menuPosition: { x: number; y: number }
   takeScreenshot: () => void
@@ -15,6 +16,7 @@ interface ContextMenuProps {
 const ContextMenu = ({
   contextMenuVisible,
   dispatch,
+  city,
   clickedLatLng,
   menuPosition,
   takeScreenshot,
@@ -62,10 +64,20 @@ const ContextMenu = ({
         <p>
           <b>Longitude:</b> {clickedLatLng?.lng.toFixed(4)}
         </p>
-        <p>
-          Contact your local transportation, planning, or power agencies to discuss EV infrastructure
-          investment at this point
-        </p>
+        {city === 'san_francisco' ? (
+          <p>
+            Click “Take Map Snapshot” and send the resulting image download to{' '}
+            <a href="chargingmadeeasy@sfgov.org" className="inline-link">
+              chargingmadeeasy@sfgov.org
+            </a>{' '}
+            to propose EV infrastructure investment at this location.
+          </p>
+        ) : (
+          <p>
+            Click “Take Map Snapshot” and share the resulting image download with your local transportation,
+            planning, or power agencies to propose EV infrastructure investment at this location.
+          </p>
+        )}
         {/* <div>{contextMenuVisible && <Button onClick={getImage}>Take Map Snapshot</Button>} */}
         <div className="flex justify-center">
           {contextMenuVisible && (

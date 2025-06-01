@@ -22,14 +22,7 @@ const NavBar: React.FC<NavBarProps> = ({ setCurrentView }) => (
       How to Use
     </button> */}
     <span>|</span>
-    <button
-      type="button"
-      onClick={() => setCurrentView('data')}
-      className="cursor-pointer bg-transparent border-none p-0 "
-    >
-      Data
-    </button>
-    <span>|</span>
+
     <button
       type="button"
       onClick={() => setCurrentView('about')}
@@ -47,15 +40,30 @@ const NavBar: React.FC<NavBarProps> = ({ setCurrentView }) => (
     </button>
     <span>|</span>
     <button
-      onClick={() => openInNewWindow('/instructions')}
+      type="button"
+      onClick={() => openInNewWindow('/data', 'Data Sources')}
+      className="cursor-pointer bg-transparent border-none p-0 flex items-center"
+      aria-label="Open 'Data' information in a new window"
+    >
+      Data
+      <span className="relative ml-1">
+        <Icon
+          fitted
+          size="small"
+          disabled
+          name="external alternate"
+          className="absolute top-[-1em] text-xs"
+        />
+      </span>
+    </button>
+    <span>|</span>
+    <button
+      onClick={() => openInNewWindow('/instructions', 'How to Use')}
       className="cursor-pointer bg-transparent border-none p-0 flex items-center"
       type="button"
       aria-label="Open 'How to Use' instructions in a new window"
     >
       How to Use
-      {/* <span className="superscript">
-        <Icon fitted size="small" disabled name="external alternate" />
-      </span> */}
       <span className="relative ml-1">
         <Icon
           fitted

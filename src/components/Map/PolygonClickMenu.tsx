@@ -1,26 +1,27 @@
+/* eslint-disable import/no-cycle */
 import { useEffect, useState } from 'react'
-import { Button, Popup } from 'semantic-ui-react'
+import { Popup } from 'semantic-ui-react'
 
-// interface ContextMenuProps {
-//   contextMenuVisible: boolean
-//   dispatch: React.Dispatch<{
-//     type: 'SET_CONTEXT_MENU_VISIBLE'
-//     payload: boolean
-//   }>
-//   clickedLatLng: { lat: number; lng: number } | null
-//   menuPosition: { x: number; y: number }
-//   takeScreenshot: () => void
-// }
+import { colors, polygonIndicatorLabels } from '@lib/Constants'
+
+interface PolygonClickMenuProps {
+  polygonClickMenuVisible: boolean
+  dispatch: React.Dispatch<{
+    type: 'SET_POLYGON_CLICK_MENU_VISIBLE'
+    payload: boolean
+  }>
+  priorityPolygonData: any | null
+  feasiblePolygonData: any | null
+  menuPosition: { x: number; y: number }
+}
 
 const PolygonClickMenu = ({
   polygonClickMenuVisible,
   menuPosition,
   dispatch,
-}: {
-  polygonClickMenuVisible: boolean
-  menuPosition: { x: number; y: number }
-  dispatch: React.Dispatch<any>
-}) => {
+  priorityPolygonData,
+  feasiblePolygonData,
+}: PolygonClickMenuProps) => {
   const [viewportWidth, setViewportWidth] = useState(0)
   useEffect(() => {
     if (typeof window !== 'undefined') {
@@ -51,6 +52,7 @@ const PolygonClickMenu = ({
         zIndex: 1000,
         width: `${popupWidth}px`,
         height: '210px',
+        overflow: 'auto',
       }}
       trigger={<div />}
     >
@@ -58,10 +60,39 @@ const PolygonClickMenu = ({
         <p style={{ fontFamily: 'serif' }}>User-selected polygon data</p>
       </Popup.Header>
       <Popup.Content>
-        {/* if the polygon is feasibility: */}
-        <h1>Feasibility polygon data (blue) :</h1>
-        {/* if the polygon is priority: */}
-        <h1>Priority polygon data (orange) :</h1>
+        {feasiblePolygonData && (
+          <>
+            <h4 style={{ color: colors.orange }}>Feasibility polygon data:</h4>
+            {Object.entries(feasiblePolygonData).map(([key, val]) => {
+              const label = polygonIndicatorLabels[key] || key
+              if ((key === 'irs30c' || key === 'nevi') && (val === 1 || val === 0)) {
+                return (
+                  <p key={key}>
+                    <strong>{label}</strong>: {val === 1 ? 'Eligible' : 'Ineligible'}
+                  </p>
+                )
+              }
+              return (
+                <p key={key}>
+                  <strong>{label}</strong>: {Math.round(val as number)}
+                </p>
+              )
+            })}
+          </>
+        )}
+        {priorityPolygonData && (
+          <>
+            <h4 style={{ color: colors.blue }}>Priority polygon data:</h4>
+            {Object.entries(priorityPolygonData).map(([key, val]) => {
+              const label = polygonIndicatorLabels[key] || key
+              return (
+                <p key={key}>
+                  <strong>{label}</strong>: {Math.round(val as number)}
+                </p>
+              )
+            })}
+          </>
+        )}
       </Popup.Content>
     </Popup>
   )

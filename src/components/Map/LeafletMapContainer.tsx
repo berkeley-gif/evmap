@@ -14,7 +14,10 @@ export const LeafletMapContainer: React.FC<
 
   return (
     <MapContainer
-      ref={e => setMap && setMap(e || undefined)}
+      // ref={e => setMap && setMap(e || undefined)}
+      ref={e => {
+        if (e && setMap) setMap(e)
+      }}
       className="w-full h-full absolute outline-0 text-white"
       {...options}
     >

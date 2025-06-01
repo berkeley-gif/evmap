@@ -65,7 +65,7 @@ const About = () => (
       </li>
       <li>
         <p className="font-semibold text-lg">Brad Rhymer</p>
-        <p>MDevEng candidate, Development Engineering, UC Berkeley</p>
+        <p>MDevEng graduate, Development Engineering, UC Berkeley</p>
       </li>
       <li>
         <p className="font-semibold text-lg">Ankita Suresh Shanbhag</p>
