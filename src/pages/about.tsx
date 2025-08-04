@@ -9,9 +9,11 @@ const About = () => (
       high-feasibility sites for investment in electric vehicle charging and associated mobility
       infrastructure. It is a joint project of UC Berkeley&apos;s Energy and Resources Group and Center for
       Law, Energy & the Environment (CLEE) as part of CLEE&apos;s{' '}
-      <a href="https://www.law.berkeley.edu/research/clee/ev-equity/"> EV Equity Initiative</a>. This is a
-      demonstration tool; all data still subject to verification. All data acquired from public sources except
-      as noted.
+      <a target="blank" href="https://www.law.berkeley.edu/research/clee/ev-equity/">
+        EV Equity Initiative
+      </a>
+      . This is a demonstration tool; all data still subject to verification. All data acquired from public
+      sources except as noted.
     </p>
     <p className="my-2">Initial funding provided by UC Berkeley Institute for Transportation studies.</p>
     <h2 className="text-2xl font-bold my-4">Leadership Team</h2>

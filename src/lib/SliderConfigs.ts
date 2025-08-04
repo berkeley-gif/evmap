@@ -19,7 +19,7 @@ export const SliderConfigs = [
       'Slide to adjust the community environmental justice impact score. Higher scores = greater priority.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
       `<p>Range: ${range[0]} to ${range[1]}</p>`,
-      `<p>CalEnviroScreen4.0 is California’s state environmental justice impact screening tool. CES4.0 combines 21 pollution and population-based criteria into a composite score at the census tract level, with percentile rankings based on comparison to statewide averages. More information available <a href='https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-40' className='inline-link'>here</a>.</p>`,
+      `<p>CalEnviroScreen4.0 is California’s state environmental justice impact screening tool. CES4.0 combines 21 pollution and population-based criteria into a composite score at the census tract level, with percentile rankings based on comparison to statewide averages. More information available <a href='https://oehha.ca.gov/calenviroscreen/report/calenviroscreen-40' class='inline-link' target='blank'>here</a>.</p>`,
     ],
     markRange: 100,
     name: 'ciScore',
@@ -34,8 +34,9 @@ export const SliderConfigs = [
     hoverText:
       'Slide to adjust the community environmental justice impact score. Higher scores = greater priority.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
-      `<p>CJEST (Climate and Environmental Justice Screening Tool) is a nationwide environmental justice mapping tool developed to identify disadvantaged communities based on environmental and socioeconomic indicators. CJEST evaluates multiple factors, including pollution exposure, health outcomes, and community vulnerability, to determine eligibility for federal Justice40 benefits. More information available <a href='https://www.arcgis.com/home/item.html?id=b82df3b058204ccea64619efcd8065d2' className='inline-link'>here</a>.</p>`,
+      // `<p>Range: ${range[0]}  to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
+      `<p>CJEST (Climate and Environmental Justice Screening Tool) is a nationwide environmental justice mapping tool developed to identify disadvantaged communities based on environmental and socioeconomic indicators. CJEST evaluates multiple factors, including pollution exposure, health outcomes, and community vulnerability, to determine eligibility for federal Justice40 benefits. More information available <a href='https://www.arcgis.com/home/item.html?id=b82df3b058204ccea64619efcd8065d2' class='inline-link' target='blank'>here</a>.</p>`,
     ],
     markRange: 100,
     name: 'cjScore',
@@ -49,7 +50,7 @@ export const SliderConfigs = [
     mainText: 'Ozone Pollution',
     hoverText: 'Ozone concentration levels, a key indicator of air quality and respiratory health risks.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate areas with worse air quality due to ozone pollution.</p>`,
     ],
     markRange: 100,
@@ -65,7 +66,7 @@ export const SliderConfigs = [
     hoverText:
       'Fine particulate matter (PM2.5) levels, linked to respiratory and cardiovascular health effects.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher concentrations indicate increased air pollution and associated health risks.</p>`,
     ],
     markRange: 100,
@@ -80,7 +81,7 @@ export const SliderConfigs = [
     mainText: 'Diesel PM Pollution',
     hoverText: 'Diesel particulate matter concentration, a pollutant from transportation and industry.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric highlights areas with high exposure to diesel-related pollution.</p>`,
     ],
     markRange: 100,
@@ -95,7 +96,7 @@ export const SliderConfigs = [
     mainText: 'Traffic Density',
     hoverText: 'Traffic proximity and volume, a key factor in air pollution and noise exposure.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate areas with more traffic, leading to increased pollution exposure.</p>`,
     ],
     markRange: 100,
@@ -111,7 +112,7 @@ export const SliderConfigs = [
     hoverText:
       'Rate of asthma-related emergency department visits, signaling air quality and environmental health concerns.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This indicator measures the number of asthma-related hospital visits per 10,000 residents.</p>`,
     ],
     markRange: 100,
@@ -127,7 +128,7 @@ export const SliderConfigs = [
     hoverText:
       'Percentage of infants born with low birth weight, indicating potential community health concerns.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric reflects the percentage of infants born underweight.</p>`,
     ],
     markRange: 100,
@@ -142,7 +143,7 @@ export const SliderConfigs = [
     mainText: 'Cardiovascular Disease',
     hoverText: 'Prevalence of cardiovascular disease, linked to pollution and other environmental factors.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Environmental exposures, like air pollution, can increase cardiovascular risk.</p>`,
     ],
     markRange: 100,
@@ -157,7 +158,7 @@ export const SliderConfigs = [
     mainText: 'Educational Attainment',
     hoverText: 'Percentage of population over 25 without a high school diploma, a key socio-economic factor.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric helps assess social vulnerability within a community.</p>`,
     ],
     markRange: 100,
@@ -173,7 +174,7 @@ export const SliderConfigs = [
     hoverText:
       'Percentage of households where no one over 14 speaks English fluently, affecting access to services.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This measure highlights communities that may need additional support and resources.</p>`,
     ],
     markRange: 100,
@@ -189,7 +190,7 @@ export const SliderConfigs = [
     hoverText:
       'Percentage of the population living below the federal poverty line, a key economic indicator.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher poverty rates are often linked to increased environmental and health risks.</p>`,
     ],
     markRange: 100,
@@ -204,7 +205,7 @@ export const SliderConfigs = [
     mainText: 'Unemployment Rate',
     hoverText: 'Percentage of the labor force currently unemployed, impacting economic stability.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric is used to assess the economic health of a community.</p>`,
     ],
     markRange: 100,
@@ -220,7 +221,7 @@ export const SliderConfigs = [
     hoverText:
       'Percentage of income spent on housing costs, highlighting financial strain within communities.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher percentages indicate greater economic stress and potential displacement risks.</p>`,
     ],
     markRange: 100,
@@ -235,7 +236,7 @@ export const SliderConfigs = [
     mainText: 'EJScreen Ozone',
     hoverText: 'Ozone pollution levels from the EPA&apos;s Environmental Justice Screening Tool.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater exposure to ozone pollution.</p>`,
     ],
     markRange: 100,
@@ -250,7 +251,7 @@ export const SliderConfigs = [
     mainText: 'EJScreen PM2.5',
     hoverText: 'Fine particulate matter (PM2.5) pollution levels from the EPA&apos;s EJScreen tool.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate increased exposure to air pollution.</p>`,
     ],
     markRange: 100,
@@ -266,7 +267,7 @@ export const SliderConfigs = [
     hoverText:
       'Diesel particulate matter levels from the EPA&apos;s EJScreen tool, representing traffic-related pollution.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher concentrations indicate increased health risks due to air pollution.</p>`,
     ],
     markRange: 100,
@@ -282,7 +283,7 @@ export const SliderConfigs = [
     hoverText:
       'Risk-Screening Environmental Indicators (RSEI) air emissions data from the EPA&apos;s EJScreen tool.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate areas with increased exposure to hazardous air pollutants.</p>`,
     ],
     markRange: 100,
@@ -297,7 +298,7 @@ export const SliderConfigs = [
     mainText: 'EJScreen Traffic Proximity',
     hoverText: 'Proximity to traffic sources, measured by the EPA&apos;s EJScreen tool.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater exposure to traffic-related pollution and noise.</p>`,
     ],
     markRange: 100,
@@ -312,7 +313,7 @@ export const SliderConfigs = [
     mainText: 'EJScreen NO₂',
     hoverText: 'Nitrogen dioxide (NO₂) pollution levels from the EPA&apos;s EJScreen tool.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater exposure to NO₂ pollution, which can impact respiratory health.</p>`,
     ],
     markRange: 100,
@@ -327,7 +328,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Diesel Exhaust',
     hoverText: 'Exposure to diesel exhaust emissions as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater exposure to diesel emissions in the area.</p>`,
     ],
     markRange: 100,
@@ -342,7 +343,7 @@ export const SliderConfigs = [
     mainText: 'CJEST PM2.5',
     hoverText: 'Fine particulate matter (PM2.5) pollution levels as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater exposure to fine particulate pollution.</p>`,
     ],
     markRange: 100,
@@ -357,7 +358,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Traffic Exposure',
     hoverText: 'Traffic-related pollution exposure levels from CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater exposure to traffic-related pollution.</p>`,
     ],
     markRange: 100,
@@ -372,7 +373,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Low Life Expectancy',
     hoverText: 'Areas with lower-than-average life expectancy as identified by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate regions with significantly lower life expectancy.</p>`,
     ],
     markRange: 100,
@@ -387,7 +388,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Asthma Rates',
     hoverText: 'Asthma prevalence levels as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate a greater prevalence of asthma in the area.</p>`,
     ],
     markRange: 100,
@@ -402,7 +403,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Heart Disease',
     hoverText: 'Heart disease prevalence levels from CJEST data.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate a greater prevalence of heart disease in the area.</p>`,
     ],
     markRange: 100,
@@ -417,7 +418,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Housing Burden',
     hoverText: 'Housing burden levels as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate greater financial strain related to housing costs.</p>`,
     ],
     markRange: 100,
@@ -432,7 +433,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Linguistic Isolation',
     hoverText: 'Levels of linguistic isolation in communities as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate a greater proportion of non-English-speaking households.</p>`,
     ],
     markRange: 100,
@@ -447,7 +448,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Education Levels',
     hoverText: 'Educational attainment levels as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate lower levels of educational attainment in the area.</p>`,
     ],
     markRange: 100,
@@ -462,7 +463,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Low-to-Moderate Income',
     hoverText: 'Income levels categorized as low-to-moderate income by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate a greater proportion of low-to-moderate income residents.</p>`,
     ],
     markRange: 100,
@@ -477,7 +478,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Below 100% FPL',
     hoverText: 'Percentage of the population living below 100% of the federal poverty level (FPL).',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate a greater percentage of people below 100% FPL.</p>`,
     ],
     markRange: 100,
@@ -492,7 +493,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Below 200% FPL',
     hoverText: 'Percentage of the population living below 200% of the federal poverty level (FPL).',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values indicate a greater percentage of people below 200% FPL.</p>`,
     ],
     markRange: 100,
@@ -507,7 +508,7 @@ export const SliderConfigs = [
     mainText: 'CJEST Unemployment Rate',
     hoverText: 'Unemployment levels as measured by CJEST.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>Higher values suggest a larger proportion of unemployed individuals in the area.</p>`,
     ],
     markRange: 100,
@@ -523,7 +524,8 @@ export const SliderConfigs = [
     hoverText:
       'Slide to adjust the number of residents in the pixel who live in multifamily buildings (i.e., apartment, condo)',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
+      // `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `to ${range[1]}%`}</p>`,
       `<p>Multifamily and renter resident data are estimated based on American Community Survey data for multifamily/renter percentages by census tract and population per pixel. These residents are more likely to rely on public EV charging and mobility infrastructure than are single-family home residents.</p>`,
     ],
     markRange: 100,
@@ -538,7 +540,8 @@ export const SliderConfigs = [
     mainText: 'Renters',
     hoverText: 'Slide to adjust the number of residents in the pixel who rent their home.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
+      // `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? ' and above' : ` to ${range[1]}%`}</p>`,
       `<p>Multifamily and renter resident data are estimated based on American Community Survey data for multifamily/renter percentages by census tract and population per pixel. These residents are more likely to rely on public EV charging and mobility infrastructure than are single-family home residents.</p>`,
     ],
     markRange: 100,
@@ -554,8 +557,8 @@ export const SliderConfigs = [
     hoverText:
       'Slide to adjust the number of public Level 2 EV chargers within a 10 minute walk of the pixel. Lower numbers = lower charging access in the pixel.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
-      `<p>Level 2 and DC Fast access are estimated based on <a href="https://docs.mapbox.com/api/navigation/isochrone/" class="inline-link">MapBox isochrones API</a> (which estimates travel times between specific locations) and <a href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC" class="inline-link">US Department of Energy current charger data</a>. Walk time is used for Level 2 chargers (which typically take multiple hours to complete a charge) while drive time is used for DC Fast chargers (which typically take 30-60 minutes), reflecting their different use cases.</p>`,
+      `<p>Range: ${range[0]} to ${range[1]}${range[1] === max ? '+' : ''}</p>`,
+      `<p>Level 2 and DC Fast access are estimated based on <a href="https://docs.mapbox.com/api/navigation/isochrone/" class='inline-link' target='blank'>MapBox isochrones API</a> (which estimates travel times between specific locations) and <a href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC" class='inline-link' target='blank'>US Department of Energy current charger data</a>. Walk time is used for Level 2 chargers (which typically take multiple hours to complete a charge) while drive time is used for DC Fast chargers (which typically take 30-60 minutes), reflecting their different use cases.</p>`,
     ],
     markRange: 100,
     name: 'walkable',
@@ -570,8 +573,8 @@ export const SliderConfigs = [
     hoverText:
       'Slide to adjust the number of public DC Fast chargers within a 10 minute drive of the pixel. Lower numbers = lower charging access in the pixel.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
-      `<p>Level 2 and DC Fast access are estimated based on <a href="https://docs.mapbox.com/api/navigation/isochrone/" class="inline-link">MapBox isochrones API</a> (which estimates travel times between specific locations) and <a href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC" class="inline-link">US Department of Energy current charger data</a>. Walk time is used for Level 2 chargers (which typically take multiple hours to complete a charge) while drive time is used for DC Fast chargers (which typically take 30-60 minutes), reflecting their different use cases.</p>`,
+      `<p>Range: ${range[0]} to ${range[1]}${range[1] === max ? '+' : ''}</p>`,
+      `<p>Level 2 and DC Fast access are estimated based on <a href="https://docs.mapbox.com/api/navigation/isochrone/" class='inline-link' target='blank'>MapBox isochrones API</a> (which estimates travel times between specific locations) and <a href="https://afdc.energy.gov/fuels/electricity-locations#/find/nearest?fuel=ELEC" class='inline-link' target='blank'>US Department of Energy current charger data</a>. Walk time is used for Level 2 chargers (which typically take multiple hours to complete a charge) while drive time is used for DC Fast chargers (which typically take 30-60 minutes), reflecting their different use cases.</p>`,
     ],
     markRange: 100,
     name: 'drivable',
@@ -616,7 +619,8 @@ export const SliderConfigs = [
     hoverText:
       'Slide to adjust the density of low-emitting vehicles (EVs and hydrogen fuel-cell) registered in the ZIP code.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
+      `<p>Range: ${range[0]} to ${range[1]}${range[1] === max ? '+' : ''}</p>`,
+      // `<p>Range: ${range[0]} to ${range[1] === max ? range[1]+"+" : range[1]}</p>`,
       `<p>Higher LEV registrations in an area indicate a greater need for charging today but also suggest a higher early adopter rate–thus, potentially greater access to at-home charging and lower need for equity prioritization. Registrations are calculated per 1000 residents to account for population variations across ZIP codes.</p>`,
     ],
     markRange: 1000,
@@ -642,8 +646,9 @@ export const SliderConfigs = [
       jurisdiction?: string
       utility?: string
     }) => [
-      `<p>Range: ${range[0]} to ${range[1] === max ? '∞' : range[1]}</p>`,
-      `<p>Load capacity is based on the capacity map provided by the electric utility that serves the jurisdiction, <a href="https://www.energy.gov/eere/us-atlas-electric-distribution-system-hosting-capacity-maps">where available</a>.` +
+      `<p>Range: ${range[0] === range[1] ? `${range[1]}+` : `${range[0]} to ${range[1]}`}</p>`,
+      // `<p>Range: ${range[0] === range[1] ? range[1] + '+' : range[0] + ' to ' + range[1]}</p>`,
+      `<p>Load capacity is based on the capacity map provided by the electric utility that serves the jurisdiction, <a href="https://www.energy.gov/eere/us-atlas-electric-distribution-system-hosting-capacity-maps" class='inline-link' target='blank'>where available</a>.` +
         `${
           jurisdiction && utility ? `<b>${jurisdiction} is in ${utility} service territory.</b>` : ''
         } Energy requirements vary widely, but 100 kW of capacity is typically needed to support 5-10 Level 2 chargers or 1 DC Fast charger.</p>`,
@@ -660,7 +665,7 @@ export const SliderConfigs = [
     mainText: '% Non-White Population',
     hoverText: 'The percentile rank of the population that identifies as non-white in a given area.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric identifies communities with a higher proportion of non-white residents.</p>`,
     ],
     markRange: 100,
@@ -675,7 +680,7 @@ export const SliderConfigs = [
     mainText: 'Commute Burden',
     hoverText: 'The percentile rank of people with long or difficult commutes in the area.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric highlights areas where residents face significant commuting challenges.</p>`,
     ],
     markRange: 100,
@@ -690,7 +695,7 @@ export const SliderConfigs = [
     mainText: '% with Disability',
     hoverText: 'The percentile rank of people with disabilities in the area.',
     accordionText: ({ range, max }: { range: number[]; max: number }) => [
-      `<p>Range: ${range[0]}% to ${range[1] === max ? '∞' : range[1]}%</p>`,
+      `<p>Range: ${range[0]} ${range[1] > 100 ? '+' : `- ${range[1]}%`}</p>`,
       `<p>This metric highlights communities with a high percentage of individuals with disabilities.</p>`,
     ],
     markRange: 100,

@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Icon, Table } from 'semantic-ui-react'
 
 const AutoLink = ({ url }: { url: string }) => (
-  <a className="text-primary underline break-all" href={url}>
+  <a className="text-primary underline break-all" target="blank" href={url}>
     {url}
   </a>
 )
@@ -354,7 +354,7 @@ const Data = () => {
                 <p>
                   URL:&nbsp;
                   <AutoLink url="https://catalog.data.gov/dataset/low-income-housing-tax-credit-lihtc-properties/resource/6a00050c-0143-4636-866c-18eeed7b1a3a" />
-                  &nbsp;(map), <AutoLink url="https://lihtc.huduser.gov/" /> (direct data set).
+                  &nbsp;(map), <AutoLink url="https://www.huduser.gov/lihtc/" /> (direct data set).
                 </p>
               </Table.Cell>
             </Table.Row>

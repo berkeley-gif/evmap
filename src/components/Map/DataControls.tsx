@@ -113,7 +113,6 @@ export const DataControls = ({
       if (!map || !layerData || !L) {
         return
       }
-
       const layerGroupName = `${dataControlsTitle.replace(/\s+/g, '')}LayerGroup`
       let layerGroup = map[layerGroupName] as L.LayerGroup | undefined
 
@@ -124,38 +123,96 @@ export const DataControls = ({
         layerGroup.clearLayers()
       }
 
+      const onPriorityFeatureClick = (feature: any, layer: any) => {
+        layer.on('click', (e: LeafletMouseEvent) => {
+          const clickPoint = turf.point([e.latlng.lng, e.latlng.lat])
+          const otherHit = otherLayerData?.features.find((otherFeature: any) =>
+            turf.booleanPointInPolygon(clickPoint, otherFeature),
+          )
+
+          dispatch({
+            type: 'SET_MENU_POSITION',
+            payload: { x: e.originalEvent.clientX, y: e.originalEvent.clientY },
+          })
+          dispatch({ type: 'SET_POLYGON_CLICK_MENU_VISIBLE', payload: true })
+          dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: feature.properties })
+          dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: otherHit?.properties || null })
+        })
+      }
+
+      const onFeasibilityFeatureClick = (feature: any, layer: any) => {
+        layer.on('click', (e: LeafletMouseEvent) => {
+          const clickPoint = turf.point([e.latlng.lng, e.latlng.lat])
+          const otherHit = otherLayerData?.features.find((otherFeature: any) =>
+            turf.booleanPointInPolygon(clickPoint, otherFeature),
+          )
+
+          dispatch({
+            type: 'SET_MENU_POSITION',
+            payload: { x: e.originalEvent.clientX, y: e.originalEvent.clientY },
+          })
+          dispatch({ type: 'SET_POLYGON_CLICK_MENU_VISIBLE', payload: true })
+          dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: feature.properties })
+          dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: otherHit?.properties || null })
+        })
+      }
+
       const addGeoJsonLayerToGroup = () => {
         if (layerGroup) {
           layerGroup.clearLayers()
+
           const layer = L.geoJSON(layerData, {
             style: layerStyle,
-            onEachFeature: (feature: any, layer: any) => {
-              layer.on('click', (e: LeafletMouseEvent) => {
-                const clickPoint = turf.point([e.latlng.lng, e.latlng.lat])
-                const featureProps = feature.properties
-                const isPriority = dataControlsTitle === 'Priority Pixels'
-                const otherHit = otherLayerData?.features.find((otherFeature: any) =>
-                  turf.booleanPointInPolygon(clickPoint, otherFeature),
-                )
-                dispatch({
-                  type: 'SET_MENU_POSITION',
-                  payload: { x: e.originalEvent.clientX, y: e.originalEvent.clientY },
-                })
-                dispatch({ type: 'SET_POLYGON_CLICK_MENU_VISIBLE', payload: true })
-                if (isPriority) {
-                  dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: featureProps })
-                  dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: otherHit?.properties || null })
-                } else {
-                  dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: featureProps })
-                  dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: otherHit?.properties || null })
-                }
-              })
-            },
-            renderer: L.canvas(),
+            onEachFeature:
+              dataControlsTitle === 'Priority Pixels' ? onPriorityFeatureClick : onFeasibilityFeatureClick,
+            // renderer: L.canvas()
           })
+
           layerGroup.addLayer(layer)
         }
       }
+      // const layerGroupName = `${dataControlsTitle.replace(/\s+/g, '')}LayerGroup`
+      // let layerGroup = map[layerGroupName] as L.LayerGroup | undefined
+
+      // if (!layerGroup) {
+      //   layerGroup = new L.LayerGroup().addTo(map)
+      //   map[layerGroupName] = layerGroup
+      // } else {
+      //   layerGroup.clearLayers()
+      // }
+
+      // const addGeoJsonLayerToGroup = () => {
+      //   if (layerGroup) {
+      //     layerGroup.clearLayers()
+      //     const layer = L.geoJSON(layerData, {
+      //       style: layerStyle,
+      //       onEachFeature: (feature: any, layer: any) => {
+      //         layer.on('click', (e: LeafletMouseEvent) => {
+      //           const clickPoint = turf.point([e.latlng.lng, e.latlng.lat])
+      //           const featureProps = feature.properties
+      //           const isPriority = dataControlsTitle === 'Priority Pixels'
+      //           const otherHit = otherLayerData?.features.find((otherFeature: any) =>
+      //             turf.booleanPointInPolygon(clickPoint, otherFeature),
+      //           )
+      //           dispatch({
+      //             type: 'SET_MENU_POSITION',
+      //             payload: { x: e.originalEvent.clientX, y: e.originalEvent.clientY },
+      //           })
+      //           dispatch({ type: 'SET_POLYGON_CLICK_MENU_VISIBLE', payload: true })
+      //           if (isPriority) {
+      //             dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: featureProps })
+      //             dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: otherHit?.properties || null })
+      //           } else {
+      //             dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: featureProps })
+      //             dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: otherHit?.properties || null })
+      //           }
+      //         })
+      //       },
+      //       // renderer: L.canvas(),
+      //     })
+      //     layerGroup.addLayer(layer)
+      //   }
+      // }
 
       if (showLayerData && layerData) {
         addGeoJsonLayerToGroup()
@@ -175,7 +232,7 @@ export const DataControls = ({
   useEffectLayerData()
 
   useEffect(() => {
-    if (map) {
+    if (map && map.getCenter) {
       // Set initial view to San Francisco and Oakland
       map.setView([37.7749, -122.4194], 10) // Latitude, Longitude, Zoom level
     }
@@ -250,7 +307,7 @@ export const DataControls = ({
           <LayerControl
             mainText="NEVI eligible"
             hoverText="Toggle to show pixels in areas eligible for the National Electric Vehicle Infrastructure (NEVI) program."
-            accordionText="<p>Range: On or Off</p><p>The NEVI program provides funding for EV infrastructure in designated areas. More details can be found at <a class='inline-link' href='https://www.fhwa.dot.gov/environment/nevi/'>FHWA NEVI</a>.</p>"
+            accordionText="<p>Range: On or Off</p><p>The NEVI program provides funding for EV infrastructure in designated areas. More details can be found at <a class='inline-link' target='blank' href='https://www.fhwa.dot.gov/environment/nevi/'>FHWA NEVI</a>.</p>"
           />
         </div>
       )}
@@ -275,7 +332,7 @@ export const DataControls = ({
           <LayerControl
             mainText="IRS 30C eligible"
             hoverText="Toggle to show pixels in areas that are eligible for federal tax credits for EV charger installation, limited to communities designated either low-income or non-urban."
-            accordionText={`<p>Range: On or Off</p><p>The IRS 30C Alternative Fuel Vehicle Refueling Property Credit provides generous tax credits for installations by individuals, businesses, nonprofits, and governments in qualifying areas. <a class="inline-link" href="https//:www.irs.gov/credits-deductions/alternative-fuel-vehicle-refueling-property-credit">IRS provides more information</a> on eligibility and procedures.</p><p>The <a class="inline-link" href="https://cleanenergytaxnavigator.org/">Clean Energy Tax Navigator</a> is a free tool to help identify available credits including 30C.</p>`}
+            accordionText={`<p>Range: On or Off</p><p>The IRS 30C Alternative Fuel Vehicle Refueling Property Credit provides generous tax credits for installations by individuals, businesses, nonprofits, and governments in qualifying areas. <a class="inline-link" target="blank" href="https://www.irs.gov/credits-deductions/alternative-fuel-vehicle-refueling-property-credit">IRS provides more information</a> on eligibility and procedures.</p><p>The <a class="inline-link" target="blank" href="https://cleanenergytaxnavigator.org/">Clean Energy Tax Navigator</a> is a free tool to help identify available credits including 30C.</p>`}
           />
         </div>
       )}

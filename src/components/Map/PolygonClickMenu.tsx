@@ -1,6 +1,6 @@
 /* eslint-disable import/no-cycle */
 import { useEffect, useState } from 'react'
-import { Popup } from 'semantic-ui-react'
+import { Button, Popup } from 'semantic-ui-react'
 
 import { colors, polygonIndicatorLabels } from '@lib/Constants'
 
@@ -23,6 +23,44 @@ const PolygonClickMenu = ({
   feasiblePolygonData,
 }: PolygonClickMenuProps) => {
   const [viewportWidth, setViewportWidth] = useState(0)
+
+  const handleDownloadCSV = () => {
+    const mergedData = {
+      ...(feasiblePolygonData || {}),
+      ...(priorityPolygonData || {}),
+    }
+    const now = new Date()
+    const timestamp = now.toLocaleString(undefined, {
+      year: 'numeric',
+      month: 'short',
+      day: '2-digit',
+      hour: '2-digit',
+      minute: '2-digit',
+      second: '2-digit',
+    })
+    const rows = [['Downloaded At', `"${timestamp}"`], [], ['Parameter', 'Value']]
+
+    Object.entries(mergedData).forEach(([key, val]) => {
+      const label = polygonIndicatorLabels[key] || key
+
+      let formattedValue: string | number
+      if ((key === 'irs30c' || key === 'nevi') && (val === 1 || val === 0)) {
+        formattedValue = val === 1 ? 'Eligible' : 'Ineligible'
+      } else {
+        formattedValue = Math.round(val as number)
+      }
+
+      rows.push([label, String(formattedValue)])
+    })
+
+    const csvContent = rows.map(row => row.join(',')).join('\n')
+    const blob = new Blob([csvContent], { type: 'text/csv' })
+    const link = document.createElement('a')
+    link.href = URL.createObjectURL(blob)
+    link.download = 'polygon-data.csv'
+    link.click()
+  }
+
   useEffect(() => {
     if (typeof window !== 'undefined') {
       setViewportWidth(window.innerWidth)
@@ -92,6 +130,13 @@ const PolygonClickMenu = ({
               )
             })}
           </>
+        )}
+        {(priorityPolygonData || feasiblePolygonData) && (
+          <div style={{ marginTop: '1rem', textAlign: 'center' }}>
+            <Button primary onClick={handleDownloadCSV}>
+              Download as CSV
+            </Button>
+          </div>
         )}
       </Popup.Content>
     </Popup>

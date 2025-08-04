@@ -50,7 +50,7 @@ const ContextMenu = ({
         top: `${adjustedY}px`,
         zIndex: 1000,
         width: `${popupWidth}px`,
-        height: '210px',
+        height: '250px',
       }}
       trigger={<div />}
     >

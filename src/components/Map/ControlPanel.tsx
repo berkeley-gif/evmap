@@ -57,7 +57,7 @@ export const ControlPanel = ({
     setScoreRanges(() =>
       Object.keys(maxValues).reduce((acc, key) => {
         const typedKey = key as keyof typeof maxValues
-        acc[key.replace('Max', 'Range')] = [0, maxValues[typedKey] || 100] 
+        acc[key.replace('Max', 'Range')] = [0, maxValues[typedKey] || 100]
         return acc
       }, {} as Record<string, Range>),
     )
@@ -66,8 +66,8 @@ export const ControlPanel = ({
   // const updateFilter = (key: string, value: { zero: boolean; one: boolean }) => {
   //   setFilters(prev => ({ ...prev, [key]: value }))
   // }
-	const withinRange = (value: number, range: [number, number], max: number) =>
-		value >= range[0] && (value <= range[1] || range[1] === max)
+  const withinRange = (value: number, range: [number, number], max: number) =>
+    value >= range[0] && (value <= range[1] || range[1] === max)
 
   const filterData = (
     dataControlsTitle: string,
@@ -429,7 +429,7 @@ export const ControlPanel = ({
             return turf.booleanPointInPolygon(geometry as unknown as Point, simplifiedCityBoundary)
           }
           if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
-            const simplifiedGeometry = turf.simplify(geometry, { tolerance, highQuality: false })
+            const simplifiedGeometry = turf.simplify(geometry, { tolerance, highQuality: true })
             return !turf.booleanDisjoint(simplifiedGeometry, simplifiedCityBoundary)
             // turf.booleanIntersects(simplifiedGeometry, simplifiedCityBoundary //
             // turf.booleanOverlap(simplifiedGeometry, simplifiedCityBoundary) ||

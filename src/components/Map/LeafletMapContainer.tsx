@@ -1,4 +1,5 @@
 import { LatLngExpression, MapOptions } from 'leaflet'
+import { useEffect } from 'react'
 import { MapContainer, TileLayer } from 'react-leaflet'
 
 import useMapContext from './useMapContext'
@@ -11,7 +12,7 @@ export const LeafletMapContainer: React.FC<
   } & MapOptions
 > = ({ ...options }) => {
   const { setMap } = useMapContext()
-
+  useEffect(() => () => setMap?.(undefined), [])
   return (
     <MapContainer
       // ref={e => setMap && setMap(e || undefined)}

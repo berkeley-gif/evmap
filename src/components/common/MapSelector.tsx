@@ -106,6 +106,7 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
           placeholder="Select State"
           fluid
           selection
+          search
           options={stateOptions}
           onChange={handleStateChange}
           className="text-primary"
@@ -116,6 +117,7 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
           placeholder="Select County"
           fluid
           selection
+          search
           options={counties.map(county => ({
             key: county.id,
             text: county.name,
@@ -132,6 +134,7 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
             placeholder="Select Municipality"
             fluid
             selection
+            search
             options={cities.map(city => ({
               key: city.id,
               text: (
