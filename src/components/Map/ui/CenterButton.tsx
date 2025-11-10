@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { LatLngExpression } from 'leaflet'
+import type { LatLngExpression } from 'leaflet'
 import { Shrink } from 'lucide-react'
 import { useCallback, useState } from 'react'
 import { useMapEvents } from 'react-leaflet'
@@ -28,10 +28,10 @@ export const CenterButton: React.FC<{
 
   useMapEvents({
     move() {
-      touch()
+      setIsTouched(true)
     },
     zoom() {
-      touch()
+      setIsTouched(true)
     },
   })
 
@@ -47,11 +47,12 @@ export const CenterButton: React.FC<{
   return (
     <button
       type="button"
+      aria-label="Center map"
       style={{ zIndex: 400 }}
       className={`button absolute rounded top-2 right-3 p-2 shadow-md bg-white ${
         isTouched ? 'text-dark' : 'text-light'
       } `}
-      onClick={() => handleClick()}
+      onClick={handleClick}
     >
       <Shrink size={AppConfig.ui.mapIconSize} />
     </button>

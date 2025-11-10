@@ -1,6 +1,6 @@
 import * as turf from '@turf/turf'
-import { Feature, FeatureCollection, GeoJsonProperties, MultiPolygon, Point, Polygon } from 'geojson'
-import { useMemo, useState } from 'react'
+import { FeatureCollection, GeoJsonProperties, MultiPolygon, Point, Polygon } from 'geojson'
+import { useState } from 'react'
 
 import { Range, colors, controlTitles, initialScoreRanges, maxValues } from '@lib/Constants'
 
@@ -11,7 +11,7 @@ interface ControlPanelProps {
   map: any
   L: any
   // cityBoundaryGeoJSON: FeatureCollection<Polygon | MultiPolygon> | null
-  simplifiedCityBoundary: Feature<Polygon | MultiPolygon, GeoJsonProperties> | null
+  simplifiedCityBoundary: FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties> | null
   priorityDataConfig: any
   feasibleDataConfig: any
   priorityUrl: string
@@ -19,8 +19,6 @@ interface ControlPanelProps {
   utility?: string | null
   jurisdiction?: string | null
   dispatch: any
-  priorityPolygonData: any
-  feasiblePolygonData: any
 }
 
 export const ControlPanel = ({
@@ -35,8 +33,6 @@ export const ControlPanel = ({
   utility,
   jurisdiction,
   dispatch,
-  priorityPolygonData,
-  feasiblePolygonData,
 }: ControlPanelProps) => {
   const [loading, setLoading] = useState(true)
   const [layerData, setLayerData] = useState<GeoJSONData | null>(null)
@@ -76,7 +72,7 @@ export const ControlPanel = ({
     // simplifiedCityBoundary: Feature<Polygon | MultiPolygon, GeoJsonProperties> | null,
     config: any,
   ): GeoJSONData => {
-    const tolerance = 0.00001 // Adjust for performance vs accuracy
+    const tolerance = 0.02 // Adjust for performance vs accuracy
     // const simplifiedCityBoundary =
     //   cityBoundaryData && cityBoundaryData.features.length > 0
     //     ? turf.simplify(cityBoundaryData.features[0], { tolerance, highQuality: false })
@@ -101,7 +97,7 @@ export const ControlPanel = ({
           commuteRange,
           disabilityRange,
           pgeRange,
-          cjestRange,
+          cejstRange,
           cesOzoneRange,
           cesPm25Range,
           cesDieselPmRange,
@@ -120,19 +116,19 @@ export const ControlPanel = ({
           ejscreenRseiAirRange,
           ejscreenPtrafRange,
           ejscreenNo2Range,
-          cjestDieselExRange,
-          cjestPm25Range,
-          cjestTrafficRange,
-          cjestLowLifeExRange,
-          cjestAsthmaRange,
-          cjestHeartDisRange,
-          cjestHouseBurdRange,
-          cjestLingIsoRange,
-          cjestEducationRange,
-          cjestLmiRange,
-          cjestFpl100Range,
-          cjestFpl200Range,
-          cjestUnemploymentRange,
+          cejstDieselExRange,
+          cejstPm25Range,
+          cejstTrafficRange,
+          cejstLowLifeExRange,
+          cejstAsthmaRange,
+          cejstHeartDisRange,
+          cejstHouseBurdRange,
+          cejstLingIsoRange,
+          cejstEducationRange,
+          cejstLmiRange,
+          cejstFpl100Range,
+          cejstFpl200Range,
+          cejstUnemploymentRange,
         } = scoreRanges
 
         const {
@@ -171,20 +167,20 @@ export const ControlPanel = ({
           ejscreenRseiAirMax,
           ejscreenPtrafMax,
           ejscreenNo2Max,
-          // CJEST SubIndicators
-          cjestDieselExMax,
-          cjestPm25Max,
-          cjestTrafficMax,
-          cjestLowLifeExMax,
-          cjestAsthmaMax,
-          cjestHeartDisMax,
-          cjestHouseBurdMax,
-          cjestLingIsoMax,
-          cjestEducationMax,
-          cjestLmiMax,
-          cjestFpl100Max,
-          cjestFpl200Max,
-          cjestUnemploymentMax,
+          // CEJST SubIndicators
+          cejstDieselExMax,
+          cejstPm25Max,
+          cejstTrafficMax,
+          cejstLowLifeExMax,
+          cejstAsthmaMax,
+          cejstHeartDisMax,
+          cejstHouseBurdMax,
+          cejstLingIsoMax,
+          cejstEducationMax,
+          cejstLmiMax,
+          cejstFpl100Max,
+          cejstFpl200Max,
+          cejstUnemploymentMax,
         } = maxValues
 
         const { neviFilterActive: nevi, irs30cFilterActive: irs30c } = filters
@@ -200,7 +196,7 @@ export const ControlPanel = ({
               range: ciScoreRange,
               max: ciScoreMax,
             },
-            toggleCJESTRange: {
+            toggleCEJSTRange: {
               value: props.disadvantaged,
               range: cjScoreRange,
               max: cjScoreMax,
@@ -340,79 +336,86 @@ export const ControlPanel = ({
               range: ejscreenNo2Range,
               max: ejscreenNo2Max,
             },
-            toggleCjestDieselExRange: {
+            toggleCejstDieselExRange: {
               value: props.diesel_ex,
-              range: cjestDieselExRange,
-              max: cjestDieselExMax,
+              range: cejstDieselExRange,
+              max: cejstDieselExMax,
             },
-            toggleCjestPm25Range: {
+            toggleCejstPm25Range: {
               value: props.pm25,
-              range: cjestPm25Range,
-              max: cjestPm25Max,
+              range: cejstPm25Range,
+              max: cejstPm25Max,
             },
-            toggleCjestTrafficRange: {
+            toggleCejstTrafficRange: {
               value: props.traffic,
-              range: cjestTrafficRange,
-              max: cjestTrafficMax,
+              range: cejstTrafficRange,
+              max: cejstTrafficMax,
             },
-            toggleCjestLowLifeExRange: {
+            toggleCejstLowLifeExRange: {
               value: props.low_life_ex,
-              range: cjestLowLifeExRange,
-              max: cjestLowLifeExMax,
+              range: cejstLowLifeExRange,
+              max: cejstLowLifeExMax,
             },
-            // toggleCjestAsthmaRange: { value: pgeOrUtility, range: cjestAsthmaRange, max: cjestAsthmaMax },
-            toggleCjestHeartDisRange: {
+            // toggleCejstAsthmaRange: { value: pgeOrUtility, range: cejstAsthmaRange, max: cejstAsthmaMax },
+            toggleCejstHeartDisRange: {
               value: props.heart_dis,
-              range: cjestHeartDisRange,
-              max: cjestHeartDisMax,
+              range: cejstHeartDisRange,
+              max: cejstHeartDisMax,
             },
-            toggleCjestHouseBurdRange: {
+            toggleCejstHouseBurdRange: {
               value: props.house_burd,
-              range: cjestHouseBurdRange,
-              max: cjestHouseBurdMax,
+              range: cejstHouseBurdRange,
+              max: cejstHouseBurdMax,
             },
-            toggleCjestLingIsoRange: {
+            toggleCejstLingIsoRange: {
               value: props.ling_iso,
-              range: cjestLingIsoRange,
-              max: cjestLingIsoMax,
+              range: cejstLingIsoRange,
+              max: cejstLingIsoMax,
             },
-            toggleCjestEducationRange: {
+            toggleCejstEducationRange: {
               value: props.education,
-              range: cjestEducationRange,
-              max: cjestEducationMax,
+              range: cejstEducationRange,
+              max: cejstEducationMax,
             },
-            toggleCjestLmiRange: {
+            toggleCejstLmiRange: {
               value: props.LMI,
-              range: cjestLmiRange,
-              max: cjestLmiMax,
+              range: cejstLmiRange,
+              max: cejstLmiMax,
             },
-            toggleCjestFpl100Range: {
+            toggleCejstFpl100Range: {
               value: props['100_fpl'],
-              range: cjestFpl100Range,
-              max: cjestFpl100Max,
+              range: cejstFpl100Range,
+              max: cejstFpl100Max,
             },
-            toggleCjestFpl200Range: {
+            toggleCejstFpl200Range: {
               value: props['200_fpl'],
-              range: cjestFpl200Range,
-              max: cjestFpl200Max,
+              range: cejstFpl200Range,
+              max: cejstFpl200Max,
             },
-            toggleCjestUnemploymentRange: {
+            toggleCejstUnemploymentRange: {
               value: props.unemployment,
-              range: cjestUnemploymentRange,
-              max: cjestUnemploymentMax,
+              range: cejstUnemploymentRange,
+              max: cejstUnemploymentMax,
             },
           }
-          withinPropertyCriteria = Object.keys(conditions)
-            .filter(
-              (key): key is keyof typeof conditions =>
-                (config[key] ||
-                  config.census?.[key] ||
-                  config.subIndicators?.CES?.[key] ||
-                  config.subIndicators?.EJScreen?.[key] ||
-                  config.subIndicators?.CJEST?.[key]) &&
-                !['nevi', 'irs30c', 'pge'].includes(key),
+          const activeConditions = Object.keys(conditions).filter(
+            (key): key is keyof typeof conditions =>
+              (config[key] ||
+                config.census?.[key] ||
+                config.subIndicators?.CES?.[key] ||
+                config.subIndicators?.EJScreen?.[key] ||
+                config.subIndicators?.CEJST?.[key]) &&
+              !['nevi', 'irs30c', 'pge'].includes(key),
+          )
+
+          // If no conditions are active, don't show any polygons
+          if (activeConditions.length === 0) {
+            withinPropertyCriteria = false
+          } else {
+            withinPropertyCriteria = activeConditions.every(key =>
+              withinRange(conditions[key].value, conditions[key].range, conditions[key].max),
             )
-            .every(key => withinRange(conditions[key].value, conditions[key].range, conditions[key].max))
+          }
         } else {
           withinPropertyCriteria =
             ((nevi.zero && props.nevi === 0) || (nevi.one && props.nevi === 1)) &&
@@ -425,18 +428,20 @@ export const ControlPanel = ({
         }
         if (simplifiedCityBoundary) {
           const { geometry } = feature
+
           if (geometry.type === 'Point') {
-            return turf.booleanPointInPolygon(geometry as unknown as Point, simplifiedCityBoundary)
+            // check if the point is inside any polygon in the collection
+            return simplifiedCityBoundary.features.some(f =>
+              turf.booleanPointInPolygon(geometry as unknown as Point, f),
+            )
           }
+
           if (geometry.type === 'Polygon' || geometry.type === 'MultiPolygon') {
-            const simplifiedGeometry = turf.simplify(geometry, { tolerance, highQuality: true })
-            return !turf.booleanDisjoint(simplifiedGeometry, simplifiedCityBoundary)
-            // turf.booleanIntersects(simplifiedGeometry, simplifiedCityBoundary //
-            // turf.booleanOverlap(simplifiedGeometry, simplifiedCityBoundary) ||
-            // turf.booleanContains(simplifiedCityBoundary, simplifiedGeometry) || //
-            // turf.booleanWithin(simplifiedGeometry, simplifiedCityBoundary)
+            return simplifiedCityBoundary.features.some(f => {
+              const simplifiedGeometry = turf.simplify(geometry, { tolerance, highQuality: true })
+              return !turf.booleanDisjoint(simplifiedGeometry, f)
+            })
           }
-          return false
         }
         return true
       }),
@@ -455,7 +460,9 @@ export const ControlPanel = ({
       const filteredData = filterData(dataControlsTitle, dataJson, config)
       setLayerDataFn(filteredData)
     } catch (error) {
-      console.error('Error fetching GeoJSON data:', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.warn(`GeoJSON not loaded for ${dataControlsTitle}:`, error)
+      }
     } finally {
       setLoading(false)
     }
@@ -476,8 +483,7 @@ export const ControlPanel = ({
         config={priorityDataConfig}
         dispatch={dispatch}
         loading={loading}
-        filterData={filterData}
-        fetchAndFilterData={(title: string, url: string, config: any) =>
+        fetchAndFilterData={() =>
           fetchAndFilterData(controlTitles.priority, priorityUrl, priorityDataConfig, setPriorityLayerData)
         }
         resetSliders={resetSliders}
@@ -499,8 +505,7 @@ export const ControlPanel = ({
         config={feasibleDataConfig}
         dispatch={dispatch}
         loading={loading}
-        filterData={filterData}
-        fetchAndFilterData={(title: string, url: string, config: any) =>
+        fetchAndFilterData={() =>
           fetchAndFilterData(controlTitles.feasibility, feasibleUrl, feasibleDataConfig, setFeasibleLayerData)
         }
         resetSliders={resetSliders}

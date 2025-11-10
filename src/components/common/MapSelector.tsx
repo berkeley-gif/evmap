@@ -1,30 +1,12 @@
 import useMapContext from '@map/useMapContext'
 import counties from '@public/jurisdictions.json'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Dropdown, DropdownProps } from 'semantic-ui-react'
 
-type State = {
-  id: string
-  name: string
-  available: boolean
-  counties: County[]
-}
+import { makeCityConfig } from '@src/utils/makeCityConfig'
 
-type County = {
-  id: string
-  name: string
-  available: boolean
-  cities: City[]
-}
-
-type City = {
-  id: string
-  name: string
-  available: boolean
-  noUtilityData?: boolean
-  provider?: string
-}
+import { City, County } from '../../types/jurisdictions'
 
 type MapSelectorProps = {
   startLoading?: () => void
@@ -32,30 +14,35 @@ type MapSelectorProps = {
 }
 
 const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
+  const initialSetting = {
+    county: {
+      id: 'default_id',
+      name: 'default_name',
+      available: false,
+      cities: [],
+    },
+    city: {
+      id: 'default_id',
+      name: 'default_name',
+      available: false,
+    },
+  }
   const { setCityConfig } = useMapContext()
-  const [selectedCounty, setSelectedCounty] = useState<County | null>(null)
+  const [selectedCounty, setSelectedCounty] = useState<County>(initialSetting.county)
   const [cities, setCities] = useState<City[]>([])
-  const [selectedCity, setSelectedCity] = useState<City | null>(null)
+  const [selectedCity, setSelectedCity] = useState<City>(initialSetting.city)
   const router = useRouter()
   const isMapPage = router.pathname === '/map'
 
-  const getCityConfig = async (county: string, city: string) => {
-    const cityConfig = {
-      city,
-      county,
-      boundaryUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_city_boundary.geojson`,
-      priorityDataUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_priority.json`,
-      feasibleDataUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_feasibility.json`,
-      transitStopsUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_transit.geojson`,
-      // parksAndRecreationUrl: `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}_parks.geojson`,
-      parksAndRecreationUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_parks/${county}_parks.geojson`,
-      healthcareFacilitiesUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_healthcare.geojson`,
-      lihtcUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_lihtc.geojson`,
-      schoolsUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_schools.geojson`,
-      libraryUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_libraries.geojson`,
+  useEffect(() => {
+    if (selectedCounty && selectedCity) {
+      const config = makeCityConfig(
+        selectedCounty.name.replace(/\s+/g, '_').toLowerCase(),
+        selectedCity.name.replace(/\s+/g, '_').toLowerCase(),
+      )
+      setCityConfig(config)
     }
-    if (setCityConfig) setCityConfig(cityConfig)
-  }
+  }, [selectedCounty, selectedCity, setCityConfig])
 
   const handleCountyChange = (_event: React.SyntheticEvent, data: DropdownProps) => {
     const currentCounty = counties.find(county => county.name === data.value)
@@ -66,7 +53,11 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
         const sanFranciscoCity = (currentCounty.cities as City[]).find(city => city.name === 'San Francisco')
         if (sanFranciscoCity) {
           setSelectedCity(sanFranciscoCity)
+        } else {
+          setSelectedCity(initialSetting.city)
         }
+      } else {
+        setSelectedCity(initialSetting.city)
       }
     }
   }
@@ -79,17 +70,22 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
   }
 
   const handleButtonClick = async () => {
-    if (selectedCounty && selectedCity) {
-      await getCityConfig(
-        selectedCounty.name.replace(/\s+/g, '_').toLowerCase(),
-        selectedCity.name.replace(/\s+/g, '_').toLowerCase(),
-      )
-    }
+    if (!selectedCounty || !selectedCity) return
 
-    if (!isMapPage) {
-      router.push('/map')
-    } else {
-      startLoading!()
+    // trigger the loader (if provided) so the UX reflects the async work
+    if (startLoading) startLoading()
+
+    // prepare normalized ids used by makeCityConfig
+    const countyKey = selectedCounty.name.replace(/\s+/g, '_').toLowerCase()
+    const cityKey = selectedCity.name.replace(/\s+/g, '_').toLowerCase()
+
+    try {
+      await makeCityConfig(countyKey, cityKey)
+      if (!isMapPage) {
+        await router.push('/map')
+      }
+    } catch (err) {
+      console.error('Error loading jurisdiction', err)
     }
   }
 
@@ -135,19 +131,24 @@ const MapSelector = ({ startLoading, isVertical }: MapSelectorProps) => {
             fluid
             selection
             search
-            options={cities.map(city => ({
-              key: city.id,
-              text: (
-                <>
-                  {city.name.startsWith('un_') ? 'Unincorporated' : city.name}
-                  {city.noUtilityData && (
-                    <span style={{ color: '#ffa500' }}> (utility data not yet available)</span>
-                  )}
-                </>
-              ),
-              value: city.name,
-              disabled: !city.available,
-            }))}
+            options={cities.map(city => {
+              const label = city.name.startsWith('un_') ? 'Unincorporated' : city.name
+              const labelWithNote = city.noUtilityData ? `${label} (utility data not yet available)` : label
+              return {
+                key: city.id,
+                text: labelWithNote,
+                value: city.name,
+                disabled: !city.available,
+                content: (
+                  <>
+                    {label}
+                    {city.noUtilityData && (
+                      <span style={{ color: '#ffa500' }}> (utility data not yet available)</span>
+                    )}
+                  </>
+                ),
+              }
+            })}
             onChange={handleCityChange}
           />
         )}

@@ -38,8 +38,24 @@ const ColocationPoint: React.FC<LayerControlProps> = ({
   return (
     <Accordion fluid>
       <div className="flex items-center flex-wrap relative space-x-2">
-        <input type="checkbox" checked={value} onChange={e => setValue(!value)} />
-        <Popup content={hoverText} trigger={<p>{mainText}</p>} />
+        <input
+          type="checkbox"
+          checked={value}
+          onChange={e => setValue(e.currentTarget.checked)}
+          aria-label={mainText}
+        />
+        <Popup
+          content={hoverText}
+          trigger={
+            <button
+              type="button"
+              className="bg-transparent p-0 m-0 text-left"
+              aria-label={`${mainText} info`}
+            >
+              {mainText}
+            </button>
+          }
+        />
         <img src={image} alt={imgAlt} />
         <div className="flex-grow" />
         <AccordionTitle

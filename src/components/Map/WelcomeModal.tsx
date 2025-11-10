@@ -65,14 +65,18 @@ const WelcomeModal = ({
 }: {
   openModal: boolean
   dispatch: React.Dispatch<{
-    type: 'SET_OPEN_WELCOME_MODAL'
+    type: 'SET_FIELD'
+    field: 'openWelcomeModal'
     payload: boolean
   }>
   city: string
   county: string
   setCurrentView: (view: string) => void
 }) => (
-  <Modal open={openModal} onClose={() => dispatch({ type: 'SET_OPEN_WELCOME_MODAL', payload: false })}>
+  <Modal
+    open={openModal}
+    onClose={() => dispatch({ type: 'SET_FIELD', field: 'openWelcomeModal', payload: false })}
+  >
     <Modal.Header>Welcome to the map page!</Modal.Header>
     <Modal.Content>
       {city && county ? (
@@ -87,7 +91,7 @@ const WelcomeModal = ({
     <Modal.Actions>
       <Button
         className="bg-primary text-white"
-        onClick={() => dispatch({ type: 'SET_OPEN_WELCOME_MODAL', payload: false })}
+        onClick={() => dispatch({ type: 'SET_FIELD', field: 'openWelcomeModal', payload: false })}
         positive
       >
         Close

@@ -1,4 +1,4 @@
-import { LatLngExpression } from 'leaflet'
+import type { LatLngExpression } from 'leaflet'
 
 // FIXME: naming and structure
 export const AppConfig = {
@@ -12,7 +12,7 @@ export const AppConfig = {
     menuIconSize: 16,
     topBarIconSize: 24,
   },
-  baseCenter: [52.02022592597971, 8.530780645829076] as LatLngExpression, // bielefeld lol
+  baseCenter: [52.02022592597971, 8.530780645829076] as LatLngExpression,
 }
 
 export enum MapSelectorVariant {

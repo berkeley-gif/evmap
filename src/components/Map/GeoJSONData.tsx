@@ -3,7 +3,7 @@ import dynamic from 'next/dynamic'
 export interface GeoJSONFeatureProperties {
   pop: number
   CIscoreP: number
-  disadvantaged: number // CJEST composite score
+  disadvantaged: number // CEJST composite score
   'Multi-Family Housing Residents': number
   Renters: number
   chg_walk: number

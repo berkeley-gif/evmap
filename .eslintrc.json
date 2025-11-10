@@ -23,6 +23,7 @@
     "class-methods-use-this": 0,
     "react/require-default-props": 0,
     "import/prefer-default-export": 0,
+    "@next/next/no-img-element": "off",
     "react/jsx-no-useless-fragment": 1,
     "react/prop-types": "off",
     "prettier/prettier": [

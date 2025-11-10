@@ -1,4 +1,4 @@
-import Leaflet, { PointExpression } from 'leaflet'
+import type { PointExpression } from 'leaflet'
 import { renderToString } from 'react-dom/server'
 
 interface divIconValues {
@@ -6,10 +6,16 @@ interface divIconValues {
   anchor: PointExpression
 }
 
-const LeafletDivIcon = ({ source, anchor }: divIconValues) =>
-  Leaflet?.divIcon({
-    html: renderToString(source),
-    iconAnchor: anchor,
-  })
+const LeafletDivIcon = ({ source, anchor }: divIconValues) => {
+  // Access Leaflet from the global window object (set by leaflet library when loaded)
+  if (typeof window !== 'undefined' && (window as any).L) {
+    const { L } = window as any
+    return L.divIcon({
+      html: renderToString(source),
+      iconAnchor: anchor,
+    })
+  }
+  return null
+}
 
 export default LeafletDivIcon

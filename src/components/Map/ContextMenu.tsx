@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react'
-import { Button, Popup } from 'semantic-ui-react'
+import { Button, Icon, Popup } from 'semantic-ui-react'
 
 interface ContextMenuProps {
   contextMenuVisible: boolean
   dispatch: React.Dispatch<{
-    type: 'SET_CONTEXT_MENU_VISIBLE'
+    type: 'SET_FIELD'
+    field: 'contextMenuVisible'
     payload: boolean
   }>
   city: string
@@ -35,22 +36,67 @@ const ContextMenu = ({
     }
     return undefined
   }, [])
-
+  const [address, setAddress] = useState('')
   const popupWidth = 260
   const adjustedX = menuPosition.x - viewportWidth / 2 - popupWidth / 2 + 4
-  const adjustedY = menuPosition.y - 218
+  const nearTopOfScreen = typeof window !== 'undefined' ? menuPosition.y < window.innerHeight / 2 : false
+  const adjustedY = nearTopOfScreen ? menuPosition.y : menuPosition.y - 310
+  const modalPosition = nearTopOfScreen ? 'bottom center' : 'top center'
+  // const API_KEY = process.env.NEXT_PUBLIC_GEOCODING_API_KEY
+  const API_KEY = process.env.NEXT_PUBLIC_GOOGLE_CLOUD_API_KEY
+  const lat = clickedLatLng?.lat ?? null
+  const lng = clickedLatLng?.lng ?? null
+
+  const formatAddress = (addr: any): string => {
+    const houseNumber = addr.house_number?.split(';')[0] ?? ''
+    const road = addr.road ?? ''
+    const cityName = addr.city ?? ''
+    const state = addr.state === 'California' ? 'CA' : addr.state
+    const postcode = addr.postcode ?? ''
+    return `${houseNumber} ${road}, ${cityName}, ${state}, ${postcode}`.trim()
+  }
+
+  useEffect(() => {
+    if (!clickedLatLng?.lat || !clickedLatLng?.lng) return undefined
+
+    const controller = new AbortController()
+    const { signal } = controller
+
+    const fetchAddress = async () => {
+      try {
+        // const revGeocodeUrl = `https://geocode.maps.co/reverse?lat=${lat}&lon=${lng}&api_key=${API_KEY}`
+        const revGeocodeUrl = `https://maps.googleapis.com/maps/api/geocode/json?latlng=${lat},${lng}&result_type=street_address&key=${API_KEY}`
+        const res = await fetch(revGeocodeUrl, { signal })
+        const data = await res.json()
+        // const addressResponse = formatAddress(data.address)
+        const addressResponse = data.results[0].formatted_address
+        navigator.clipboard.writeText(addressResponse)
+        setAddress(addressResponse ?? 'No address found')
+      } catch (err) {
+        console.error(err)
+        setAddress('Error fetching address')
+      }
+    }
+    setAddress('Loading address...')
+    fetchAddress()
+
+    return () => {
+      controller.abort()
+    }
+  }, [clickedLatLng])
+
   return (
     <Popup
       open={contextMenuVisible}
-      onClose={() => dispatch({ type: 'SET_CONTEXT_MENU_VISIBLE', payload: false })}
-      position="top center"
+      onClose={() => dispatch({ type: 'SET_FIELD', field: 'contextMenuVisible', payload: false })}
+      position={modalPosition}
       style={{
         position: 'absolute',
         left: `${adjustedX}px`,
         top: `${adjustedY}px`,
         zIndex: 1000,
         width: `${popupWidth}px`,
-        height: '250px',
+        height: '300px',
       }}
       trigger={<div />}
     >
@@ -58,11 +104,18 @@ const ContextMenu = ({
         <p style={{ fontFamily: 'serif' }}>User-selected priority location</p>
       </Popup.Header>
       <Popup.Content>
-        <p>
-          <b>Latitude:</b> {clickedLatLng?.lat.toFixed(4)}
-        </p>
-        <p>
-          <b>Longitude:</b> {clickedLatLng?.lng.toFixed(4)}
+        <p>Nearest address: </p>
+        <p className="py-2 border-t border-b">
+          <b>{address || 'No address'}</b>
+          <Icon
+            name="copy"
+            link
+            color="blue"
+            onClick={() => {
+              navigator.clipboard.writeText(address)
+            }}
+            title="Copy to clipboard"
+          />
         </p>
         {city === 'san_francisco' ? (
           <p>
@@ -78,13 +131,12 @@ const ContextMenu = ({
             planning, or power agencies to propose EV infrastructure investment at this location.
           </p>
         )}
-        {/* <div>{contextMenuVisible && <Button onClick={getImage}>Take Map Snapshot</Button>} */}
         <div className="flex justify-center">
           {contextMenuVisible && (
             <Button
               primary
               onClick={() => {
-                dispatch({ type: 'SET_CONTEXT_MENU_VISIBLE', payload: false })
+                dispatch({ type: 'SET_FIELD', field: 'contextMenuVisible', payload: false })
                 takeScreenshot()
               }}
             >

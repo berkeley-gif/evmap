@@ -14,17 +14,18 @@
 
 /* eslint-disable import/no-extraneous-dependencies */
 import * as turf from '@turf/turf'
-import { Feature, FeatureCollection, GeoJsonProperties, MultiPolygon, Point, Polygon } from 'geojson'
-import { LeafletMouseEvent } from 'leaflet'
+import { Feature, FeatureCollection, GeoJsonProperties, MultiPolygon, Polygon } from 'geojson'
+import type { Layer as LeafletLayer, Map as LeafletMap, LeafletMouseEvent } from 'leaflet'
 import React, { useEffect, useRef, useState } from 'react'
 import { SketchPicker } from 'react-color'
 import Slider from 'react-slider'
 import Toggle from 'react-toggle'
+import { Icon } from 'semantic-ui-react'
 
 import { Range } from '@lib/Constants'
 import { SliderConfigs } from '@lib/SliderConfigs'
 
-import { GeoJSONData, GeoJSONFeature } from './GeoJSONData'
+import { GeoJSONData } from './GeoJSONData'
 import LayerControl from './LayerControl'
 import MarkLabel from './MarkLabel'
 
@@ -33,21 +34,20 @@ interface DataControlsProps {
   jurisdiction?: string | null
   utility?: string | null
   map: any
-  L: any
-  simplifiedCityBoundary: Feature<Polygon | MultiPolygon, GeoJsonProperties> | null
+  L: typeof import('leaflet')
+  simplifiedCityBoundary: FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties> | null
   color: string
-  layerData: any
-  otherLayerData: any
+  layerData: GeoJSONData | null
+  otherLayerData: GeoJSONData | null
   config: any
   dispatch: any
   loading: boolean
-  filterData: any
-  fetchAndFilterData: any
-  resetSliders: any
-  scoreRanges: any
-  updateRange: any
-  filters: any
-  setFilters: any
+  fetchAndFilterData: () => Promise<void>
+  resetSliders: () => void
+  scoreRanges: Record<string, Range>
+  updateRange: (key: string, value: Range) => void
+  filters: Record<string, { zero: boolean; one: boolean }>
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, { zero: boolean; one: boolean }>>>
 }
 
 interface CachedType {
@@ -71,7 +71,6 @@ export const DataControls = ({
   config,
   dispatch,
   loading,
-  filterData,
   fetchAndFilterData,
   resetSliders,
   scoreRanges,
@@ -98,14 +97,20 @@ export const DataControls = ({
     }
   }, [isFirstLoad, resetSliders])
 
-  const toggleExpand = () => setIsExpanded(!isExpanded)
+  useEffect(() => {
+    if (!isFirstLoad) {
+      resetSliders()
+    }
+  }, [jurisdiction])
 
+  const toggleExpand = () => setIsExpanded(!isExpanded)
+  const isSF = jurisdiction === 'San Francisco'
   function useEffectSetFeatureData(
-    simplifiedCityBoundary: Feature<Polygon | MultiPolygon, GeoJsonProperties> | null,
+    simplifiedCityBoundary: FeatureCollection<Polygon | MultiPolygon, GeoJsonProperties> | null,
   ) {
     useEffect(() => {
       fetchAndFilterData()
-    }, [scoreRanges, filters, simplifiedCityBoundary])
+    }, [scoreRanges, filters, simplifiedCityBoundary, JSON.stringify(config)])
   }
 
   function useEffectLayerData() {
@@ -140,7 +145,10 @@ export const DataControls = ({
         })
       }
 
-      const onFeasibilityFeatureClick = (feature: any, layer: any) => {
+      const onFeasibilityFeatureClick = (
+        feature: Feature<Polygon | MultiPolygon, GeoJsonProperties>,
+        layer: LeafletLayer,
+      ) => {
         layer.on('click', (e: LeafletMouseEvent) => {
           const clickPoint = turf.point([e.latlng.lng, e.latlng.lat])
           const otherHit = otherLayerData?.features.find((otherFeature: any) =>
@@ -171,48 +179,6 @@ export const DataControls = ({
           layerGroup.addLayer(layer)
         }
       }
-      // const layerGroupName = `${dataControlsTitle.replace(/\s+/g, '')}LayerGroup`
-      // let layerGroup = map[layerGroupName] as L.LayerGroup | undefined
-
-      // if (!layerGroup) {
-      //   layerGroup = new L.LayerGroup().addTo(map)
-      //   map[layerGroupName] = layerGroup
-      // } else {
-      //   layerGroup.clearLayers()
-      // }
-
-      // const addGeoJsonLayerToGroup = () => {
-      //   if (layerGroup) {
-      //     layerGroup.clearLayers()
-      //     const layer = L.geoJSON(layerData, {
-      //       style: layerStyle,
-      //       onEachFeature: (feature: any, layer: any) => {
-      //         layer.on('click', (e: LeafletMouseEvent) => {
-      //           const clickPoint = turf.point([e.latlng.lng, e.latlng.lat])
-      //           const featureProps = feature.properties
-      //           const isPriority = dataControlsTitle === 'Priority Pixels'
-      //           const otherHit = otherLayerData?.features.find((otherFeature: any) =>
-      //             turf.booleanPointInPolygon(clickPoint, otherFeature),
-      //           )
-      //           dispatch({
-      //             type: 'SET_MENU_POSITION',
-      //             payload: { x: e.originalEvent.clientX, y: e.originalEvent.clientY },
-      //           })
-      //           dispatch({ type: 'SET_POLYGON_CLICK_MENU_VISIBLE', payload: true })
-      //           if (isPriority) {
-      //             dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: featureProps })
-      //             dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: otherHit?.properties || null })
-      //           } else {
-      //             dispatch({ type: 'SET_FEASIBLE_POLYGON_DATA', payload: featureProps })
-      //             dispatch({ type: 'SET_PRIORITY_POLYGON_DATA', payload: otherHit?.properties || null })
-      //           }
-      //         })
-      //       },
-      //       // renderer: L.canvas(),
-      //     })
-      //     layerGroup.addLayer(layer)
-      //   }
-      // }
 
       if (showLayerData && layerData) {
         addGeoJsonLayerToGroup()
@@ -246,8 +212,12 @@ export const DataControls = ({
       config.census?.[indicator.trigger] ||
       config.subIndicators?.CES?.[indicator.trigger] ||
       config.subIndicators?.EJScreen?.[indicator.trigger] ||
-      config.subIndicators?.CJEST?.[indicator.trigger]
-    const processedAccordionText = indicator
+      config.subIndicators?.CEJST?.[indicator.trigger]
+
+    const SF_CAPACITY_NOTE =
+      'Load capacity is based on the capacity map provided by the electric utility that serves the jurisdiction, <a href="https://www.energy.gov/eere/us-atlas-electric-distribution-system-hosting-capacity-maps">where available</a>. <strong>Most of San Francisco is in PG&E service territory.</strong> Several areas of San Francisco, such as Treasure Island, are served by SFPUC and do not have Hosting Capacity data available. Energy requirements vary widely, but 100 kW of capacity is typically needed to support 5-10 Level 2 chargers or 1 DC Fast charger.'
+
+    const baseAccordionText = indicator
       .accordionText({
         range: scoreRange,
         max: indicator.max,
@@ -255,17 +225,77 @@ export const DataControls = ({
         utility: utility ?? undefined,
       })
       .join(' ')
+
+    const processedAccordionText = isSF && indicator.name === 'pge' ? SF_CAPACITY_NOTE : baseAccordionText
     const rightThumbSliders = ['lev', 'walkable', 'drivable']
     const useRightThumb = Boolean(rightThumbSliders.includes(indicator.name))
     return (
       isActive && (
         <label key={indicator.id}>
           <br />
-          <LayerControl
-            mainText={indicator.mainText}
-            hoverText={indicator.hoverText}
-            accordionText={processedAccordionText}
-          />
+          <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+            <div style={{ flex: 1 }}>
+              <LayerControl
+                mainText={indicator.mainText}
+                hoverText={indicator.hoverText}
+                accordionText={processedAccordionText}
+              />
+            </div>
+            <Icon
+              name="delete"
+              color="red"
+              style={{ cursor: 'pointer', margin: '0 5px' }}
+              onClick={() => {
+                const fieldToUpdate = indicator.trigger
+
+                const updatedConfig = { ...config }
+
+                if (config.census && config.census[fieldToUpdate] !== undefined) {
+                  updatedConfig.census = {
+                    ...config.census,
+                    [fieldToUpdate]: false,
+                  }
+                } else if (config.subIndicators) {
+                  let found = false
+                  const datasets = ['CES', 'EJScreen', 'CEJST']
+
+                  datasets.forEach(dataset => {
+                    if (
+                      config.subIndicators[dataset] &&
+                      config.subIndicators[dataset][fieldToUpdate] !== undefined
+                    ) {
+                      if (!updatedConfig.subIndicators) {
+                        updatedConfig.subIndicators = { ...config.subIndicators }
+                      }
+                      updatedConfig.subIndicators[dataset] = {
+                        ...config.subIndicators[dataset],
+                        [fieldToUpdate]: false,
+                      }
+                      found = true
+                    }
+                  })
+
+                  if (!found) {
+                    updatedConfig[fieldToUpdate] = false
+                  }
+                } else {
+                  updatedConfig[fieldToUpdate] = false
+                }
+
+                console.log('Updated config:', updatedConfig)
+
+                const configField =
+                  dataControlsTitle === 'Priority Pixels' ? 'priorityDataConfig' : 'feasibleDataConfig'
+
+                dispatch({
+                  type: 'SET_FIELD',
+                  field: configField,
+                  payload: updatedConfig,
+                })
+              }}
+              title="Remove filter"
+            />
+          </div>
           <MarkLabel range={indicator.markRange} />
           <Slider
             min={indicator.min}
@@ -293,7 +323,7 @@ export const DataControls = ({
             <Toggle
               checked={filters.neviFilterActive.one && !filters.neviFilterActive.zero}
               onChange={() => {
-                setFilters((prev: any) => ({
+                setFilters((prev: Record<string, { zero: boolean; one: boolean }>) => ({
                   ...prev,
                   neviFilterActive: {
                     zero: !prev.neviFilterActive.zero,

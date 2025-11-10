@@ -1,27 +1,49 @@
-import Leaflet from 'leaflet'
 import { createContext, useMemo, useState } from 'react'
 
 import MapProps from '@lib/MapProps'
 
 export interface MapContextValues {
-  map: Leaflet.Map | undefined
-  setMap: (map: Leaflet.Map | undefined) => void
-  cityConfig: MapProps | undefined
+  map: any | null
+  setMap: (map: any | null) => void
+  cityConfig: MapProps
   setCityConfig: (config: MapProps) => void
+  currentView: string
+  setCurrentView: (currentView: string) => void
 }
 
-export const MapContext = createContext<MapContextValues | undefined>(undefined)
+const defaultCityConfig: MapProps = {
+  // state: '',
+  county: '',
+  city: '',
+  boundaryUrl: '',
+  priorityDataUrl: '',
+  feasibleDataUrl: '',
+}
+
+export const MapContext = createContext<MapContextValues>({
+  map: null,
+  setMap: () => {
+    throw new Error('setMap called outside of MapContextProvider')
+  },
+  cityConfig: defaultCityConfig,
+  setCityConfig: () => {
+    throw new Error('setCityConfig called outside of MapContextProvider')
+  },
+  currentView: 'default',
+  setCurrentView: () => {
+    throw new Error('setCurrentView called outside of MapContextProvider')
+  },
+})
 
 const MapContextProvider = ({ children }: { children: React.ReactNode }) => {
-  const [map, setMap] = useState<Leaflet.Map | undefined>(undefined)
-  const [cityConfig, setCityConfig] = useState<MapProps | undefined>(undefined)
+  const [map, setMap] = useState<any | null>(null)
+  const [cityConfig, setCityConfig] = useState<MapProps>(defaultCityConfig)
+  const [currentView, setCurrentView] = useState('default')
 
-  // return (
-  //   <MapContext.Provider value={{ map, setMap, cityConfig, setCityConfig }}>{children}</MapContext.Provider>
-  // )
-  // const contextValue = useMemo(() => ({ map, setMap, cityConfig, setCityConfig }), [map, cityConfig])
-
-  const contextValue = useMemo(() => ({ map, setMap, cityConfig, setCityConfig }), [map, cityConfig])
+  const contextValue = useMemo(
+    () => ({ map, setMap, cityConfig, setCityConfig, currentView, setCurrentView }),
+    [map, cityConfig],
+  )
 
   return <MapContext.Provider value={contextValue}>{children}</MapContext.Provider>
 }

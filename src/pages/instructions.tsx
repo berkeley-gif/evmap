@@ -41,13 +41,17 @@ const Instructions = () => (
             logic — only pixels that meet all selected criteria will remain on the map.
           </li>
           <li className="mb-1">
-            Most sliders adjust up from 0; however, sliders for current EV charging access and EV adoption
-            adjust down to 0. This is because areas scoring lowest for these criteria are highest-priority
-            from an equity perspective.
+            Most sliders adjust up from 0 to 100, reflecting increasing percentile levels or raw numbers. As
+            you adjust the slider up, you narrow in on the highest-priority groups.
+          </li>
+          <li className="mb-1">
+            Sliders for current EV charging access and EV adoption adjust down to 0. This is because areas
+            scoring lowest for these criteria are highest-priority from an equity perspective. As you adjust
+            the slider down, you narrow in on the highest-priority groups
           </li>
           <li>
-            Hover over layer names and click the <Icon disabled name="info circle" /> buttons for more
-            information.
+            Hover over slider titles and click the <Icon name="info circle" />
+            buttons for more information on data layers.*
           </li>
         </ul>
       </li>
@@ -64,6 +68,20 @@ const Instructions = () => (
         candidate zones for investment.
       </li>
     </ol>
+    <p className="mb-1 text-sm">
+      *The{' '}
+      <img
+        src="https://ev-charging-mapviewer-assets.s3.amazonaws.com/settings.png"
+        className="settings-icon-small inline w-4 h-4"
+        alt="gear icon"
+      />{' '}
+      icon at the top of the tool allows you to choose your base data set for priority layers:
+      CalEnviroScreen4.0 (CES), EJScreen, or the Climate and Economic Justice Screening Tool (CEJST). CES and
+      CEJST additionally allow you to select either the composite score (aggregating all environmental justice
+      indicators) or individual indicators focused on mobility and air quality. You can also add select
+      demographic indicators from the US Census that are not reflected in the base data sets. We recommend
+      selecting the CES composite indicator for most users.
+    </p>
   </div>
 )
 

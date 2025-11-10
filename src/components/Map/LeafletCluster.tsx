@@ -37,7 +37,7 @@ const CreateMarkerClusterGroup = (props: MarkerClusterControl, context: LeafletC
       className: 'hidden',
     },
     // zoomToBoundsOnClick: false,
-    iconCreateFunction: cluster =>
+    iconCreateFunction: (cluster: any) =>
       LeafletDivIcon({
         source: (
           <MarkerIconWrapper color={props.color} icon={props.icon} label={`${cluster.getChildCount()}`} />

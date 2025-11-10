@@ -10,17 +10,22 @@ export const CustomMarker: React.FC<{
   position: CustomMarkerProps['position']
   icon: CustomMarkerProps['icon']
   color: CustomMarkerProps['color']
-}> = ({ position, icon, color }: CustomMarkerProps) => {
+}> = ({ position, icon, color }) => {
   const { map } = useMapContext()
 
   const handleMarkerClick = () => map?.panTo(position)
+  const ICON_PADDING = 16
+  const anchor: [number, number] = [
+    (AppConfig.ui.markerIconSize + ICON_PADDING) / 2,
+    (AppConfig.ui.markerIconSize + ICON_PADDING) / 2,
+  ]
 
   return (
     <Marker
       position={position}
       icon={LeafletDivIcon({
         source: <MarkerIconWrapper color={color} icon={icon} />,
-        anchor: [(AppConfig.ui.markerIconSize + 16) / 2, (AppConfig.ui.markerIconSize + 16) / 2],
+        anchor,
       })}
       eventHandlers={{ click: handleMarkerClick }}
     />

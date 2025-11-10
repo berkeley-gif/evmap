@@ -18,28 +18,13 @@ const Footer: React.FC<NavBarProps> = ({ setCurrentView }) => (
 
       <div className="flex items-center justify-between gap-4">
         <div className="flex justify-center align-center">
-          <img
-            src="/images/Berk-ERG.png"
-            alt="Berk-ERG Logo"
-            className="h-14 object-contain"
-            // style="height: 40px; width: auto;"
-          />
+          <img src="/images/Berk-ERG.png" alt="Berk-ERG Logo" className="h-14 object-contain" />
         </div>
         <div className="flex justify-center align-center">
-          <img
-            src="/images/Berk-CLEE.png"
-            alt="Berk-CLEE Logo"
-            className="h-14 object-contain"
-            // style="height: 40px; width: auto;"
-          />
+          <img src="/images/Berk-CLEE.png" alt="Berk-CLEE Logo" className="h-14 object-contain" />
         </div>
         <div className="flex justify-center align-center">
-          <img
-            src="/images/Berk-ITS.png"
-            alt="Berk-ITS Logo"
-            className="h-24 object-contain"
-            // style="height: 40px; width: auto;"
-          />
+          <img src="/images/Berk-ITS.png" alt="Berk-ITS Logo" className="h-24 object-contain" />
         </div>
       </div>
       <p className="text-base mb-2">© 2024 All rights reserved.</p>

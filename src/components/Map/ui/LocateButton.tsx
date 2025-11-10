@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/control-has-associated-label */
-import { LatLngExpression } from 'leaflet'
+import type { LatLngExpression } from 'leaflet'
 import { LocateFixed } from 'lucide-react'
 import { useCallback, useEffect, useState } from 'react'
 
@@ -15,24 +15,30 @@ export const LocateButton: React.FC = () => {
 
   const handleClick = useCallback(() => {
     if ('geolocation' in navigator) {
-      navigator.geolocation.getCurrentPosition(position => {
-        setUserPosition([position.coords.latitude, position.coords.longitude])
-      })
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          setUserPosition([position.coords.latitude, position.coords.longitude])
+        },
+        err => {
+          console.warn('Geolocation error', err)
+        },
+      )
     } else {
       setUserPosition(undefined)
     }
-  }, [map])
+  }, [])
 
   useEffect(() => {
-    if (userPosition) {
-      map?.flyTo(userPosition)
+    if (userPosition && map) {
+      map.flyTo(userPosition)
     }
-  }, [userPosition])
+  }, [userPosition, map])
 
   return (
     <>
       <button
         type="button"
+        aria-label="Locate button"
         style={{ zIndex: 400 }}
         className="button absolute rounded top-16 right-3 p-2 shadow-md text-dark bg-white"
         onClick={() => handleClick()}

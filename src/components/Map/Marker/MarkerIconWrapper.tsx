@@ -1,4 +1,4 @@
-import { LatLngExpression } from 'leaflet'
+import type { LatLngExpression } from 'leaflet'
 import { LucideProps } from 'lucide-react'
 import { FunctionComponent, useMemo } from 'react'
 

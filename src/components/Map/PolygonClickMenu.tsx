@@ -7,7 +7,8 @@ import { colors, polygonIndicatorLabels } from '@lib/Constants'
 interface PolygonClickMenuProps {
   polygonClickMenuVisible: boolean
   dispatch: React.Dispatch<{
-    type: 'SET_POLYGON_CLICK_MENU_VISIBLE'
+    type: 'SET_FIELD'
+    field: 'polygonClickMenuVisible'
     payload: boolean
   }>
   priorityPolygonData: any | null
@@ -81,7 +82,7 @@ const PolygonClickMenu = ({
   return (
     <Popup
       open={polygonClickMenuVisible}
-      onClose={() => dispatch({ type: 'SET_POLYGON_CLICK_MENU_VISIBLE', payload: false })}
+      onClose={() => dispatch({ type: 'SET_FIELD', field: 'polygonClickMenuVisible', payload: false })}
       position="top center"
       style={{
         position: 'absolute',

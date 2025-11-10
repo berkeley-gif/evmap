@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import { useState } from 'react'
 import { Icon, Table } from 'semantic-ui-react'
 
@@ -400,7 +401,7 @@ const Data = () => {
                 </p>
                 <p>
                   Capitol Corridor, Metro Link, Caltrain, Coaster, and ACE:&nbsp;
-                  <AutoLink url="https://sandbox.data.ca.gov/dataset/california-rail-stations." /> Capitol
+                  <AutoLink url="https://sandbox.data.ca.gov/dataset/california-rail-stations" /> Capitol
                   Corridor and Metro Link rail stations were incomplete in this data set, so some stations
                   were added by hand.
                 </p>
@@ -477,7 +478,7 @@ const Data = () => {
                   minutes or more) as there is no mid point for this commute bucket. Next, we summed the (mid
                   point commute time * number of people) for each census tract. Lastly, we divided the summed
                   value by the total population of the census tract.
-                  <img
+                  <Image
                     className="m-auto"
                     src="/images/Commute time formula.png"
                     alt="Commute time formula"
@@ -737,7 +738,13 @@ const Data = () => {
               <Table.Cell>
                 <p className="text-center text-2xl">Gradient Map of Weighted Average Commute Time</p>
                 <p className="text-center text-2xl">San Francisco</p>
-                <img className="m-auto" src="/images/SFCommute.png" alt="SF Commute Map" />
+                <Image
+                  className="m-auto"
+                  src="/images/SFCommute.png"
+                  alt="SF Commute Map"
+                  width={690}
+                  height={610}
+                />
                 <p>
                   This is a gradient map of the weighted average commute time of census tracts across San
                   Francisco, based on the analysis of ACS data described above.
@@ -748,7 +755,13 @@ const Data = () => {
               <Table.Cell>
                 <p className="text-center text-2xl">Gradient Map of Weighted Average Commute Time</p>
                 <p className="text-center text-2xl">Los Angeles</p>
-                <img className="m-auto" src="/images/LACommute.png" alt="LA Commute Map" />
+                <Image
+                  className="m-auto"
+                  src="/images/LACommute.png"
+                  alt="LA Commute Map"
+                  width={690}
+                  height={630}
+                />
                 <p>
                   This is a gradient map of the weighted average commute time of census tracts across Los
                   Angeles, based on the analysis of ACS data described above.
@@ -759,7 +772,13 @@ const Data = () => {
               <Table.Cell>
                 <p className="text-center text-2xl">Gradient Map of Weighted Average Commute Time</p>
                 <p className="text-center text-2xl">Across California</p>
-                <img className="m-auto" src="/images/CACommute.png" alt="California Commute Map" />
+                <Image
+                  className="m-auto"
+                  src="/images/CACommute.png"
+                  alt="California Commute Map"
+                  width={690}
+                  height={650}
+                />
                 <p>
                   This is a gradient map of the weighted average commute time of census tracts across the
                   state of California, based on the analysis of ACS data described above.

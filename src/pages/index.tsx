@@ -1,24 +1,29 @@
-// import { Leaf } from 'lucide-react'
-import Head from 'next/head'
+import { useEffect, useState } from 'react'
 
 import Footer from '@components/common/Footer'
 import HomeNavBar from '@components/common/HomeNavBar'
 import MapSelector from '@components/common/MapSelector'
 
 // import { AppConfig } from '@lib/AppConfig'
-import About from './about'
-import Contact from './contact'
+import About from '../components/views/about'
+import Contact from '../components/views/contact'
+import Default from '../components/views/default'
 import Data from './data'
-import Default from './default'
 import Instructions from './instructions'
 
-const Home = ({
-  currentView,
-  setCurrentView,
-}: {
-  currentView: string
-  setCurrentView: (view: string) => void
-}) => {
+const Home = () => {
+  const [currentView, setCurrentView] = useState<string>('default')
+
+  // Check for pending view from navigation
+  useEffect(() => {
+    if (typeof window !== 'undefined') {
+      const pendingView = sessionStorage.getItem('pendingView')
+      if (pendingView) {
+        setCurrentView(pendingView)
+        sessionStorage.removeItem('pendingView')
+      }
+    }
+  }, [])
   const renderView = () => {
     switch (currentView) {
       case 'default':
@@ -38,12 +43,6 @@ const Home = ({
   return (
     <div className="min-h-screen">
       <div className="flex-grow">
-        <Head>
-          <title>EV Equity Roadmap</title>
-          <meta property="og:title" content="EV Equity Roadmap" key="title" />
-          <meta name="description" content="" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
         <section className="homepage-background">
           <HomeNavBar setCurrentView={setCurrentView} />
           <section className="flex">

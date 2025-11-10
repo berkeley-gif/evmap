@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Slider from 'react-slider'
 
 import LayerControl from './LayerControl'
@@ -11,8 +11,8 @@ interface LayerSliderControlProps {
   accordionText: string
   min: number
   max: number
-  scoreRange: any
-  setScoreRange: any
+  scoreRange: [number, number]
+  setScoreRange: (r: [number, number]) => void
   labelRange: number
 }
 
@@ -27,19 +27,15 @@ const LayerSliderControl: React.FC<LayerSliderControlProps> = ({
   setScoreRange,
   labelRange,
 }) => {
-  const [range, setRange] = useState<[number, number]>([min, min])
   if (!toggleValue) return null
   return (
     <>
-      {/* <label> */}
       <br />
       <LayerControl mainText={mainText} hoverText={hoverText} accordionText={accordionText} />
       <MarkLabel range={labelRange} />
       <Slider
         min={min}
         max={max}
-        // value={range}
-        // onAfterChange={setRange}
         marks={10}
         markClassName="slider-mark"
         value={scoreRange[0]}
@@ -64,8 +60,8 @@ const LayerSliderControl: React.FC<LayerSliderControlProps> = ({
         ) => <div {...props}>{state.valueNow}</div>}
         pearling
         minDistance={0}
+        aria-label={`Range slider for ${mainText}`}
       />
-      {/* </label> */}
     </>
   )
 }

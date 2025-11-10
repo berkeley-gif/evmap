@@ -10,8 +10,9 @@ import NavBarProps from '@lib/NavBarProps'
 import MapSelector from '../common/MapSelector'
 import LatLngLogo from './LatLngLogo'
 
-const MapNavBar: React.FC<NavBarProps> = ({ setCurrentView }) => {
-  // const [openSettings, setOpenSettings] = useState(false)
+const MapNavBar: React.FC<NavBarProps> = ({ setCurrentView: propSetCurrentView }) => {
+  const mapContext = useMapContext()
+  const setCurrentView = propSetCurrentView ?? mapContext.setCurrentView
   const [openJurisdiction, setOpenJurisdiction] = useState(false)
   const [errorState, setErrorState] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -23,16 +24,11 @@ const MapNavBar: React.FC<NavBarProps> = ({ setCurrentView }) => {
   }
   const router = useRouter()
   const { cityConfig = {} } = useMapContext()
-  const isMapPage = router.pathname === '/map'
+  const isMapPage = router.pathname.startsWith('/map')
   // const handleLoadClick = () => {
   //   // setDummyVar((prevState) => !prevState)
   //   setOpenJurisdiction(false)
   // }
-  // const previousSelections = [
-  //   { key: 'option1', text: 'Option 1', value: 'option1' },
-  //   { key: 'option2', text: 'Option 2', value: 'option2' },
-  //   { key: 'option3', text: 'Option 3', value: 'option3' },
-  // ]
   useEffect(() => {
     if (!cityConfig || Object.keys(cityConfig).length === 0) {
       setErrorState(true)
@@ -56,47 +52,6 @@ const MapNavBar: React.FC<NavBarProps> = ({ setCurrentView }) => {
         )} */}
         <NavBar setCurrentView={setCurrentView} />
         <div className="flex-grow" />
-        {/* <Popup
-          content="Under Construction!"
-          trigger={
-            <Button style={{ opacity: 0.5 }} onClick={() => setOpenJurisdiction(true)}>
-              Change Settings
-            </Button>
-          }
-        /> */}
-        {/* <Modal
-          open={openSettings}
-          onClose={() => setOpenSettings(false)}
-          onOpen={() => setOpenSettings(true)}
-          trigger={<Button disabled onClick={() => setOpenSettings(true)}>Change Settings</Button>}
-        >
-            <Modal.Header>Change Settings</Modal.Header>
-            <Modal.Content>
-              <h1 className="homepage-header">Settings will go here</h1>
-            </Modal.Content>
-            <Modal.Actions>
-              <Button onClick={() => setOpenSettings(false)} negative>
-                Cancel
-              </Button>
-              <Button onClick={() => setOpenSettings(false)} positive>
-                Done
-              </Button>
-            </Modal.Actions>
-          </Modal> */}
-        {/* <Dropdown
-            placeholder='Select a previous map'
-            fluid
-            selection
-            options={previousSelections}
-          /> */}
-        {/* <Popup
-            content="Under Construction!"
-            trigger={
-              <Button style={{ opacity: 0.5 }} onClick={() => setOpenJurisdiction(true)}>
-                Select New Jurisdiction
-              </Button>
-            }
-          /> */}
         <Modal
           open={openJurisdiction}
           onClose={() => setOpenJurisdiction(false)}
