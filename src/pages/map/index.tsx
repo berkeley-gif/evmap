@@ -29,8 +29,6 @@ import ContextMenu from '@map/ContextMenu'
 import { GeoJSONData, LeafletMapContainer, MapMarker } from '@map/GeoJSONData'
 import PolygonClickMenu from '@map/PolygonClickMenu'
 import WelcomeModal from '@map/WelcomeModal'
-// import { Action, initialState, reducer, useLayerGroupEffect } from '@map/leafletUtils'
-// import MapMarker from '@map/ui/MapMarker'
 import useLeaflet from '@map/useLeaflet'
 import useLeafletWindow from '@map/useLeafletWindow'
 import useMapContext from '@map/useMapContext'
@@ -43,15 +41,18 @@ import React, { Dispatch, useEffect, useMemo, useReducer, useRef, useState } fro
 import { useResizeDetector } from 'react-resize-detector'
 import 'react-toggle/style.css'
 
+import AddressSearch from '@components/Map/AddressSearch'
 import ColocationPoint from '@components/Map/ColocationPoint'
 import MapNavBar from '@components/MapNavBar'
 
 import { FeasibilityDataConfig, PriorityDataConfig } from '@src/types/config'
 
 import { AppConfig } from '@lib/AppConfig'
+import { Range, initialScoreRanges, maxValues } from '@lib/Constants'
 import MapProps from '@lib/MapProps'
 import NavBarProps from '@lib/NavBarProps'
 import { Places } from '@lib/Places'
+import { SliderConfigs } from '@lib/SliderConfigs'
 
 import { ControlPanel } from '../../components/Map/ControlPanel'
 
@@ -102,6 +103,8 @@ interface AnalysisState {
   feasibleDataConfig: FeasibilityDataConfig
   priorityPolygonData: PolygonFeature | null
   feasiblePolygonData: PolygonFeature | null
+  scoreRanges: Record<string, Range>
+  filters: Record<string, { zero: boolean; one: boolean }>
 }
 
 export type MapState = LayerToggleState & LayerDataState & UIState & AnalysisState
@@ -208,10 +211,13 @@ const initialState: MapState = {
   clickedLatLng: null,
   priorityData: null,
   feasibleData: null,
+  scoreRanges: initialScoreRanges,
+  filters: {
+    neviFilterActive: { zero: true, one: true },
+    irs30cFilterActive: { zero: true, one: true },
+  },
 }
 
-// const MemoizedLeafletMapContainer = React.memo(LeafletMapContainer) // Commented out for direct MapContainer test
-// const Map: React.FC<MapComponentProps> = ({ setCurrentView, map, cityConfig }) => {
 export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   const [state, dispatch] = useReducer(mapReducer, initialState)
   const {
@@ -238,6 +244,8 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
     polygonClickMenuVisible,
     menuPosition,
     clickedLatLng,
+    scoreRanges,
+    filters,
   } = state
   const { map, cityConfig = {} as MapProps } = useMapContext()
   const leafletWindow = useLeafletWindow()
@@ -282,9 +290,107 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
 
   const isLoading = !map || !leafletWindow || !viewportWidth || !viewportHeight
 
+  /**
+   * Generates a CSV file containing the current slider configuration state.
+   *
+   * Creates a CSV with columns: Layer, Slider Name, Min Value, Max Value
+   * Includes all active sliders for both Priority and Feasibility layers,
+   * plus binary filters like NEVI and IRS 30C eligibility.
+   *
+   * @returns CSV string with header and data rows
+   */
+  const generateSliderCSV = () => {
+    const csvRows: string[] = []
+    csvRows.push('Layer,Slider Name,Min Value,Max Value')
+
+    SliderConfigs.forEach(slider => {
+      const isActive =
+        priorityDataConfig[slider.trigger as keyof PriorityDataConfig] ||
+        priorityDataConfig.census?.[slider.trigger] ||
+        priorityDataConfig.subIndicators?.CES?.[slider.trigger] ||
+        priorityDataConfig.subIndicators?.EJScreen?.[slider.trigger] ||
+        priorityDataConfig.subIndicators?.CEJST?.[slider.trigger]
+
+      if (isActive) {
+        const range = scoreRanges[slider.value] || [0, 0]
+        csvRows.push(`Priority Pixels,"${slider.mainText}",${range[0]},${range[1]}`)
+      }
+    })
+
+    SliderConfigs.forEach(slider => {
+      const isActive = feasibleDataConfig[slider.trigger as keyof FeasibilityDataConfig]
+
+      if (isActive) {
+        const range = scoreRanges[slider.value] || [0, 0]
+        csvRows.push(`Feasibility Pixels,"${slider.mainText}",${range[0]},${range[1]}`)
+      }
+    })
+
+    if (feasibleDataConfig.toggleNeviFilterActive) {
+      const neviState = filters.neviFilterActive?.one && !filters.neviFilterActive?.zero ? 'On' : 'Off'
+      csvRows.push(`Feasibility Pixels,"NEVI eligible",${neviState},${neviState}`)
+    }
+    if (feasibleDataConfig.toggleirs30cFilterActive) {
+      const irs30cState = filters.irs30cFilterActive?.one && !filters.irs30cFilterActive?.zero ? 'On' : 'Off'
+      csvRows.push(`Feasibility Pixels,"IRS 30C eligible",${irs30cState},${irs30cState}`)
+    }
+
+    return csvRows.join('\n')
+  }
+
+  /**
+   * Captures a screenshot of the map and downloads it along with configuration data.
+   *
+   * This function handles two different screenshot modes:
+   *
+   * 1. **Embedded Mode (iframe)**: When the app is embedded in another page, sends a
+   *    postMessage to the parent window requesting a screenshot. The parent is responsible
+   *    for capturing and saving the image.
+   *
+   * 2. **Standalone Mode**: Uses the browser's getDisplayMedia API to capture the screen,
+   *    converts it to PNG, and triggers a download. Also generates and downloads a CSV
+   *    file containing the current slider configuration.
+   *
+   * The files are named with coordinates if a location is pinned, otherwise timestamped.
+   * Properly cleans up media streams and object URLs after completion.
+   *
+   * @throws Will log errors to console if screenshot capture fails
+   */
   const takeScreenshot = async () => {
     try {
       const coords = clickedLatLng
+      const isEmbedded = typeof window !== 'undefined' && window.self !== window.top
+
+      if (isEmbedded) {
+        const csvContent = generateSliderCSV()
+
+        const parentOrigin =
+          process.env.NEXT_PUBLIC_PARENT_ORIGIN ||
+          (typeof document !== 'undefined' && document.referrer ? new URL(document.referrer).origin : '*')
+
+        window.parent.postMessage(
+          {
+            type: 'TAKE_SCREENSHOT_REQUEST',
+            data: {
+              coords,
+              timestamp: Date.now(),
+              csvContent,
+              csvFilename:
+                coords && typeof coords.lat === 'number' && typeof coords.lng === 'number'
+                  ? `Lat${coords.lat.toFixed(4)}_Lng${coords.lng.toFixed(4)}_config.csv`
+                  : `screenshot_${Date.now()}_config.csv`,
+              imageFilename:
+                coords && typeof coords.lat === 'number' && typeof coords.lng === 'number'
+                  ? `Lat${coords.lat.toFixed(4)}_Lng${coords.lng.toFixed(4)}.png`
+                  : `screenshot_${Date.now()}.png`,
+            },
+          },
+          parentOrigin,
+        )
+
+        console.log(`Screenshot request sent to parent window (${parentOrigin})`)
+        return
+      }
 
       dispatch({ type: 'SET_FIELD', field: 'coordinatesTB', payload: true })
 
@@ -335,6 +441,22 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
             objectUrl = null
           }
         }, 1000)
+
+        // Download CSV with slider configuration
+        const csvContent = generateSliderCSV()
+        const csvBlob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' })
+        const csvUrl = URL.createObjectURL(csvBlob)
+        const csvLink = document.createElement('a')
+        csvLink.href = csvUrl
+        const csvFilename =
+          coords && typeof coords.lat === 'number' && typeof coords.lng === 'number'
+            ? `Lat${coords.lat.toFixed(4)}_Lng${coords.lng.toFixed(4)}_config.csv`
+            : `screenshot_${Date.now()}_config.csv`
+        csvLink.download = csvFilename
+        document.body.appendChild(csvLink)
+        csvLink.click()
+        csvLink.remove()
+        URL.revokeObjectURL(csvUrl)
       } finally {
         try {
           stream.getTracks().forEach(track => {
@@ -374,7 +496,6 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
     })
     dispatch({ type: 'SET_FIELD', field: 'contextMenuVisible', payload: true })
   }
-  // const isMenuPositionSet = state.menuPosition.x !== 0 || state.menuPosition.y !== 0
 
   const handleClick = () => {
     dispatch({ type: 'SET_FIELD', field: 'contextMenuVisible', payload: false })
@@ -391,12 +512,38 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
     cityBoundaryGeoJSON: null,
     simplifiedCityBoundary: null,
   })
-  // const ref = useRef<HTMLDivElement>(null)
+
   let formattedCity = ''
   if (cityConfig?.city) {
     formattedCity = cityConfig.city.replace(/_/g, ' ').replace(/\b\w/g, char => char.toUpperCase())
   }
   const utility = getUtilityProvider(jurisdictionLookup, formattedCity)
+
+  // Helper functions for managing scoreRanges and filters
+  const updateRange = (key: string, value: Range) => {
+    dispatch({ type: 'SET_FIELD', field: 'scoreRanges', payload: { ...scoreRanges, [key]: value } })
+  }
+
+  const setFilters = (
+    newFilters:
+      | Record<string, { zero: boolean; one: boolean }>
+      | ((
+          prev: Record<string, { zero: boolean; one: boolean }>,
+        ) => Record<string, { zero: boolean; one: boolean }>),
+  ) => {
+    const updatedFilters = typeof newFilters === 'function' ? newFilters(filters) : newFilters
+    dispatch({ type: 'SET_FIELD', field: 'filters', payload: updatedFilters })
+  }
+
+  const resetSliders = () => {
+    const resetRanges = Object.keys(maxValues).reduce((acc, key) => {
+      const typedKey = key as keyof typeof maxValues
+      acc[key.replace('Max', 'Range')] = [0, maxValues[typedKey] || 100]
+      return acc
+    }, {} as Record<string, Range>)
+    dispatch({ type: 'SET_FIELD', field: 'scoreRanges', payload: resetRanges })
+  }
+
   const getToggleValue = (key: string, toggleKey: keyof typeof priorityDataConfig): boolean => {
     const value = priorityDataConfig[toggleKey]
     if (key === 'census') return Boolean(value)
@@ -454,10 +601,6 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   useEffectSchool()
   useEffectWelcomeModal(dispatch)
 
-  // useEffect(() => {
-  //   if (!L) return
-  // }, [L])
-  // useEffectCenterMap()
   const top = AppConfig.ui.topBarHeight
   let height: number | string = '100%'
   if (viewportHeight) {
@@ -482,7 +625,6 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
         {isConfigPanelOpen && (
           <ConfigurationPanel
             priorityDataConfig={priorityDataConfig}
-            // feasibleDataConfig={feasibleDataConfig}
             handlePriorityChange={handlePriorityChange}
             closePanel={() => dispatch({ type: 'SET_FIELD', field: 'isConfigPanelOpen', payload: false })}
           />
@@ -498,6 +640,11 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
           utility={utility}
           jurisdiction={formattedCity}
           dispatch={dispatch}
+          scoreRanges={scoreRanges}
+          filters={filters}
+          updateRange={updateRange}
+          setFilters={setFilters}
+          resetSliders={resetSliders}
         />
         <label>
           <b>Co-location Points</b>
@@ -570,24 +717,6 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
             />
           </div>
         </div>
-        {/* <label>
-        <input
-          type="checkbox"
-          checked={showIntersection}
-          onChange={() => setShowIntersection(!showIntersection)}
-        />
-        Show Computed Intersection
-      </label>
-
-      {showIntersection && map && priorityData && feasibleData && (
-        <LayerIntersection
-          map={map}
-          priorityData={priorityData}
-          feasibleData={feasibleData}
-          onIntersectionChange={setIntersectionData}
-          showIntersection={true}
-        />
-      )} */}
       </div>
       <div className="h-full w-full absolute overflow-hidden" ref={viewportRef}>
         <MapNavBar setCurrentView={setCurrentView} />
@@ -625,6 +754,13 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
           menuPosition={menuPosition}
           takeScreenshot={takeScreenshot}
         />
+        <AddressSearch
+          map={map}
+          onLocationSelect={(lat, lng, address) => {
+            dispatch({ type: 'SET_FIELD', field: 'clickedLatLng', payload: { lat, lng } })
+            console.log(`Navigated to: ${address} (${lat}, ${lng})`)
+          }}
+        />
         <div
           className={`absolute w-full left-0 transition-opacity ${isLoading ? 'opacity-0' : 'opacity-1 '}`}
           onContextMenu={handleRightClick}
@@ -645,32 +781,6 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
               {clickedLatLng && (
                 <MapMarker position={[clickedLatLng.lat, clickedLatLng.lng]} icon={pinIcon} />
               )}
-              {/* {allMarkersBoundCenter && clustersByCategory && (
-                <> */}
-              {/* <CenterToMarkerButton
-                    center={allMarkersBoundCenter.centerPos}
-                    zoom={allMarkersBoundCenter.minZoom}
-                  />
-                  <LocateButton /> */}
-              {/* {Object.values(clustersByCategory).map(item => (
-                    <LeafletCluster
-                      key={item.category}
-                      icon={MarkerCategories[item.category as Category].icon}
-                      color={MarkerCategories[item.category as Category].color}
-                      chunkedLoading
-                    >
-                      {item.markers.map(marker => (
-                        <CustomMarker
-                          icon={MarkerCategories[marker.category].icon}
-                          color={MarkerCategories[marker.category].color}
-                          key={(marker.position as number[]).join('')}
-                          position={marker.position}
-                        />
-                      ))}
-                    </LeafletCluster>
-                  ))}
-                </> */}
-              {/* )} */}
             </>
           </LeafletMapContainer>
         </div>
@@ -718,6 +828,21 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
       return null
     }
   }
+  /**
+   * Fetches GeoJSON data from a URL and filters it to only include features within the city boundary.
+   *
+   * This function performs spatial filtering on point and polygon features:
+   * - Point features are checked if they fall within the city boundary
+   * - Polygon/MultiPolygon features are checked if they intersect with the boundary
+   *
+   * The city boundary is cached to avoid reprocessing on subsequent calls.
+   *
+   * @param url - The URL to fetch GeoJSON data from
+   * @param cityBoundaryGeoJSON - The city boundary polygon(s) to filter against
+   * @param setLayerData - Callback to update the layer data state
+   * @param _setShowLayer - Callback to update layer visibility (unused but kept for interface consistency)
+   * @param tolerance - Simplification tolerance for polygon processing (currently unused)
+   */
   async function fetchAndFilterLayerData({
     url,
     cityBoundaryGeoJSON,
@@ -741,13 +866,6 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
       ) {
         if (cityBoundaryGeoJSON && cityBoundaryGeoJSON.features.length > 0) {
           cachedRef.current.cityBoundaryGeoJSON = cityBoundaryGeoJSON
-
-          // Optional: simplified polygon for drawing only (not filtering)
-          // const merged = turf.union(...cityBoundaryGeoJSON.features)
-          // cachedRef.current.simplifiedCityBoundary = turf.simplify(merged, {
-          //   tolerance: 0.00001,
-          //   highQuality: true,
-          // })
           cachedRef.current.simplifiedCityBoundary = cityBoundaryGeoJSON
         } else {
           cachedRef.current.cityBoundaryGeoJSON = null
@@ -959,6 +1077,23 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   }
 }
 
+/**
+ * Custom hook effect to manage map layers for co-location points (libraries, schools, parks, etc.).
+ *
+ * This function handles the lifecycle of a Leaflet layer group:
+ * - Creates a new layer group and adds it to the map when showLayer is true
+ * - Updates the layer with GeoJSON data and custom icons
+ * - Removes and cleans up the layer when showLayer is false
+ *
+ * The layer group is stored on the map object itself for persistence across renders.
+ *
+ * @param map - The Leaflet map instance
+ * @param data - GeoJSON data to display on the layer
+ * @param showLayer - Whether the layer should be visible
+ * @param layerGroupName - Unique name for the layer group (stored on map object)
+ * @param iconUrl - URL to the icon image for point markers
+ * @param L - Leaflet library instance
+ */
 function useLayerGroupEffect({
   map,
   data,
@@ -1021,6 +1156,20 @@ function useEffectWelcomeModal(dispatch: Dispatch<MapAction>): void {
   }, [])
 }
 
+/**
+ * Preprocesses jurisdiction data to create a city-to-utility-provider lookup table.
+ *
+ * Iterates through all counties and their cities to build a flat map where
+ * each city name is mapped to its utility provider. Defaults to 'PG&E' if
+ * no provider is specified.
+ *
+ * @param counties - Array of county objects, each containing a cities array
+ * @returns A lookup object mapping city names to utility provider names
+ *
+ * @example
+ * const lookup = preprocessJurisdictions(countiesData);
+ * // Returns: { "San Francisco": "PG&E", "Los Angeles": "LADWP", ... }
+ */
 const preprocessJurisdictions = (counties: Record<string, any>): Record<string, string> => {
   const lookup: Record<string, string> = {}
 
@@ -1033,6 +1182,13 @@ const preprocessJurisdictions = (counties: Record<string, any>): Record<string, 
   return lookup
 }
 
+/**
+ * Retrieves the utility provider for a given jurisdiction.
+ *
+ * @param lookup - The preprocessed jurisdiction lookup table
+ * @param jurisdictionName - The name of the city/jurisdiction
+ * @returns The utility provider name, defaulting to 'PG&E' if not found
+ */
 const getUtilityProvider = (lookup: Record<string, any>, jurisdictionName: string): string =>
   lookup[jurisdictionName] || 'PG&E'
 

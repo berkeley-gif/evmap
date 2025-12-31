@@ -5,7 +5,7 @@ import NavBarProps from '@lib/NavBarProps'
 
 import { openInNewWindow } from '../../utils/openInNewWindow'
 
-const NavBar: React.FC<NavBarProps> = ({ setCurrentView }) => {
+const NavBar: React.FC<NavBarProps> = ({ setCurrentView, embed }) => {
   const router = useRouter()
   const isMapPage = router.pathname.startsWith('/map')
 
@@ -40,14 +40,18 @@ const NavBar: React.FC<NavBarProps> = ({ setCurrentView }) => {
         About
       </button>
       <span>|</span>
-      <button
-        type="button"
-        onClick={() => handleViewChange('contact')}
-        className="cursor-pointer bg-transparent border-none p-0 "
-      >
-        Contact
-      </button>
-      <span>|</span>
+      {!embed && (
+        <>
+          <button
+            type="button"
+            onClick={() => handleViewChange('contact')}
+            className="cursor-pointer bg-transparent border-none p-0 "
+          >
+            Contact
+          </button>
+          <span>|</span>
+        </>
+      )}
       <button
         type="button"
         onClick={() => openInNewWindow('/data', 'Data Sources')}

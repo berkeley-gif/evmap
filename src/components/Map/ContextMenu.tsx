@@ -119,11 +119,8 @@ const ContextMenu = ({
         </p>
         {city === 'san_francisco' ? (
           <p>
-            Click “Take Map Snapshot” and send the resulting image download to{' '}
-            <a href="chargingmadeeasy@sfgov.org" className="inline-link">
-              chargingmadeeasy@sfgov.org
-            </a>{' '}
-            to propose EV infrastructure investment at this location.
+            Click “Take Map Snapshot” and send the resulting image download to SFE using the site nomination
+            form below to propose EV infrastructure investment at this location.
           </p>
         ) : (
           <p>

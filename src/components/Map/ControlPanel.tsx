@@ -2,7 +2,7 @@ import * as turf from '@turf/turf'
 import { FeatureCollection, GeoJsonProperties, MultiPolygon, Point, Polygon } from 'geojson'
 import { useState } from 'react'
 
-import { Range, colors, controlTitles, initialScoreRanges, maxValues } from '@lib/Constants'
+import { Range, colors, controlTitles, maxValues } from '@lib/Constants'
 
 import { DataControls } from './DataControls'
 import { GeoJSONData, GeoJSONFeature } from './GeoJSONData'
@@ -19,6 +19,11 @@ interface ControlPanelProps {
   utility?: string | null
   jurisdiction?: string | null
   dispatch: any
+  scoreRanges: Record<string, Range>
+  filters: Record<string, { zero: boolean; one: boolean }>
+  updateRange: (key: string, value: Range) => void
+  setFilters: React.Dispatch<React.SetStateAction<Record<string, { zero: boolean; one: boolean }>>>
+  resetSliders: () => void
 }
 
 export const ControlPanel = ({
@@ -33,44 +38,58 @@ export const ControlPanel = ({
   utility,
   jurisdiction,
   dispatch,
+  scoreRanges,
+  filters,
+  updateRange,
+  setFilters,
+  resetSliders,
 }: ControlPanelProps) => {
   const [loading, setLoading] = useState(true)
   const [layerData, setLayerData] = useState<GeoJSONData | null>(null)
-  const [scoreRanges, setScoreRanges] = useState<Record<string, Range>>(initialScoreRanges)
-  const [filters, setFilters] = useState<Record<string, { zero: boolean; one: boolean }>>({
-    neviFilterActive: { zero: true, one: true },
-    irs30cFilterActive: { zero: true, one: true },
-  })
 
   const [priorityLayerData, setPriorityLayerData] = useState<GeoJSONData | null>(null)
   const [feasibleLayerData, setFeasibleLayerData] = useState<GeoJSONData | null>(null)
 
-  const updateRange = (key: string, value: Range) => {
-    setScoreRanges(prev => ({ ...prev, [key]: value }))
-  }
-
-  const resetSliders = () => {
-    setScoreRanges(() =>
-      Object.keys(maxValues).reduce((acc, key) => {
-        const typedKey = key as keyof typeof maxValues
-        acc[key.replace('Max', 'Range')] = [0, maxValues[typedKey] || 100]
-        return acc
-      }, {} as Record<string, Range>),
-    )
-  }
+  const [disabledPrioritySliders, setDisabledPrioritySliders] = useState<Set<string>>(new Set())
+  const [disabledFeasibilitySliders, setDisabledFeasibilitySliders] = useState<Set<string>>(new Set())
 
   // const updateFilter = (key: string, value: { zero: boolean; one: boolean }) => {
   //   setFilters(prev => ({ ...prev, [key]: value }))
   // }
+  /**
+   * Checks if a value falls within a specified range, with special handling for max values.
+   *
+   * @param value - The value to check
+   * @param range - Tuple of [min, max] values for the range
+   * @param max - The maximum possible value for this metric
+   * @returns True if value is within range, or if range[1] equals max
+   */
   const withinRange = (value: number, range: [number, number], max: number) =>
     value >= range[0] && (value <= range[1] || range[1] === max)
 
+  /**
+   * Filters GeoJSON data based on user-selected slider ranges and configuration.
+   *
+   * This complex function handles filtering for both Priority and Feasibility pixel layers:
+   * - Applies range filters for multiple environmental justice indicators (CES, EJScreen, CEJST)
+   * - Filters based on census data (demographics, housing, transportation)
+   * - Handles infrastructure metrics (EV chargers, grid capacity, registered LEVs)
+   * - Applies binary filters for NEVI and IRS 30C eligibility
+   *
+   * The function dynamically evaluates which filters are active based on the config object
+   * and disabled sliders set, then returns only features that pass all active filters.
+   *
+   * @param dataControlsTitle - Either "Priority Pixels" or "Feasibility Pixels"
+   * @param data - The full GeoJSON dataset to filter
+   * @param config - Configuration object specifying which filters are active
+   * @param disabledSliders - Set of slider keys that should be ignored
+   * @returns Filtered GeoJSON data containing only features that match the criteria
+   */
   const filterData = (
     dataControlsTitle: string,
     data: GeoJSONData,
-    // cityBoundaryData: FeatureCollection<Polygon | MultiPolygon> | null,
-    // simplifiedCityBoundary: Feature<Polygon | MultiPolygon, GeoJsonProperties> | null,
     config: any,
+    disabledSliders: Set<string>,
   ): GeoJSONData => {
     const tolerance = 0.02 // Adjust for performance vs accuracy
     // const simplifiedCityBoundary =
@@ -405,7 +424,8 @@ export const ControlPanel = ({
                 config.subIndicators?.CES?.[key] ||
                 config.subIndicators?.EJScreen?.[key] ||
                 config.subIndicators?.CEJST?.[key]) &&
-              !['nevi', 'irs30c', 'pge'].includes(key),
+              !['nevi', 'irs30c', 'pge'].includes(key) &&
+              !disabledSliders.has(key), // Exclude disabled sliders
           )
 
           // If no conditions are active, don't show any polygons
@@ -453,11 +473,12 @@ export const ControlPanel = ({
     geojsonUrl: string,
     config: any,
     setLayerDataFn: (data: GeoJSONData) => void,
+    disabledSliders: Set<string>,
   ) => {
     try {
       const response = await fetch(geojsonUrl)
       const dataJson: GeoJSONData = await response.json()
-      const filteredData = filterData(dataControlsTitle, dataJson, config)
+      const filteredData = filterData(dataControlsTitle, dataJson, config, disabledSliders)
       setLayerDataFn(filteredData)
     } catch (error) {
       if (process.env.NODE_ENV === 'development') {
@@ -484,13 +505,21 @@ export const ControlPanel = ({
         dispatch={dispatch}
         loading={loading}
         fetchAndFilterData={() =>
-          fetchAndFilterData(controlTitles.priority, priorityUrl, priorityDataConfig, setPriorityLayerData)
+          fetchAndFilterData(
+            controlTitles.priority,
+            priorityUrl,
+            priorityDataConfig,
+            setPriorityLayerData,
+            disabledPrioritySliders,
+          )
         }
         resetSliders={resetSliders}
         scoreRanges={scoreRanges}
         updateRange={updateRange}
         filters={filters}
         setFilters={setFilters}
+        disabledSliders={disabledPrioritySliders}
+        setDisabledSliders={setDisabledPrioritySliders}
       />
       <DataControls
         dataControlsTitle={controlTitles.feasibility}
@@ -506,13 +535,21 @@ export const ControlPanel = ({
         dispatch={dispatch}
         loading={loading}
         fetchAndFilterData={() =>
-          fetchAndFilterData(controlTitles.feasibility, feasibleUrl, feasibleDataConfig, setFeasibleLayerData)
+          fetchAndFilterData(
+            controlTitles.feasibility,
+            feasibleUrl,
+            feasibleDataConfig,
+            setFeasibleLayerData,
+            disabledFeasibilitySliders,
+          )
         }
         resetSliders={resetSliders}
         scoreRanges={scoreRanges}
         updateRange={updateRange}
         filters={filters}
         setFilters={setFilters}
+        disabledSliders={disabledFeasibilitySliders}
+        setDisabledSliders={setDisabledFeasibilitySliders}
       />
     </>
   )

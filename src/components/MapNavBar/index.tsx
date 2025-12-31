@@ -36,7 +36,7 @@ const MapNavBar: React.FC<NavBarProps> = ({ setCurrentView: propSetCurrentView }
       setErrorState(false)
     }
   }, [cityConfig])
-
+  const isSF = 'city' in cityConfig && cityConfig.city === 'san_francisco'
   return (
     <div
       className="h-20 absolute w-full left-0 top-0 p-3 shadow bg-dark flex items-center"
@@ -50,37 +50,38 @@ const MapNavBar: React.FC<NavBarProps> = ({ setCurrentView: propSetCurrentView }
             <p>Error: Map not loaded, please select a jurisdiction</p>
           </div>
         )} */}
-        <NavBar setCurrentView={setCurrentView} />
+        <NavBar setCurrentView={setCurrentView} embed={isSF} />
         <div className="flex-grow" />
-        <Modal
-          open={openJurisdiction}
-          onClose={() => setOpenJurisdiction(false)}
-          onOpen={() => setOpenJurisdiction(true)}
-          trigger={
-            <Button onClick={() => setOpenJurisdiction(true)} className={errorState ? 'glow-effect' : ''}>
-              Select New Jurisdiction
-            </Button>
-          }
-        >
-          <Modal.Header>Select Jurisdiction</Modal.Header>
-          <Modal.Content>
-            <MapSelector startLoading={startLoading} />
-            {loading && isMapPage && (
-              <Dimmer active>
-                <Loader />
-              </Dimmer>
-              // <Loader active size='medium' inline='centered' className='custom-loader' />
-            )}
-          </Modal.Content>
-          <Modal.Actions>
-            <Button className="bg-primary text-white" onClick={() => setOpenJurisdiction(false)} negative>
-              Close
-            </Button>
-          </Modal.Actions>
-        </Modal>
+        {!isSF && (
+          <Modal
+            open={openJurisdiction}
+            onClose={() => setOpenJurisdiction(false)}
+            onOpen={() => setOpenJurisdiction(true)}
+            trigger={
+              <Button onClick={() => setOpenJurisdiction(true)} className={errorState ? 'glow-effect' : ''}>
+                Select New Jurisdiction
+              </Button>
+            }
+          >
+            <Modal.Header>Select Jurisdiction</Modal.Header>
+            <Modal.Content>
+              <MapSelector startLoading={startLoading} />
+              {loading && isMapPage && (
+                <Dimmer active>
+                  <Loader />
+                </Dimmer>
+                // <Loader active size='medium' inline='centered' className='custom-loader' />
+              )}
+            </Modal.Content>
+            <Modal.Actions>
+              <Button className="bg-primary text-white" onClick={() => setOpenJurisdiction(false)} negative>
+                Close
+              </Button>
+            </Modal.Actions>
+          </Modal>
+        )}
       </div>
     </div>
-    // </div>
   )
 }
 

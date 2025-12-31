@@ -53,6 +53,29 @@ npm install
 yarn
 ```
 
+#### 🔑 Environment Setup
+
+After installation, you need to configure your environment variables:
+
+1. Copy the example environment file:
+```bash
+cp .env.example .env
+```
+
+2. Edit `.env` and add your API keys:
+   - **NEXT_PUBLIC_GOOGLE_CLOUD_API_KEY**: Required for address search autocomplete
+     - Get your key from [Google Cloud Console](https://console.cloud.google.com/)
+     - Enable the following APIs:
+       - Maps JavaScript API
+       - Places API
+   - **NEXT_PUBLIC_GEOCODING_API_KEY**: For geocoding features
+     - Get your key from [OpenCage](https://opencagedata.com/api) or your preferred geocoding service
+   - **NEXT_PUBLIC_PASSWORD**: Set a password for application access control
+
+3. Save the `.env` file
+
+**Note**: Never commit your `.env` file to version control. It contains sensitive API keys.
+
 ### <a id="start-up"></a> 🏍️ Start up
 
 According the official [Next.js Docs](https://nextjs.org/docs/getting-started):

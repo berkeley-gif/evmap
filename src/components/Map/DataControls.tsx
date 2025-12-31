@@ -48,6 +48,8 @@ interface DataControlsProps {
   updateRange: (key: string, value: Range) => void
   filters: Record<string, { zero: boolean; one: boolean }>
   setFilters: React.Dispatch<React.SetStateAction<Record<string, { zero: boolean; one: boolean }>>>
+  disabledSliders: Set<string>
+  setDisabledSliders: React.Dispatch<React.SetStateAction<Set<string>>>
 }
 
 interface CachedType {
@@ -77,6 +79,8 @@ export const DataControls = ({
   updateRange,
   filters,
   setFilters,
+  disabledSliders,
+  setDisabledSliders,
 }: DataControlsProps) => {
   const [isExpanded, setIsExpanded] = useState(false)
   const [isFirstLoad, setIsFirstLoad] = useState(true)
@@ -110,7 +114,7 @@ export const DataControls = ({
   ) {
     useEffect(() => {
       fetchAndFilterData()
-    }, [scoreRanges, filters, simplifiedCityBoundary, JSON.stringify(config)])
+    }, [scoreRanges, filters, simplifiedCityBoundary, JSON.stringify(config), disabledSliders])
   }
 
   function useEffectLayerData() {
@@ -214,6 +218,11 @@ export const DataControls = ({
       config.subIndicators?.EJScreen?.[indicator.trigger] ||
       config.subIndicators?.CEJST?.[indicator.trigger]
 
+    const isDisabled = disabledSliders.has(indicator.trigger)
+
+    // Show slider if it's either currently active OR has been disabled (was previously active)
+    const shouldShow = isActive || isDisabled
+
     const SF_CAPACITY_NOTE =
       'Load capacity is based on the capacity map provided by the electric utility that serves the jurisdiction, <a href="https://www.energy.gov/eere/us-atlas-electric-distribution-system-hosting-capacity-maps">where available</a>. <strong>Most of San Francisco is in PG&E service territory.</strong> Several areas of San Francisco, such as Treasure Island, are served by SFPUC and do not have Hosting Capacity data available. Energy requirements vary widely, but 100 kW of capacity is typically needed to support 5-10 Level 2 chargers or 1 DC Fast charger.'
 
@@ -229,72 +238,43 @@ export const DataControls = ({
     const processedAccordionText = isSF && indicator.name === 'pge' ? SF_CAPACITY_NOTE : baseAccordionText
     const rightThumbSliders = ['lev', 'walkable', 'drivable']
     const useRightThumb = Boolean(rightThumbSliders.includes(indicator.name))
+    const isPriorityLayer = dataControlsTitle === 'Priority Pixels'
+
     return (
-      isActive && (
-        <label key={indicator.id}>
+      shouldShow && (
+        <label key={indicator.id} style={{ opacity: isDisabled ? 0.5 : 1 }}>
           <br />
           <div style={{ display: 'flex', justifyContent: 'space-between' }}>
-            <div style={{ flex: 1 }}>
+            <div style={{ flex: 1, textDecoration: isDisabled ? 'line-through' : 'none' }}>
               <LayerControl
                 mainText={indicator.mainText}
                 hoverText={indicator.hoverText}
                 accordionText={processedAccordionText}
               />
             </div>
-            <Icon
-              name="delete"
-              color="red"
-              style={{ cursor: 'pointer', margin: '0 5px' }}
-              onClick={() => {
-                const fieldToUpdate = indicator.trigger
+            {isPriorityLayer && (
+              <Icon
+                name={isDisabled ? 'eye slash' : 'eye'}
+                color={isDisabled ? 'grey' : 'blue'}
+                style={{ cursor: 'pointer', margin: '0 5px' }}
+                onClick={() => {
+                  const fieldToUpdate = indicator.trigger
 
-                const updatedConfig = { ...config }
-
-                if (config.census && config.census[fieldToUpdate] !== undefined) {
-                  updatedConfig.census = {
-                    ...config.census,
-                    [fieldToUpdate]: false,
+                  if (isDisabled) {
+                    // Re-enable the slider - just remove from disabled set, don't modify config
+                    setDisabledSliders(prev => {
+                      const newSet = new Set(prev)
+                      newSet.delete(fieldToUpdate)
+                      return newSet
+                    })
+                  } else {
+                    // Disable the slider - just add to disabled set, don't modify config
+                    setDisabledSliders(prev => new Set(prev).add(fieldToUpdate))
                   }
-                } else if (config.subIndicators) {
-                  let found = false
-                  const datasets = ['CES', 'EJScreen', 'CEJST']
-
-                  datasets.forEach(dataset => {
-                    if (
-                      config.subIndicators[dataset] &&
-                      config.subIndicators[dataset][fieldToUpdate] !== undefined
-                    ) {
-                      if (!updatedConfig.subIndicators) {
-                        updatedConfig.subIndicators = { ...config.subIndicators }
-                      }
-                      updatedConfig.subIndicators[dataset] = {
-                        ...config.subIndicators[dataset],
-                        [fieldToUpdate]: false,
-                      }
-                      found = true
-                    }
-                  })
-
-                  if (!found) {
-                    updatedConfig[fieldToUpdate] = false
-                  }
-                } else {
-                  updatedConfig[fieldToUpdate] = false
-                }
-
-                console.log('Updated config:', updatedConfig)
-
-                const configField =
-                  dataControlsTitle === 'Priority Pixels' ? 'priorityDataConfig' : 'feasibleDataConfig'
-
-                dispatch({
-                  type: 'SET_FIELD',
-                  field: configField,
-                  payload: updatedConfig,
-                })
-              }}
-              title="Remove filter"
-            />
+                }}
+                title={isDisabled ? 'Show filter (enable)' : 'Hide filter (disable)'}
+              />
+            )}
           </div>
           <MarkLabel range={indicator.markRange} />
           <Slider
@@ -309,6 +289,7 @@ export const DataControls = ({
             renderThumb={(props, state) => <div {...props}>{state.valueNow}</div>}
             pearling
             minDistance={0}
+            disabled={isDisabled}
           />
         </label>
       )
