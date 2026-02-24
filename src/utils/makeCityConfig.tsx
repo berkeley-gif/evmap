@@ -4,7 +4,8 @@ export const makeCityConfig = (county: string, city: string) => {
   if (county === 'san_francisco') {
     county += '_county'
   }
-  const base = `https://ev-map-2.s3.amazonaws.com/CA/${county}/${city}/${city}`
+  // Changed to testing for testing branch
+  const base = `https://ev-map-2.s3.amazonaws.com/testing/${county}/${city}/${city}`
 
   return {
     city,
