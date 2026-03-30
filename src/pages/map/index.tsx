@@ -75,6 +75,8 @@ interface LayerToggleState {
   showSchool: boolean
   showParksAndRecreation: boolean
   showHealthcareFacilities: boolean
+  showL2Chargers: boolean
+  showDCFChargers: boolean
 }
 
 interface LayerDataState {
@@ -84,6 +86,8 @@ interface LayerDataState {
   schoolsData: GeoJSONData | null
   parksAndRecreationData: GeoJSONData | null
   healthcareFacilitiesData: GeoJSONData | null
+  l2chargersData: GeoJSONData | null
+  dcfchargersData: GeoJSONData | null
 }
 
 interface UIState {
@@ -137,6 +141,10 @@ const initialState: MapState = {
   parksAndRecreationData: null,
   showHealthcareFacilities: false,
   healthcareFacilitiesData: null,
+  showL2Chargers: false,
+  l2chargersData: null,
+  showDCFChargers: false,
+  dcfchargersData: null,
   openWelcomeModal: false,
   isConfigPanelOpen: false,
   coordinatesTB: false,
@@ -233,6 +241,10 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
     parksAndRecreationData,
     showHealthcareFacilities,
     healthcareFacilitiesData,
+    showL2Chargers,
+    l2chargersData,
+    showDCFChargers,
+    dcfchargersData,
     openWelcomeModal,
     isConfigPanelOpen,
     coordinatesTB,
@@ -591,6 +603,8 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   useEffectSetLihtcLayerData()
   useEffectSetLibraryLayerData()
   useEffectSetSchoolLayerData()
+  useEffectSetL2ChargersData()
+  useEffectSetDCFChargersData()
   useEffectCenterMap()
 
   useEffectTransitStops()
@@ -599,6 +613,8 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   useEffectLihtc()
   useEffectLibrary()
   useEffectSchool()
+  useEffectL2chargers()
+  useEffectDCFchargers()
   useEffectWelcomeModal(dispatch)
 
   const top = AppConfig.ui.topBarHeight
@@ -714,6 +730,28 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
               }
               image="https://ev-map-2.s3.amazonaws.com/icons/first-aid-kit.png"
               imgAlt="first aid icon"
+            />
+            <ColocationPoint
+              mainText="L2 Chargers"
+              hoverText="Select to show L2 chargers."
+              accordionText="Existing L2 chargers can serve as charging hubs due to their ease to build out more chargers efficiently."
+              value={showL2Chargers}
+              setValue={(data: boolean) =>
+                dispatch({ type: 'SET_FIELD', field: 'showL2Chargers', payload: data })
+              }
+              image="https://ev-map-2.s3.amazonaws.com/icons/home.png"
+              imgAlt="home icon"
+            />
+            <ColocationPoint
+              mainText="DCF Chargers"
+              hoverText="Select to show DCF chargers."
+              accordionText="Existing DCF chargers can serve as charging hubs due to their ease to build out more chargers efficiently."
+              value={showDCFChargers}
+              setValue={(data: boolean) =>
+                dispatch({ type: 'SET_FIELD', field: 'showDCFChargers', payload: data })
+              }
+              image="https://ev-map-2.s3.amazonaws.com/icons/home.png"
+              imgAlt="home icon"
             />
           </div>
         </div>
@@ -1010,6 +1048,38 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
     }, [cityConfig.schoolsUrl, cityBoundaryGeoJSON])
   }
 
+  function useEffectSetL2ChargersData() {
+    useEffect(() => {
+      if (cityConfig.l2chargersUrl) {
+        fetchAndFilterLayerData({
+          url: cityConfig.l2chargersUrl,
+          cityBoundaryGeoJSON,
+          _setShowLayer: (show: boolean) =>
+            dispatch({ type: 'SET_FIELD', field: 'showL2Chargers', payload: show }),
+          setLayerData: (data: GeoJSONData | null) =>
+            dispatch({ type: 'SET_FIELD', field: 'l2chargersData', payload: data }),
+          tolerance: 0.00001,
+        })
+      }
+    }, [cityConfig.l2chargersUrl, cityBoundaryGeoJSON])
+  }
+
+  function useEffectSetDCFChargersData() {
+    useEffect(() => {
+      if (cityConfig.dcfchargersUrl) {
+        fetchAndFilterLayerData({
+          url: cityConfig.dcfchargersUrl,
+          cityBoundaryGeoJSON,
+          _setShowLayer: (show: boolean) =>
+            dispatch({ type: 'SET_FIELD', field: 'showDCFChargers', payload: show }),
+          setLayerData: (data: GeoJSONData | null) =>
+            dispatch({ type: 'SET_FIELD', field: 'dcfchargersData', payload: data }),
+          tolerance: 0.00001,
+        })
+      }
+    }, [cityConfig.dcfchargersUrl, cityBoundaryGeoJSON])
+  }
+
   function useEffectTransitStops(): void {
     useLayerGroupEffect({
       map,
@@ -1072,6 +1142,28 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
       showLayer: showSchool,
       layerGroupName: 'schoolLayerGroup',
       iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/school-bag.png',
+      L,
+    })
+  }
+
+  function useEffectL2chargers(): void {
+    useLayerGroupEffect({
+      map,
+      data: l2chargersData,
+      showLayer: showL2Chargers,
+      layerGroupName: 'l2chargersLayerGroup',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/home.png',
+      L,
+    })
+  }
+
+  function useEffectDCFchargers(): void {
+    useLayerGroupEffect({
+      map,
+      data: dcfchargersData,
+      showLayer: showDCFChargers,
+      layerGroupName: 'dcfchargersLayerGroup',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/home.png',
       L,
     })
   }
