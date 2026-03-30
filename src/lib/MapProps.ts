@@ -10,4 +10,6 @@ export default interface MapProps {
   lihtcUrl?: string
   libraryUrl?: string
   schoolsUrl?: string
+  l2chargersUrl?: string
+  dcfchargersUrl?: string
 }

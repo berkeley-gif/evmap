@@ -18,5 +18,7 @@ export const makeCityConfig = (county: string, city: string) => {
     lihtcUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_lihtc.geojson`,
     schoolsUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_schools.geojson`,
     libraryUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_libraries.geojson`,
+    l2chargersUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_l2/${county}_l2.geojson`,
+    dcfchargersUrl: `https://ev-map-2.s3.amazonaws.com/CA/Co-location_points/CA_dcf/${county}_dcf.geojson`,
   }
 }
