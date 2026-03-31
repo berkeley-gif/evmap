@@ -739,8 +739,8 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
               setValue={(data: boolean) =>
                 dispatch({ type: 'SET_FIELD', field: 'showL2Chargers', payload: data })
               }
-              image="https://ev-map-2.s3.amazonaws.com/icons/home.png"
-              imgAlt="home icon"
+              image="https://ev-map-2.s3.amazonaws.com/icons/l2.png"
+              imgAlt="l2 chargers icon"
             />
             <ColocationPoint
               mainText="DCF Chargers"
@@ -750,8 +750,8 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
               setValue={(data: boolean) =>
                 dispatch({ type: 'SET_FIELD', field: 'showDCFChargers', payload: data })
               }
-              image="https://ev-map-2.s3.amazonaws.com/icons/home.png"
-              imgAlt="home icon"
+              image="https://ev-map-2.s3.amazonaws.com/icons/dcf.png"
+              imgAlt="dcf chargers icon"
             />
           </div>
         </div>
@@ -1152,7 +1152,7 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
       data: l2chargersData,
       showLayer: showL2Chargers,
       layerGroupName: 'l2chargersLayerGroup',
-      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/home.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/l2.png',
       L,
     })
   }
@@ -1163,7 +1163,7 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
       data: dcfchargersData,
       showLayer: showDCFChargers,
       layerGroupName: 'dcfchargersLayerGroup',
-      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/home.png',
+      iconUrl: 'https://ev-map-2.s3.amazonaws.com/icons/dcf.png',
       L,
     })
   }
