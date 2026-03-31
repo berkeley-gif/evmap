@@ -52,5 +52,23 @@
       "setValue": "setShowHealthcareFacilities",
       "image": "https://ev-map-2.s3.amazonaws.com/icons/first-aid-kit.png",
       "imgAlt": "first aid icon"
+    },
+    {
+      "mainText": "L2 Chargers",
+      "hoverText": "Select to show L2 chargers.",
+      "accordionText": "Existing L2 chargers can serve as charging hubs due to their ease to build out more chargers efficiently.",
+      "value": "showL2Chargers",
+      "setValue": "setShowL2Chargers",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/l2.png",
+      "imgAlt": "l2 chargers icon"
+    },
+    {
+      "mainText": "DCF Chargers",
+      "hoverText": "Select to show DCF chargers.",
+      "accordionText": "Existing DCF chargers can serve as charging hubs due to their ease to build out more chargers efficiently.",
+      "value": "showDCFChargers",
+      "setValue": "setShowDCFChargers",
+      "image": "https://ev-map-2.s3.amazonaws.com/icons/dcf.png",
+      "imgAlt": "dcf chargers icon"
     }
-  ]
+]
