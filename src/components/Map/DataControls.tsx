@@ -21,6 +21,7 @@ import { SketchPicker } from 'react-color'
 import Slider from 'react-slider'
 import Toggle from 'react-toggle'
 import { Icon } from 'semantic-ui-react'
+import glify from 'leaflet.glify'
 
 import { Range } from '@lib/Constants'
 import { SliderConfigs } from '@lib/SliderConfigs'
@@ -173,12 +174,18 @@ export const DataControls = ({
         if (layerGroup) {
           layerGroup.clearLayers()
 
-          const layer = L.geoJSON(layerData, {
-            style: layerStyle,
+          const layer = L.glify.shapes({
+            map,
+            data: layerData,
             onEachFeature:
               dataControlsTitle === 'Priority Pixels' ? onPriorityFeatureClick : onFeasibilityFeatureClick,
-            // renderer: L.canvas()
           })
+          // const layer = L.geoJSON(layerData, {
+          //   style: layerStyle,
+          //   onEachFeature:
+          //     dataControlsTitle === 'Priority Pixels' ? onPriorityFeatureClick : onFeasibilityFeatureClick,
+          //   // renderer: L.canvas()
+          // })
 
           layerGroup.addLayer(layer)
         }
