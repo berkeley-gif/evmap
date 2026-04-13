@@ -19,6 +19,7 @@ export const LeafletMapContainer: React.FC<
       ref={e => {
         if (e && setMap) setMap(e)
       }}
+      preferCanvas={true}
       className="w-full h-full absolute outline-0 text-white"
       {...options}
     >
