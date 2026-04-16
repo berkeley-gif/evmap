@@ -26,7 +26,7 @@
 import * as turf from '@turf/turf'
 import ConfigurationPanel from '@map/ConfigurationPanel'
 import ContextMenu from '@map/ContextMenu'
-import { GeoJSONData, LeafletMapContainer, MapMarker } from '@map/GeoJSONData'
+import { ControlPanel, GeoJSONData, LeafletMapContainer, MapMarker } from '@map/GeoJSONData'
 import PolygonClickMenu from '@map/PolygonClickMenu'
 import WelcomeModal from '@map/WelcomeModal'
 import useLeaflet from '@map/useLeaflet'
@@ -54,7 +54,7 @@ import NavBarProps from '@lib/NavBarProps'
 import { Places } from '@lib/Places'
 import { SliderConfigs } from '@lib/SliderConfigs'
 
-import { ControlPanel } from '../../components/Map/ControlPanel'
+//import { ControlPanel } from '../../components/Map/ControlPanel'
 
 type LatLngType = { lat: number; lng: number } | null
 type PolygonFeature = Feature<Polygon | MultiPolygon, GeoJsonProperties>

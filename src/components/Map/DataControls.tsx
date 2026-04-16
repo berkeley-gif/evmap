@@ -15,9 +15,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import * as turf from '@turf/turf'
 import { Feature, FeatureCollection, GeoJsonProperties, MultiPolygon, Polygon } from 'geojson'
-import type { Layer as LeafletLayer, Map as LeafletMap, LeafletMouseEvent } from 'leaflet'
+import type { geoJson, Layer as LeafletLayer, Map as LeafletMap, LeafletMouseEvent } from 'leaflet'
 import React, { useEffect, useRef, useState } from 'react'
 import glify from 'leaflet.glify'
+import 'leaflet-glify-layer'
 import { SketchPicker } from 'react-color'
 import Slider from 'react-slider'
 import Toggle from 'react-toggle'
@@ -174,9 +175,8 @@ export const DataControls = ({
         if (layerGroup) {
           layerGroup.clearLayers()
 
-          const layer = glify.shapes({
-            map: map,
-            data: layerData,
+          const layer = glify.layer({
+            geoJson: layerData,
             style: layerStyle,
             onEachFeature:
               dataControlsTitle === 'Priority Pixels' ? onPriorityFeatureClick : onFeasibilityFeatureClick,

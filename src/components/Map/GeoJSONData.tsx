@@ -96,6 +96,8 @@ export const LeafletMapContainer = dynamic(
     ssr: false,
   },
 )
+export const ControlPanel = dynamic(async () => ((await import('./ControlPanel')).ControlPanel), { ssr: false})
+
 export const DynamicGeoJSON = dynamic(() => import('react-leaflet').then(mod => mod.GeoJSON), { ssr: false })
 
 export const MapMarker = dynamic(() => import('react-leaflet').then(mod => mod.Marker), { ssr: false })
