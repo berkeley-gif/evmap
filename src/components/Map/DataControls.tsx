@@ -17,6 +17,7 @@ import * as turf from '@turf/turf'
 import { Feature, FeatureCollection, GeoJsonProperties, MultiPolygon, Polygon } from 'geojson'
 import type { Layer as LeafletLayer, Map as LeafletMap, LeafletMouseEvent } from 'leaflet'
 import React, { useEffect, useRef, useState } from 'react'
+import glify from 'leaflet.glify'
 import { SketchPicker } from 'react-color'
 import Slider from 'react-slider'
 import Toggle from 'react-toggle'
@@ -173,11 +174,18 @@ export const DataControls = ({
         if (layerGroup) {
           layerGroup.clearLayers()
 
-          const layer = L.geoJSON(layerData, {
+          const layer = glify.shapes({
+            map: map,
+            data: layerData,
             style: layerStyle,
             onEachFeature:
               dataControlsTitle === 'Priority Pixels' ? onPriorityFeatureClick : onFeasibilityFeatureClick,
-            // renderer: L.canvas()
+          
+          // const layer = L.geoJSON(layerData, {
+          //   style: layerStyle,
+          //   onEachFeature:
+          //     dataControlsTitle === 'Priority Pixels' ? onPriorityFeatureClick : onFeasibilityFeatureClick,
+          //   // renderer: L.canvas()
           })
 
           layerGroup.addLayer(layer)

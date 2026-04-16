@@ -327,10 +327,10 @@
   dependencies:
     glob "7.1.7"
 
-"@next/swc-darwin-x64@14.2.23":
+"@next/swc-win32-x64-msvc@14.2.23":
   version "14.2.23"
-  resolved "https://registry.npmjs.org/@next/swc-darwin-x64/-/swc-darwin-x64-14.2.23.tgz"
-  integrity sha512-vwLw0HN2gVclT/ikO6EcE+LcIN+0mddJ53yG4eZd0rXkuEr/RnOaMH8wg/sYl5iz5AYYRo/l6XX7FIo6kwbw1Q==
+  resolved "https://registry.npmjs.org/@next/swc-win32-x64-msvc/-/swc-win32-x64-msvc-14.2.23.tgz"
+  integrity sha512-xCtq5BD553SzOgSZ7UH5LH+OATQihydObTrCTvVzOro8QiWYKdBVwcB2Mn2MLMo6DGW9yH1LSPw7jS7HhgJgjw==
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -1650,10 +1650,10 @@
   dependencies:
     "@types/leaflet" "*"
 
-"@types/leaflet@*", "@types/leaflet@^1.9.1":
-  version "1.9.16"
-  resolved "https://registry.npmjs.org/@types/leaflet/-/leaflet-1.9.16.tgz"
-  integrity sha512-wzZoyySUxkgMZ0ihJ7IaUIblG8Rdc8AbbZKLneyn+QjYsj5q1QU7TEKYqwTr10BGSzY5LI7tJk9Ifo+mEjdFRw==
+"@types/leaflet@*", "@types/leaflet@^1.9.21":
+  version "1.9.21"
+  resolved "https://registry.npmjs.org/@types/leaflet/-/leaflet-1.9.21.tgz"
+  integrity sha512-TbAd9DaPGSnzp6QvtYngntMZgcRk+igFELwR2N99XZn7RXUdKgsXMR+28bUO0rPsWp8MIu/f47luLIQuSLYv/w==
   dependencies:
     "@types/geojson" "*"
 
@@ -2368,7 +2368,7 @@ dunder-proto@^1.0.0, dunder-proto@^1.0.1:
     es-errors "^1.3.0"
     gopd "^1.2.0"
 
-earcut@^2.0.0:
+earcut@^2.0.0, earcut@^2.1.3, earcut@^2.2.4:
   version "2.2.4"
   resolved "https://registry.npmjs.org/earcut/-/earcut-2.2.4.tgz"
   integrity sha512-/pjZsA1b4RPHbeWZQn66SWS8nZZWLQQ23oE3Eam7aroEFGEvwKAsJfZ9ytiEMycfzXWpca4FA9QIOehf7PocBQ==
@@ -2910,11 +2910,6 @@ fs.realpath@^1.0.0:
   resolved "https://registry.npmjs.org/fs.realpath/-/fs.realpath-1.0.0.tgz"
   integrity sha512-OO0pH2lK6a0hZnAdau5ItzHPI6pUlvI7jMVnxUQRtw4owF2wk8lOSabtGDCTP4Ggrg2MbGnWO9X8K1t4+fGMDw==
 
-fsevents@~2.3.2:
-  version "2.3.3"
-  resolved "https://registry.npmjs.org/fsevents/-/fsevents-2.3.3.tgz"
-  integrity sha512-5xoDfX+fL7faATnagmWPpbFtwh/R77WmMMqqHGS65C3vvB0YHrgF+B1YmZ3441tMj5n63k0212XNoJwzlhffQw==
-
 function-bind@^1.1.2:
   version "1.1.2"
   resolved "https://registry.npmjs.org/function-bind/-/function-bind-1.1.2.tgz"
@@ -2943,6 +2938,11 @@ geojson-equality@0.1.6:
   integrity sha512-TqG8YbqizP3EfwP5Uw4aLu6pKkg6JQK9uq/XZ1lXQntvTHD1BBKJWhNpJ2M0ax6TuWMP3oyx6Oq7FCIfznrgpQ==
   dependencies:
     deep-equal "^1.0.0"
+
+geojson-flatten@^1.1.1:
+  version "1.1.1"
+  resolved "https://registry.npmjs.org/geojson-flatten/-/geojson-flatten-1.1.1.tgz"
+  integrity sha512-k/6BCd0qAt7vdqdM1LkLfAy72EsLDy0laNwX0x2h49vfYCiQkRc4PSra8DNEdJ10EKRpwEvDXMb0dBknTJuWpQ==
 
 geojson-rbush@3.x:
   version "3.2.0"
@@ -3514,12 +3514,23 @@ language-tags@^1.0.9:
   dependencies:
     language-subtag-registry "^0.3.20"
 
+leaflet.glify@^3.3.1:
+  version "3.3.1"
+  resolved "https://registry.npmjs.org/leaflet.glify/-/leaflet.glify-3.3.1.tgz"
+  integrity sha512-O2dOecip2M1ncHYfS/3mrVaCR7kC9DZl3yyNik9D/sYzpMiyG4E/JakBSdiPgPjohtCqt2Vi/SM/uJJWIKAAfw==
+  dependencies:
+    earcut "^2.2.4"
+    geojson-flatten "^1.1.1"
+    point-in-polygon "^1.1.0"
+    polygon-lookup "^2.6.0"
+    rbush "^3.0.1"
+
 leaflet.markercluster@^1.5.3:
   version "1.5.3"
   resolved "https://registry.npmjs.org/leaflet.markercluster/-/leaflet.markercluster-1.5.3.tgz"
   integrity sha512-vPTw/Bndq7eQHjLBVlWpnGeLa3t+3zGiuM7fJwCkiMFq+nmRuG3RI3f7f4N4TDX7T4NpbAXpR2+NTRSEGfCSeA==
 
-leaflet@^1.3.1, leaflet@^1.9.0, leaflet@^1.9.3:
+leaflet@^1.3.1, leaflet@^1.3.4, leaflet@^1.9.0, leaflet@^1.9.3, leaflet@1.9.4:
   version "1.9.4"
   resolved "https://registry.npmjs.org/leaflet/-/leaflet-1.9.4.tgz"
   integrity sha512-nxS1ynzJOmOlHp+iL3FyWqK89GtNL8U8rvlMOsQdTTssxZwCXh8N2NB3GDQOL+YR3XnWyZAxwQixURb+FA74PA==
@@ -3559,7 +3570,7 @@ lodash.merge@^4.6.2:
   resolved "https://registry.npmjs.org/lodash.merge/-/lodash.merge-4.6.2.tgz"
   integrity sha512-0KpjqXRVvrYyCsX1swR/XTK0va6VQkQM6MNo7PqW77ByjAhoARA8EfrP1N4+KlKj8YS0ZUCtRT/YUuhyYDujIQ==
 
-lodash@^4.0.1, lodash@^4.17.15, lodash@^4.17.21:
+lodash@^4.0.1, lodash@^4.14.2, lodash@^4.17.15, lodash@^4.17.21:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -3880,10 +3891,15 @@ pirates@^4.0.1:
   resolved "https://registry.npmjs.org/pirates/-/pirates-4.0.6.tgz"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
-point-in-polygon@^1.1.0:
+point-in-polygon@^1.0.1, point-in-polygon@^1.1.0:
   version "1.1.0"
   resolved "https://registry.npmjs.org/point-in-polygon/-/point-in-polygon-1.1.0.tgz"
   integrity sha512-3ojrFwjnnw8Q9242TzgXuTD+eKiutbzyslcq1ydfu82Db2y+Ogbmyrkpv0Hgj31qwT3lbS9+QAAO/pIQM35XRw==
+
+point-in-polygon@1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/point-in-polygon/-/point-in-polygon-1.0.1.tgz"
+  integrity sha512-7xblajMJtE9xOfDXkZrq98kjnoazmNPfNXqu9XCKk0uhtjImNdTRjkckIWKirtlyUocWU9XyzTyE2y5/E45v5A==
 
 polygon-clipping@^0.15.3:
   version "0.15.7"
@@ -3892,6 +3908,15 @@ polygon-clipping@^0.15.3:
   dependencies:
     robust-predicates "^3.0.2"
     splaytree "^3.1.0"
+
+polygon-lookup@^2.4.0, polygon-lookup@^2.6.0:
+  version "2.7.0"
+  resolved "https://registry.npmjs.org/polygon-lookup/-/polygon-lookup-2.7.0.tgz"
+  integrity sha512-8hotLLqb3EaEOhvVa6ruf9HxzAAivm9POJo3N9BBUwa2yEUDtC4qr1iGIXKPxQX8ojf/Uew0CbRPrUfhX+Grgw==
+  dependencies:
+    lodash "^4.14.2"
+    point-in-polygon "1.0.1"
+    rbush "^2.0.2"
 
 possible-typed-array-names@^1.0.0:
   version "1.0.0"
@@ -4011,7 +4036,7 @@ quickselect@^2.0.0:
   resolved "https://registry.npmjs.org/quickselect/-/quickselect-2.0.0.tgz"
   integrity sha512-RKJ22hX8mHe3Y6wH/N3wCM6BWtjaxIyyUIkpHOvfFnxdI4yD4tBXEBKSbriGujF6jnSVkJrffuo6vxACiSSxIw==
 
-rbush@^2.0.1, rbush@2.x:
+rbush@^2.0.1, rbush@^2.0.2, rbush@2.x:
   version "2.0.2"
   resolved "https://registry.npmjs.org/rbush/-/rbush-2.0.2.tgz"
   integrity sha512-XBOuALcTm+O/H8G90b6pzu6nX6v2zCKiFG4BJho8a+bY6AER6t8uQUZdi5bomQc0AprCWhEGa7ncAbbRap0bRA==
@@ -4055,6 +4080,17 @@ react-is@^16.13.1, react-is@^16.6.3, "react-is@^16.8.6 || ^17.0.0 || ^18.0.0":
   version "16.13.1"
   resolved "https://registry.npmjs.org/react-is/-/react-is-16.13.1.tgz"
   integrity sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==
+
+react-leaflet-glify@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/react-leaflet-glify/-/react-leaflet-glify-1.0.1.tgz"
+  integrity sha512-h43VWThSlFqSdblQXMk7USLdBNjtTSVzccwShmzhRPDA+z92gfPTIq4makslW7Cv8QhxgXzxbUU3hpuLu7pApA==
+  dependencies:
+    earcut "^2.1.3"
+    leaflet "^1.3.4"
+    point-in-polygon "^1.0.1"
+    polygon-lookup "^2.4.0"
+    rbush "^2.0.2"
 
 react-leaflet@^4.2.1:
   version "4.2.1"
