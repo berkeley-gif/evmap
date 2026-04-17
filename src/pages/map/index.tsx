@@ -814,6 +814,7 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
             zoom={allMarkersBoundCenter?.minZoom || 10} // Default zoom
             maxZoom={AppConfig.maxZoom}
             minZoom={AppConfig.minZoom}
+            preferCanvas={true}
           >
             <>
               {clickedLatLng && (
