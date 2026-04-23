@@ -617,6 +617,8 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   useEffectDCFchargers()
   useEffectWelcomeModal(dispatch)
 
+  const isConfigPanelActive = false
+
   const top = AppConfig.ui.topBarHeight
   let height: number | string = '100%'
   if (viewportHeight) {
@@ -627,16 +629,18 @@ export const Map: React.FC<NavBarProps> = ({ setCurrentView = () => {} }) => {
   const mapHtml = (
     <div>
       <div className="map-controls">
-        <button
-          onClick={() => {
-            dispatch({ type: 'SET_FIELD', field: 'isConfigPanelOpen', payload: !isConfigPanelOpen })
-          }}
-        >
-          <img
-            src="https://ev-charging-mapviewer-assets.s3.amazonaws.com/settings.png"
-            className="settings-icon"
-          />
-        </button>
+        {isConfigPanelActive && (
+          <button
+            onClick={() => {
+              dispatch({ type: 'SET_FIELD', field: 'isConfigPanelOpen', payload: !isConfigPanelOpen })
+            }}
+          >
+            <img
+              src="https://ev-charging-mapviewer-assets.s3.amazonaws.com/settings.png"
+              className="settings-icon"
+            />
+          </button>
+        )}
 
         {isConfigPanelOpen && (
           <ConfigurationPanel
