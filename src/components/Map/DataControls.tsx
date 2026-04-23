@@ -281,7 +281,9 @@ export const DataControls = ({
             min={indicator.min}
             max={indicator.max}
             value={useRightThumb ? scoreRange[1] : scoreRange[0]}
-            onAfterChange={value => setScoreRange(useRightThumb ? [scoreRange[0], value] : [value, scoreRange[1]])}
+            onAfterChange={value => {
+              setScoreRange(useRightThumb ? [scoreRange[0], value] : [value, scoreRange[1]])
+            }}
             marks={indicator.max / 10}
             markClassName="slider-mark"
             thumbClassName="slider-thumb"
