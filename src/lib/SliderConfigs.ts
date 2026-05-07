@@ -27,7 +27,7 @@ export const SliderConfigs = [
     max: 100,
     value: 'ciScoreRange',
   },
-  //{
+  // {
   //   id: 2,
   //   trigger: 'toggleCEJSTRange',
   //   mainText: 'CEJST percentile',
