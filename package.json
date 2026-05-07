@@ -3,13 +3,13 @@
   "homepage": "https://evmap.climateplans.org/",
   "version": "0.2.1",
   "license": "MIT",
-  "author": "Ankita Shanbhag <https://github.com/AnkitaShanbhag30>",
+  "author": "Eric Lehmer <https://github.com/elehmer>",
   "repository": {
     "type": "git",
-    "url": "https://github.com/richard-unterberg/next-leaflet-starter-typescript/"
+    "url": "https://github.com/berkeley-gif/evmap"
   },
   "bugs": {
-    "url": "https://github.com/richard-unterberg/next-leaflet-starter-typescript/issues"
+    "url": "https://github.com/berkeley-gif/evmap/issues"
   },
   "scripts": {
     "dev": "next dev",
