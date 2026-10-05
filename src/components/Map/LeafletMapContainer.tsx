@@ -10,10 +10,7 @@ interface LeafletMapProps extends MapOptions {
   children?: React.ReactNode // Cleaner typing that supports single, multiple, or conditional elements
 }
 
-export const LeafletMapContainer: React.FC<LeafletMapProps> = ({
-  children,
-  ...mapOptions
-}) => {
+export const LeafletMapContainer: React.FC<LeafletMapProps> = ({ children, ...mapOptions }) => {
   const { setMap } = useMapContext()
 
   // Clean up context when the map component unmounts
@@ -21,7 +18,7 @@ export const LeafletMapContainer: React.FC<LeafletMapProps> = ({
 
   return (
     <MapContainer
-      ref={(e) => {
+      ref={e => {
         if (e && setMap) setMap(e)
       }}
       className="w-full h-full absolute outline-0 text-white"
